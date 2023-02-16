@@ -14,6 +14,6 @@ public class Pieces : MonoBehaviour
     public int currentXPos;
     public int currentZPos;
 
-    public Vector3 desiredPos;
-    public Vector3 desiredScale;
+    //public Vector3 desiredPos;
+    //public Vector3 desiredScale;
 }
