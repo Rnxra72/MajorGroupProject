@@ -18,4 +18,7 @@ public class Pawn : Pieces
     {
         
     }
+    public void PawnRules() { 
+    
+    }
 }

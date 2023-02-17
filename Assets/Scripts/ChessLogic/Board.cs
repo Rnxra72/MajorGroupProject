@@ -2,10 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 
 public class Board : MonoBehaviour
 {
+    public Pieces[,] chessPieces;//array for all chess pieces/pieces objects
+
     int lengthOfBoard = 8; //int tileSize = 1;
     public Material tileHoverMaterial;
 
@@ -18,19 +21,18 @@ public class Board : MonoBehaviour
     [SerializeField] private GameObject[] prefabs;
     [SerializeField] private Material[] teamMaterials;
 
-
-    [SerializeField] private Pieces[,] chessPieces;
-
     // Start is called before the first frame update
     void Start()
     {
-
         BoardTilesCreated();
         SpawnAllPieces();
         positionAllPiece();
     }
 
-
+    public void getPieces()
+    {
+        Debug.Log("items inPieces: " + chessPieces);
+    }
 
     void BoardTilesCreated()
     {
@@ -79,7 +81,7 @@ public class Board : MonoBehaviour
             chessPieces[i, 6] = SpawnOnePiece(PieceType.Pawn, blackTeam);
         }
     }
-    private Pieces SpawnOnePiece(PieceType ptype, int team) {
+    public Pieces SpawnOnePiece(PieceType ptype, int team) {
         Pieces p = Instantiate(prefabs[(int)ptype-1], transform).GetComponent<Pieces>();
 
         p.ptype = ptype;
@@ -108,10 +110,5 @@ public class Board : MonoBehaviour
            chessPieces[i, j].transform.Rotate(0, 180, 0);
         } 
         chessPieces[i, j].transform.position = new Vector3(i, 0, j);
-    }
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
