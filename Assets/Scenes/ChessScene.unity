@@ -2030,6 +2030,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b85f6a410e5084c46acaf1687cd0a409, type: 3}
+--- !u!1 &1583437700 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3842285771723198974, guid: b85f6a410e5084c46acaf1687cd0a409, type: 3}
+  m_PrefabInstance: {fileID: 1583437699}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1583437701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1583437700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 066ec874f831aae43a16580f0b7a5b01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PausePanel: {fileID: 1583437700}
 --- !u!1 &1628920236
 GameObject:
   m_ObjectHideFlags: 0
@@ -2040,6 +2058,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1628920237}
   - component: {fileID: 1628920241}
+  - component: {fileID: 1628920242}
   m_Layer: 0
   m_Name: LeftHand Controller
   m_TagString: Untagged
@@ -2229,6 +2248,19 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: 7779212132400271959, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_ButtonPressPoint: 0.5
+--- !u!114 &1628920242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1628920236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7ae44d348de34043998e04bdc3173d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiScreen: {fileID: 1583437700}
 --- !u!224 &1854644695 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3842285771982588936, guid: b85f6a410e5084c46acaf1687cd0a409, type: 3}
