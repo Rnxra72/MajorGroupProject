@@ -2044,10 +2044,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1583437700}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 066ec874f831aae43a16580f0b7a5b01, type: 3}
+  m_Script: {fileID: 11500000, guid: e7ae44d348de34043998e04bdc3173d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PausePanel: {fileID: 1583437700}
+  uiScreen: {fileID: 1583437700}
 --- !u!1 &1628920236
 GameObject:
   m_ObjectHideFlags: 0
