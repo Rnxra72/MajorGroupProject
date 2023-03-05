@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public enum PieceType
 {
@@ -13,18 +14,6 @@ public class Pieces : MonoBehaviour
     public PieceType ptype;
     public int currentXPos;
     public int currentZPos;
-    public bool pieceActive = false;
 
-    //public Vector3 desiredPos;
-    //public Vector3 desiredScale;
-
-    public void PieceRules(Pieces pieceDetails) {
-        //pawn
-        if (ptype == PieceType.Pawn) {
-           // Pawn tempPawn = pieceDetails;
-           // PawnRules();
-        }
-
-    }
-
+   
 }

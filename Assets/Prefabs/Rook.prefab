@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -2372050618162483594}
   m_Layer: 0
   m_Name: Rook
-  m_TagString: Untagged
+  m_TagString: Piece
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103,8 +103,7 @@ MonoBehaviour:
   ptype: 0
   currentXPos: 0
   currentZPos: 0
-  desiredPos: {x: 0, y: 0, z: 0}
-  desiredScale: {x: 0, y: 0, z: 0}
+  pieceActive: 0
 --- !u!65 &-890717873574571943
 BoxCollider:
   m_ObjectHideFlags: 0
