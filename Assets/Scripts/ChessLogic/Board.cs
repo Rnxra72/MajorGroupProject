@@ -7,6 +7,8 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class Board : MonoBehaviour
 {
+    private XRSimpleInteractable currecntlySelectedPiece;
+
     public Pieces[,] chessPieces;//array for all chess pieces/pieces objects
 
     int lengthOfBoard = 8; //int tileSize = 1;
@@ -29,7 +31,7 @@ public class Board : MonoBehaviour
         positionAllPiece();
     }
 
-    public void getPieces()
+   public void getPieces()
     {
         Debug.Log("items inPieces: " + chessPieces);
     }
@@ -111,4 +113,16 @@ public class Board : MonoBehaviour
         } 
         chessPieces[i, j].transform.position = new Vector3(i, 0, j);
     }
+
+    public void setCurrentPiece(XRSimpleInteractable piece) 
+    {
+        this.currecntlySelectedPiece = piece;
+    }
+
+    public XRSimpleInteractable getCurrentPiece() {
+        return this.currecntlySelectedPiece;
+    }
+
+
+
 }

@@ -5,14 +5,6 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class PieceMovement : MonoBehaviour
 {
-    //for testing
-    XRSimpleInteractable currecntlySelectedPiece;
-
-    //[SerializeField] private Material[] highlightMaterials;//0 = tile highlight, 1 = pieceHighlight
-
-    // XRSimpleInteractable pieceInteractable; //the chess piece being interacted with currently
-
-    // Start is called before the first frame update
     void Start()
     {
         XRSimpleInteractable interactableObject = GetComponent<XRSimpleInteractable>();
@@ -22,85 +14,43 @@ public class PieceMovement : MonoBehaviour
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         
     }
 
-
-    // [SerializeField] private GameObject[] prefabs;
-    //run when a piece is interacted with/set to active (trigger on oculus controller)
-    /*   public void pieceActivated(ActivateEventArgs args)
-       {
-           XRSimpleInteractable pieceInteractable = GetComponent<XRSimpleInteractable>();
-           Pieces pieceDetails = pieceInteractable.GetComponent<Pieces>();
-
-           int xPos = pieceDetails.currentXPos; int zPos = pieceDetails.currentZPos;
-           Debug.Log("current position: x" + xPos + " z " + zPos);
-
-           ValidTilesArray(pieceDetails);
-
-       }*/
-
-    //run when interactable clicked
     public void interactableActivated(ActivateEventArgs args) 
     {
         
         XRSimpleInteractable interactable = GetComponent<XRSimpleInteractable>();
-        
+        GameObject board = GameObject.FindWithTag("BoardLayout");
+        Board boardScript = board.GetComponent<Board>();
+
         if (interactable.tag == "Piece") {
-            Debug.Log("hello piece");
-            //Vector3 xPos = tileInteractable.GetComponent<Transform>().position;
-            currecntlySelectedPiece = interactable;
+           // Debug.Log("hello piece");
+
+            boardScript.setCurrentPiece(interactable);
         }
         else if (interactable.tag == "Tile")
         {
-            Debug.Log("Hello tile");
-            //tileActivated(interactable);
+            //Debug.Log("Hello tile");
+
+            if (boardScript.getCurrentPiece() != null)
+            {
+                movePieceToTile(interactable, boardScript);
+            }
+            else
+            {
+                Debug.Log("error, No piece selected");//display this outto user
+            }
         }
     }
 
-
-  /*  public void pieceActivated(currecntlySelectedPiece) 
+    public void movePieceToTile(XRSimpleInteractable interactable, Board boardSript) 
     {
-        //XRSimpleInteractable pieceInteractable = GetComponent<XRSimpleInteractable>();
-        //Pieces pieceDetails = pieceInteractable.GetComponent<Pieces>();
-        Debug.Log("heelo piece2");
-        currecntlySelectedPiece = GetComponent<XRSimpleInteractable>();
-    }
-*/
-    public void tileActivated(XRSimpleInteractable interactable) 
-    {
-        //XRSimpleInteractable tileInteractable = GetComponent<XRSimpleInteractable>();
         Vector3 xPos = interactable.GetComponent<Transform>().position;
-        Debug.Log("hello tile2");
-        Debug.Log(xPos);
-        currecntlySelectedPiece.transform.position = new Vector3(4, 0, 4);
-
-        //currecntlySelectedPiece
-       /* if (currecntlySelectedPiece != null)
-        {
-            currecntlySelectedPiece.transform.position = xPos;
-        }
-        else {
-            Debug.Log("error");
-        }*/
+        boardSript.getCurrentPiece().transform.position = xPos;
     }
-
-    /* public void tileActivated(ActivateEventArgs args) 
-     { 
-         //get position of tile
-         //does it have a piece on this tile
-
-
-         //if yes
-         //select this piece to be moved
-
-         //if No
-         //movePieceTo this tile
-     }*/
-
 
 
     public void ValidTilesArray(Pieces pieceDetails)
@@ -144,6 +94,6 @@ public class PieceMovement : MonoBehaviour
 
              p.ptype = pType;
              p.team = tempTeam;
-             p.GetComponent<MeshRenderer>().material = teamMaterials[tempTeam];*/
-        //}
+             p.GetComponent<MeshRenderer>().material = teamMaterials[tempTeam];
+        }*/
     }
