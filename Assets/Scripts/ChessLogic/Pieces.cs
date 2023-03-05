@@ -15,5 +15,9 @@ public class Pieces : MonoBehaviour
     public int currentXPos;
     public int currentZPos;
 
-   
+    public void PieceRules()
+    {
+
+
+    }
 }

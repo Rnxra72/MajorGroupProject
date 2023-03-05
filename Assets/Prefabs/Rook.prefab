@@ -103,7 +103,6 @@ MonoBehaviour:
   ptype: 0
   currentXPos: 0
   currentZPos: 0
-  pieceActive: 0
 --- !u!65 &-890717873574571943
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -12,7 +12,6 @@ public class Board : MonoBehaviour
     public Pieces[,] chessPieces;//array for all chess pieces/pieces objects
 
     int lengthOfBoard = 8; //int tileSize = 1;
-    public Material tileHoverMaterial;
 
     public GameObject boardTiles;
 
@@ -25,6 +24,11 @@ public class Board : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
+    {
+        setStartLayout();
+    }
+
+    public void setStartLayout() 
     {
         BoardTilesCreated();
         SpawnAllPieces();
@@ -114,15 +118,60 @@ public class Board : MonoBehaviour
         chessPieces[i, j].transform.position = new Vector3(i, 0, j);
     }
 
+    //set piece last selected
     public void setCurrentPiece(XRSimpleInteractable piece) 
     {
         this.currecntlySelectedPiece = piece;
     }
 
+    //get last piece selected
     public XRSimpleInteractable getCurrentPiece() {
         return this.currecntlySelectedPiece;
     }
 
+    public void updateChessArray(Vector3 position)
+    {
 
+        Pieces tempScript = getCurrentPiece().GetComponent<Pieces>();
+        int oldZPos = tempScript.currentZPos;
+        int oldXPos = tempScript.currentXPos;
+        chessPieces[oldXPos, oldZPos] = null;//removing piece at old position
+
+        tempScript.currentXPos = (int)position.x;
+        tempScript.currentZPos = (int)position.z;//changing script pos
+
+        chessPieces[(int)position.x, (int)position.z] = getCurrentPiece().GetComponent<Pieces>();//setting piece at new position
+    }
+
+    public bool TileIsValid(Vector3 tilePos)
+    {
+        bool pieceAtPos = isPieceOnTile(tilePos);
+        if (pieceAtPos)
+        {
+            //piece at position and oposite team
+            //TakePieceRules();
+            return false; //currently if there is a poiece at that tile piece can't move there
+        }
+        else
+        {
+            //piece not at position
+            //PieceMoveRules();
+        }
+        return true;
+    }
+
+    public bool isPieceOnTile(Vector3 tilePos)
+    {
+
+        if (chessPieces[(int)tilePos.x, (int)tilePos.z] != null) {
+
+            //check if piece is same as active player
+            //if(pType) //if same display error message, if not return true
+
+            return true;
+        }
+
+        return false;
+    }
 
 }

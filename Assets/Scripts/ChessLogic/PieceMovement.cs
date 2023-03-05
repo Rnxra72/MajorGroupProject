@@ -11,23 +11,24 @@ public class PieceMovement : MonoBehaviour
 
         //interactableObject.activated.AddListener(pieceActivated);
         interactableObject.activated.AddListener(interactableActivated);
-        
+
     }
 
     void Update()
     {
-        
+
     }
 
-    public void interactableActivated(ActivateEventArgs args) 
+    public void interactableActivated(ActivateEventArgs args)
     {
-        
+
         XRSimpleInteractable interactable = GetComponent<XRSimpleInteractable>();
         GameObject board = GameObject.FindWithTag("BoardLayout");
         Board boardScript = board.GetComponent<Board>();
 
-        if (interactable.tag == "Piece") {
-           // Debug.Log("hello piece");
+        if (interactable.tag == "Piece")
+        {
+            // Debug.Log("hello piece");
 
             boardScript.setCurrentPiece(interactable);
         }
@@ -46,26 +47,24 @@ public class PieceMovement : MonoBehaviour
         }
     }
 
-    public void movePieceToTile(XRSimpleInteractable interactable, Board boardSript) 
+    public void movePieceToTile(XRSimpleInteractable interactable, Board boardSript)
     {
         Vector3 xPos = interactable.GetComponent<Transform>().position;
-        boardSript.getCurrentPiece().transform.position = xPos;
+
+        bool validMove = boardSript.TileIsValid(xPos);
+
+        if (validMove)
+        {
+            boardSript.getCurrentPiece().transform.position = xPos;
+            boardSript.updateChessArray(xPos);
+        }
+        else
+        {
+            Debug.Log("Not valid move");
+        }
     }
 
-
-    public void ValidTilesArray(Pieces pieceDetails)
-    {
-    
-    }
-
-    public void PieceOnTile() { 
-    
-    }
-
-    public void TileIsValid() { 
-        
-    }
-
+}
       /*  public void pieceActivated(ActivateEventArgs args) {
             //getGameObject
             XRSimpleInteractable pieceInteractable = GetComponent<XRSimpleInteractable>();
@@ -96,4 +95,3 @@ public class PieceMovement : MonoBehaviour
              p.team = tempTeam;
              p.GetComponent<MeshRenderer>().material = teamMaterials[tempTeam];
         }*/
-    }
