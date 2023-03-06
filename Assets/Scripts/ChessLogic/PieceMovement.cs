@@ -52,7 +52,7 @@ public class PieceMovement : MonoBehaviour
         Vector3 xPos = interactable.GetComponent<Transform>().position;
 
         bool validMove = boardSript.TileIsValid(xPos);
-
+        //Debug.Log("Is tile valid: " + validMove);
         if (validMove)
         {
             boardSript.getCurrentPiece().transform.position = xPos;

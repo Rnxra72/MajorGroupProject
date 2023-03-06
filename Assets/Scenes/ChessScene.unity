@@ -536,7 +536,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89b8c3d3f65eb374fa2a4c442932c04f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileHoverMaterial: {fileID: 2100000, guid: d5a822b8c93b4de479023aea9712ea24, type: 2}
   boardTiles: {fileID: 1004212655399775992, guid: e503d883b029cbd40ae449cae9708282, type: 3}
   prefabs:
   - {fileID: 4783304565382695939, guid: fd6866b85a732b742be88a4f1ed3175e, type: 3}
@@ -564,7 +563,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!114 &803762262
 MonoBehaviour:

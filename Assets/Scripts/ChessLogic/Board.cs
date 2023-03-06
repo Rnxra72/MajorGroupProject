@@ -150,7 +150,16 @@ public class Board : MonoBehaviour
         {
             //piece at position and oposite team
             //TakePieceRules();
-            return false; //currently if there is a poiece at that tile piece can't move there
+            int tempPieceType = chessPieces[(int)tilePos.x, (int)tilePos.z].team;
+            //Debug.Log(tempPieceType + " compared to " + getCurrentPiece().GetComponent<Pieces>().ptype);
+            if (tempPieceType == getCurrentPiece().GetComponent<Pieces>().team)
+            {
+                Debug.Log("invalid move");
+                return false;
+            }
+            //removePiece(tempPiece);
+            return true;
+
         }
         else
         {
@@ -160,17 +169,20 @@ public class Board : MonoBehaviour
         return true;
     }
 
+    public void removePiece(Pieces tempPiece)
+    {
+       GameObject gO = tempPiece.GetComponent<GameObject>();
+
+        Destroy(gO);
+    }
+
     public bool isPieceOnTile(Vector3 tilePos)
     {
-
         if (chessPieces[(int)tilePos.x, (int)tilePos.z] != null) {
-
-            //check if piece is same as active player
-            //if(pType) //if same display error message, if not return true
-
+            //piece at position already
             return true;
         }
-
+        //no piece on tile
         return false;
     }
 
