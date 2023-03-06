@@ -7,14 +7,18 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class Board : MonoBehaviour
 {
+    private XRSimpleInteractable currecntlySelectedPiece;
+
     public Pieces[,] chessPieces;//array for all chess pieces/pieces objects
 
     int lengthOfBoard = 8; //int tileSize = 1;
-    public Material tileHoverMaterial;
 
     public GameObject boardTiles;
 
     GameObject[,] tilesArray = new GameObject[8, 8];
+
+    private int wPlayerScore = 0;
+    private int bPlayerScore = 0;
 
 
     //for asset type, piece type and colours/materials
@@ -24,12 +28,17 @@ public class Board : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        setStartLayout();
+    }
+
+    public void setStartLayout() 
+    {
         BoardTilesCreated();
         SpawnAllPieces();
         positionAllPiece();
     }
 
-    public void getPieces()
+   public void getPieces()
     {
         Debug.Log("items inPieces: " + chessPieces);
     }
@@ -111,4 +120,91 @@ public class Board : MonoBehaviour
         } 
         chessPieces[i, j].transform.position = new Vector3(i, 0, j);
     }
+
+    //set piece last selected
+    public void setCurrentPiece(XRSimpleInteractable piece) 
+    {
+        this.currecntlySelectedPiece = piece;
+    }
+
+    //get last piece selected
+    public XRSimpleInteractable getCurrentPiece() {
+        return this.currecntlySelectedPiece;
+    }
+
+    public void updateChessArray(Vector3 position)
+    {
+
+        Pieces tempScript = getCurrentPiece().GetComponent<Pieces>();
+        int oldZPos = tempScript.currentZPos;
+        int oldXPos = tempScript.currentXPos;
+        chessPieces[oldXPos, oldZPos] = null;//removing piece at old position
+
+        tempScript.currentXPos = (int)position.x;
+        tempScript.currentZPos = (int)position.z;//changing script pos
+
+        chessPieces[(int)position.x, (int)position.z] = getCurrentPiece().GetComponent<Pieces>();//setting piece at new position
+    }
+
+    public Pieces[,] getChessArray() {
+        return this.chessPieces;
+    }
+
+    public bool TileIsValid(Vector3 tilePos)
+    {
+        bool pieceAtPos = isPieceOnTile(tilePos);
+        if (pieceAtPos)
+        {
+            //piece at position and oposite team
+            //TakePieceRules();
+            int tempPieceType = chessPieces[(int)tilePos.x, (int)tilePos.z].team;
+            //Debug.Log(tempPieceType + " compared to " + getCurrentPiece().GetComponent<Pieces>().ptype);
+            if (tempPieceType == getCurrentPiece().GetComponent<Pieces>().team)
+            {
+                Debug.Log("invalid move");
+                return false;
+            }
+            removePiece(chessPieces[(int)tilePos.x, (int)tilePos.z]);
+            getCurrentPiece().GetComponent<Pieces>().TakingPieceRules();
+            //removePiece(tempPiece);
+            return true;
+
+        }
+        else
+        {
+            //piece not at position
+            getCurrentPiece().GetComponent<Pieces>().MovingToTileRules(tilePos);
+        }
+        return true;
+    }
+
+    public void removePiece(Pieces tempPiece)
+    {
+       GameObject gO = tempPiece.gameObject;
+        int t = tempPiece.team;
+        //update player score
+        if (t == 0)
+        {
+            bPlayerScore += tempPiece.pieceWorth;
+            Debug.Log(bPlayerScore);
+        }
+        else 
+        {
+            wPlayerScore += tempPiece.pieceWorth;
+            Debug.Log(wPlayerScore);
+        }
+
+        Destroy(gO);
+    }
+
+    public bool isPieceOnTile(Vector3 tilePos)
+    {
+        if (chessPieces[(int)tilePos.x, (int)tilePos.z] != null) {
+            //piece at position already
+            return true;
+        }
+        //no piece on tile
+        return false;
+    }
+
 }

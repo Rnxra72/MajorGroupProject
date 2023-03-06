@@ -11,14 +11,23 @@ public class Pawn : Pieces
     void Start()
     {
         movedFromStartPos = false;
+        pieceWorth = 1;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void pawnMoveRules(Vector3 tilePos) 
     {
-        
+        if (!movedFromStartPos) 
+        {
+            //z+2;, z+1, 1 -2 pieces forward
+        }
+        else 
+        {
+            //only 1 piece forward
+        }
     }
-    public void PawnRules() { 
-    
+
+    public void pawnTakeRules(Vector3 tilePos) 
+    {
+        //forward+1, side-1, otherside+1 [x+1 , z+1] || [x-1 , z+1]
     }
 }
