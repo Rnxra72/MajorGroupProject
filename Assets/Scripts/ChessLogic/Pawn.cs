@@ -11,6 +11,7 @@ public class Pawn : Pieces
     void Start()
     {
         movedFromStartPos = false;
+        pieceWorth = 1;
     }
 
     // Update is called once per frame
@@ -18,6 +19,14 @@ public class Pawn : Pieces
     {
         
     }
-    public new void PieceRules() { 
+    public void MovingToTileRules()
+    {
+        //Debug.Log("Move regular piece");
+    }
+
+    public void TakingPieceRules()
+    {
+        //Debug.Log("Take piece at pos");
+
     }
 }

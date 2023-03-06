@@ -17,6 +17,9 @@ public class Board : MonoBehaviour
 
     GameObject[,] tilesArray = new GameObject[8, 8];
 
+    private int wPlayerScore = 0;
+    private int bPlayerScore = 0;
+
 
     //for asset type, piece type and colours/materials
     [SerializeField] private GameObject[] prefabs;
@@ -157,6 +160,8 @@ public class Board : MonoBehaviour
                 Debug.Log("invalid move");
                 return false;
             }
+            removePiece(chessPieces[(int)tilePos.x, (int)tilePos.z]);
+            getCurrentPiece().GetComponent<Pieces>().TakingPieceRules();
             //removePiece(tempPiece);
             return true;
 
@@ -164,14 +169,25 @@ public class Board : MonoBehaviour
         else
         {
             //piece not at position
-            //PieceMoveRules();
+            getCurrentPiece().GetComponent<Pieces>().MovingToTileRules();
         }
         return true;
     }
 
     public void removePiece(Pieces tempPiece)
     {
-       GameObject gO = tempPiece.GetComponent<GameObject>();
+       GameObject gO = tempPiece.gameObject;
+        int t = tempPiece.team;
+        if (t == 0)
+        {
+            bPlayerScore += tempPiece.pieceWorth;
+            Debug.Log(bPlayerScore);
+        }
+        else 
+        {
+            wPlayerScore += tempPiece.pieceWorth;
+            Debug.Log(wPlayerScore);
+        }
 
         Destroy(gO);
     }

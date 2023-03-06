@@ -14,10 +14,15 @@ public class Pieces : MonoBehaviour
     public PieceType ptype;
     public int currentXPos;
     public int currentZPos;
+    public int pieceWorth = 0;
 
-    public void PieceRules()
+    public void MovingToTileRules()
     {
+        //Debug.Log("Move regular piece");
+    }
 
-
+    public void TakingPieceRules() 
+    {
+        //Debug.Log("Take piece at pos");
     }
 }
