@@ -3,83 +3,68 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class PieceMovement : Board
+public class PieceMovement : MonoBehaviour
 {
-    //for testing
-    GameObject newPiece;
-    List<List<int>> lists = new List<List<int>>();
-
-    //[SerializeField] private Material[] highlightMaterials;//0 = tile highlight, 1 = pieceHighlight
-
-    // XRSimpleInteractable pieceInteractable; //the chess piece being interacted with currently
-
-    // Start is called before the first frame update
     void Start()
     {
-        XRSimpleInteractable pieceInteractable = GetComponent<XRSimpleInteractable>();
-       pieceInteractable.activated.AddListener(pieceActivated);
+        XRSimpleInteractable interactableObject = GetComponent<XRSimpleInteractable>();
+
+        //interactableObject.activated.AddListener(pieceActivated);
+        interactableObject.activated.AddListener(interactableActivated);
+
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-
-   // [SerializeField] private GameObject[] prefabs;
-    //run when a piece is interacted with/set to active (trigger on oculus controller)
-    public void pieceActivated(ActivateEventArgs args)
+    public void interactableActivated(ActivateEventArgs args)
     {
-        XRSimpleInteractable pieceInteractable = GetComponent<XRSimpleInteractable>();
-        Pieces pieceDetails = pieceInteractable.GetComponent<Pieces>();
 
-        int xPos = pieceDetails.currentXPos; int zPos = pieceDetails.currentZPos;
-        Debug.Log("current position: x" + xPos + " z " + zPos);
+        XRSimpleInteractable interactable = GetComponent<XRSimpleInteractable>();
+        GameObject board = GameObject.FindWithTag("BoardLayout");
+        Board boardScript = board.GetComponent<Board>();
 
-        ValidTilesArray(pieceDetails);
+        if (interactable.tag == "Piece")
+        {
+            // Debug.Log("hello piece");
 
+            boardScript.setCurrentPiece(interactable);
+        }
+        else if (interactable.tag == "Tile")
+        {
+            //Debug.Log("Hello tile");
+
+            if (boardScript.getCurrentPiece() != null)
+            {
+                movePieceToTile(interactable, boardScript);
+            }
+            else
+            {
+                Debug.Log("error, No piece selected");//display this outto user
+            }
+        }
     }
-    public void ValidTilesArray(Pieces pieceDetails)
+
+    public void movePieceToTile(XRSimpleInteractable interactable, Board boardSript)
     {
-      /*  //pawn
-        if () {
-          //  pieceDetails.PieceRules();
-        }
-        //knight
-        else if () {
-            //code here
-        }
-        //king
-        else if () { 
-            //code here
-        }
-        //queen
-        else if ()
+        Vector3 xPos = interactable.GetComponent<Transform>().position;
+
+        bool validMove = boardSript.TileIsValid(xPos);
+        //Debug.Log("Is tile valid: " + validMove);
+        if (validMove)
         {
-            //code here
+            boardSript.getCurrentPiece().transform.position = xPos;
+            boardSript.updateChessArray(xPos);
         }
-        //rook
-        else if ()
+        else
         {
-            //code here
+            Debug.Log("Not valid move");
         }
-        //bishop
-        else if ()
-        {
-            //code here
-        }
-      */
     }
 
-    public void PieceOnTile() { 
-    
-    }
-
-    public void TileIsValid() { 
-        
-    }
-
+}
       /*  public void pieceActivated(ActivateEventArgs args) {
             //getGameObject
             XRSimpleInteractable pieceInteractable = GetComponent<XRSimpleInteractable>();
@@ -108,6 +93,5 @@ public class PieceMovement : Board
 
              p.ptype = pType;
              p.team = tempTeam;
-             p.GetComponent<MeshRenderer>().material = teamMaterials[tempTeam];*/
-        //}
-    }
+             p.GetComponent<MeshRenderer>().material = teamMaterials[tempTeam];
+        }*/

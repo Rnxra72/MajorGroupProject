@@ -7,7 +7,7 @@ public class Queen : Pieces
     // Start is called before the first frame update
     void Start()
     {
-        
+        pieceWorth = 9;
     }
 
     // Update is called once per frame
