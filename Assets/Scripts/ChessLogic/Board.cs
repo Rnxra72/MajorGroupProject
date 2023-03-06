@@ -146,6 +146,10 @@ public class Board : MonoBehaviour
         chessPieces[(int)position.x, (int)position.z] = getCurrentPiece().GetComponent<Pieces>();//setting piece at new position
     }
 
+    public Pieces[,] getChessArray() {
+        return this.chessPieces;
+    }
+
     public bool TileIsValid(Vector3 tilePos)
     {
         bool pieceAtPos = isPieceOnTile(tilePos);
@@ -169,7 +173,7 @@ public class Board : MonoBehaviour
         else
         {
             //piece not at position
-            getCurrentPiece().GetComponent<Pieces>().MovingToTileRules();
+            getCurrentPiece().GetComponent<Pieces>().MovingToTileRules(tilePos);
         }
         return true;
     }

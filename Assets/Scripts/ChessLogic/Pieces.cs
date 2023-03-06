@@ -16,9 +16,22 @@ public class Pieces : MonoBehaviour
     public int currentZPos;
     public int pieceWorth = 0;
 
-    public void MovingToTileRules()
+    public void MovingToTileRules(Vector3 tilePos)
     {
+        GameObject board = GameObject.FindWithTag("BoardLayout");
+        Board boardScript = board.GetComponent<Board>();
         //Debug.Log("Move regular piece");
+        PieceType type = boardScript.getCurrentPiece().GetComponent<Pieces>().ptype;
+
+        //if statments for all piece types
+        if (type == PieceType.Pawn)
+        {
+            //call pawn method specific rules
+        }
+        else 
+        {
+            //nothing currently
+        }
     }
 
     public void TakingPieceRules() 

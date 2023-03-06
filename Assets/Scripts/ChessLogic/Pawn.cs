@@ -14,19 +14,20 @@ public class Pawn : Pieces
         pieceWorth = 1;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void pawnMoveRules(Vector3 tilePos) 
     {
-        
-    }
-    public void MovingToTileRules()
-    {
-        //Debug.Log("Move regular piece");
+        if (!movedFromStartPos) 
+        {
+            //z+2;, z+1, 1 -2 pieces forward
+        }
+        else 
+        {
+            //only 1 piece forward
+        }
     }
 
-    public void TakingPieceRules()
+    public void pawnTakeRules(Vector3 tilePos) 
     {
-        //Debug.Log("Take piece at pos");
-
+        //forward+1, side-1, otherside+1 [x+1 , z+1] || [x-1 , z+1]
     }
 }
