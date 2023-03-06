@@ -49,12 +49,16 @@ public class PieceMovement : MonoBehaviour
 
     public void movePieceToTile(XRSimpleInteractable interactable, Board boardSript)
     {
+        boardSript.setCurrentMoveValid(false);
         Vector3 xPos = interactable.GetComponent<Transform>().position;
 
         bool validMove = boardSript.TileIsValid(xPos);
-        //Debug.Log("Is tile valid: " + validMove);
+       // Debug.Log("Is tile valid: " + validMove);
         if (validMove)
         {
+            //Debug.Log("valid move...if");
+            Pieces[,] p = boardSript.getChessArray();
+
             boardSript.getCurrentPiece().transform.position = xPos;
             boardSript.updateChessArray(xPos);
         }

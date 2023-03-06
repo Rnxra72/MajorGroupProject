@@ -20,6 +20,8 @@ public class Board : MonoBehaviour
     private int wPlayerScore = 0;
     private int bPlayerScore = 0;
 
+    private bool currentMoveValid;
+
 
     //for asset type, piece type and colours/materials
     [SerializeField] private GameObject[] prefabs;
@@ -164,16 +166,26 @@ public class Board : MonoBehaviour
                 Debug.Log("invalid move");
                 return false;
             }
-            removePiece(chessPieces[(int)tilePos.x, (int)tilePos.z]);
-            getCurrentPiece().GetComponent<Pieces>().TakingPieceRules();
+            
+            getCurrentPiece().GetComponent<Pieces>().TakingPieceRules(tilePos);
+
+            if (getCurrentMoveValid())
+            {
+                removePiece(chessPieces[(int)tilePos.x, (int)tilePos.z]);
+            }
+
             //removePiece(tempPiece);
-            return true;
+            return getCurrentMoveValid();
 
         }
         else
         {
             //piece not at position
             getCurrentPiece().GetComponent<Pieces>().MovingToTileRules(tilePos);
+            if (!getCurrentMoveValid())
+            {
+                return false;
+            }
         }
         return true;
     }
@@ -205,6 +217,16 @@ public class Board : MonoBehaviour
         }
         //no piece on tile
         return false;
+    }
+
+    public void setCurrentMoveValid(bool isMoveValid) 
+    {
+        this.currentMoveValid = isMoveValid;
+    }
+
+    public bool getCurrentMoveValid() 
+    {
+        return this.currentMoveValid;
     }
 
 }

@@ -15,4 +15,7 @@ public class King : Pieces
     {
         
     }
+    public void KingMove(Vector3 tilePos, Board boardScript) {
+        Debug.Log("this is a king");
+    }
 }
