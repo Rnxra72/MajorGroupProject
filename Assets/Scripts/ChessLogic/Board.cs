@@ -182,6 +182,7 @@ public class Board : MonoBehaviour
     {
        GameObject gO = tempPiece.gameObject;
         int t = tempPiece.team;
+        //update player score
         if (t == 0)
         {
             bPlayerScore += tempPiece.pieceWorth;
