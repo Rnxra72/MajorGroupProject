@@ -13,33 +13,28 @@ public class Pawn : Pieces
         pieceWorth = 1;
     }
 
-    public void pawnMoveRules(Vector3 tilePos, Board boardScript) 
+    public void pawnMoveRules(Vector3 tilePos, Board boardScript)
     {
         Pieces pieceScript = boardScript.getCurrentPiece().GetComponent<Pieces>();
-        int forward = (pieceScript.currentZPos+1), forward2 = (pieceScript.currentZPos + 2);
+        //int forward = (pieceScript.currentZPos + 1), forward2 = (pieceScript.currentZPos + 2);
 
-        Debug.Log("pawnMoveRules called");
+        //white pieces moves are 1, black pieces moves are 0. [1, 0] single move forward white..
+        int[,] positions ={ { (pieceScript.currentZPos - 1), (pieceScript.currentZPos - 2) }, { (pieceScript.currentZPos + 1), (pieceScript.currentZPos + 2) } };
 
+        //Debug.Log("this here" + positions[pieceScript.team, 0]);
         if (!movedFromStartPos)
         {
-            
-            //z+2;, z+1, 1 -2 pieces forward
-            if (tilePos.z == forward && tilePos.x == pieceScript.currentXPos)
+            for (int i=0; i<2; i++) 
             {
-                Debug.Log("here1 rn");
-                boardScript.setCurrentMoveValid(true);
-                movedFromStartPos = true;
-            }
-            else if (tilePos.z == forward2 && tilePos.x == pieceScript.currentXPos)
-            {
-                Debug.Log("here3 rn");
-                boardScript.setCurrentMoveValid(true);
-                movedFromStartPos = true;
+                if (tilePos.z == positions[pieceScript.team, i] && tilePos.x == pieceScript.currentXPos) 
+                {
+                    boardScript.setCurrentMoveValid(true);
+                    movedFromStartPos = true;
+                }
             }
         }
-        else if (tilePos.z == forward && tilePos.x == pieceScript.currentXPos)
+        else if (tilePos.z == positions[pieceScript.team, 0] && tilePos.x == pieceScript.currentXPos)
         {
-            Debug.Log("here rn");
             boardScript.setCurrentMoveValid(true);
             movedFromStartPos = true;
         }
@@ -50,16 +45,17 @@ public class Pawn : Pieces
 
     public void pawnTakeRules(Vector3 tilePos, Board boardScript) 
     {
-        //forward+1, side-1, otherside+1 [x+1 , z+1] || [x-1 , z+1]
         Pieces pieceScript = boardScript.getCurrentPiece().GetComponent<Pieces>();
-        int right = (pieceScript.currentXPos+1), left = (pieceScript.currentXPos-1), forwardOne = (pieceScript.currentZPos + 1);
+        int right = (pieceScript.currentXPos + 1), left = (pieceScript.currentXPos - 1);
+        
+        int[] offset = { (pieceScript.currentZPos -1), (pieceScript.currentZPos + 1) };//black0, white1
 
-        if (tilePos.x == right && tilePos.z == forwardOne)
+        if (tilePos.x == right && tilePos.z == offset[pieceScript.team])
         {
             boardScript.setCurrentMoveValid(true);
             movedFromStartPos = true;
         }
-        else if (tilePos.x == left && tilePos.z == forwardOne)
+        else if (tilePos.x == left && tilePos.z == offset[pieceScript.team])
         {
             boardScript.setCurrentMoveValid(true);
             movedFromStartPos = true;
@@ -67,7 +63,12 @@ public class Pawn : Pieces
         else 
         {
             boardScript.setCurrentMoveValid(false);
-            
         }
+    }
+
+    //handles pawn promotion
+    public void pawnPromotion() 
+    {
+        
     }
 }

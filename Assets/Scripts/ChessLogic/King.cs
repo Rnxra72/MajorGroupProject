@@ -15,7 +15,13 @@ public class King : Pieces
     {
         
     }
-    public void KingMove(Vector3 tilePos, Board boardScript) {
+    public void kingMoveRules(Vector3 tilePos, Board boardScript) {
         Debug.Log("this is a king");
     }
+
+    public void kingTakeRules(Vector3 tilePos, Board boardScript)
+    {
+
+    }
+
 }

@@ -66,9 +66,17 @@ public class Board : MonoBehaviour
         chessPieces[0, 0] = SpawnOnePiece(PieceType.Rook, whiteTeam);
         chessPieces[1, 0] = SpawnOnePiece(PieceType.Knight, whiteTeam);
         chessPieces[2, 0] = SpawnOnePiece(PieceType.Bishop, whiteTeam);
+        
+        //black square start
+
+
         chessPieces[3, 0] = SpawnOnePiece(PieceType.Queen, whiteTeam);
         chessPieces[4, 0] = SpawnOnePiece(PieceType.King, whiteTeam);
         chessPieces[5, 0] = SpawnOnePiece(PieceType.Bishop, whiteTeam);
+
+        //white square start
+
+
         chessPieces[6, 0] = SpawnOnePiece(PieceType.Knight, whiteTeam);
         chessPieces[7, 0] = SpawnOnePiece(PieceType.Rook, whiteTeam);
 
@@ -81,9 +89,16 @@ public class Board : MonoBehaviour
         chessPieces[0, 7] = SpawnOnePiece(PieceType.Rook, blackTeam);
         chessPieces[1, 7] = SpawnOnePiece(PieceType.Knight, blackTeam);
         chessPieces[2, 7] = SpawnOnePiece(PieceType.Bishop, blackTeam);
+
+        //white square start
+
         chessPieces[3, 7] = SpawnOnePiece(PieceType.Queen, blackTeam);
         chessPieces[4, 7] = SpawnOnePiece(PieceType.King, blackTeam);
         chessPieces[5, 7] = SpawnOnePiece(PieceType.Bishop, blackTeam);
+
+        //black square start
+
+
         chessPieces[6, 7] = SpawnOnePiece(PieceType.Knight, blackTeam);
         chessPieces[7, 7] = SpawnOnePiece(PieceType.Rook, blackTeam);
 
@@ -127,6 +142,7 @@ public class Board : MonoBehaviour
     public void setCurrentPiece(XRSimpleInteractable piece) 
     {
         this.currecntlySelectedPiece = piece;
+
     }
 
     //get last piece selected
@@ -159,9 +175,9 @@ public class Board : MonoBehaviour
         {
             //piece at position and oposite team
             //TakePieceRules();
-            int tempPieceType = chessPieces[(int)tilePos.x, (int)tilePos.z].team;
-            //Debug.Log(tempPieceType + " compared to " + getCurrentPiece().GetComponent<Pieces>().ptype);
-            if (tempPieceType == getCurrentPiece().GetComponent<Pieces>().team)
+            int teamPieceOnTile = chessPieces[(int)tilePos.x, (int)tilePos.z].team; //[this checks the team of the piece on the tile selected]
+            Debug.Log(teamPieceOnTile + " compared to " + getCurrentPiece().GetComponent<Pieces>().team);
+            if (teamPieceOnTile == getCurrentPiece().GetComponent<Pieces>().team)
             {
                 Debug.Log("invalid move");
                 return false;
@@ -228,5 +244,4 @@ public class Board : MonoBehaviour
     {
         return this.currentMoveValid;
     }
-
 }

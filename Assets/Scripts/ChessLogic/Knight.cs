@@ -15,4 +15,14 @@ public class Knight : Pieces
     {
         
     }
+
+    public void knightMoveRules(Vector3 tilePos, Board boardScript)
+    {
+
+    }
+
+    public void knightTakeRules(Vector3 tilePos, Board boardScript)
+    {
+
+    }
 }

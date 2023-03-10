@@ -15,4 +15,15 @@ public class Queen : Pieces
     {
         
     }
+
+    public void queenMoveRules(Vector3 tilePos, Board boardScript)
+    {
+
+    }
+
+    public void queenTakeRules(Vector3 tilePos, Board boardScript)
+    {
+
+    }
+
 }

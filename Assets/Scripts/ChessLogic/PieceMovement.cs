@@ -8,20 +8,11 @@ public class PieceMovement : MonoBehaviour
     void Start()
     {
         XRSimpleInteractable interactableObject = GetComponent<XRSimpleInteractable>();
-
-        //interactableObject.activated.AddListener(pieceActivated);
         interactableObject.activated.AddListener(interactableActivated);
-
-    }
-
-    void Update()
-    {
-
     }
 
     public void interactableActivated(ActivateEventArgs args)
     {
-
         XRSimpleInteractable interactable = GetComponent<XRSimpleInteractable>();
         GameObject board = GameObject.FindWithTag("BoardLayout");
         Board boardScript = board.GetComponent<Board>();
@@ -42,7 +33,7 @@ public class PieceMovement : MonoBehaviour
             }
             else
             {
-                Debug.Log("error, No piece selected");//display this outto user
+                Debug.Log("error, No piece selected");//display this out to user
             }
         }
     }
