@@ -52,10 +52,12 @@ public class PieceMovement : MonoBehaviour
 
             boardSript.getCurrentPiece().transform.position = xPos;
             boardSript.updateChessArray(xPos);
+            boardSript.setCurrentPiece(null);
         }
         else
         {
             Debug.Log("Not valid move");
+            boardSript.setCurrentPiece(null);
         }
     }
 

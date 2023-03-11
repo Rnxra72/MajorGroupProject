@@ -26,7 +26,7 @@ public class Knight : Pieces
         int z = (knightScipt.currentZPos);
         
 
-        //pairs of positions and xand z position
+        //pairs of positions x and z value
         int[,] positions = { 
             { (x-1), (z+2)},
             { (x-2), (z+1)},
@@ -38,6 +38,7 @@ public class Knight : Pieces
             { (x+1), (z-2)}
         };
 
+        //check all moves
         for (int i = 0; i < 8; i++) 
         {
             if (tilePos.x == positions[i, 0] && tilePos.z == positions[i, 1]) 

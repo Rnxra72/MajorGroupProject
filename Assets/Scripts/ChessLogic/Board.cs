@@ -22,6 +22,8 @@ public class Board : MonoBehaviour
 
     private bool currentMoveValid;
 
+    public Material pieceSelectedMaterial;
+
 
     //for asset type, piece type and colours/materials
     [SerializeField] private GameObject[] prefabs;
@@ -142,7 +144,22 @@ public class Board : MonoBehaviour
     public void setCurrentPiece(XRSimpleInteractable piece) 
     {
         this.currecntlySelectedPiece = piece;
-
+       /* if (piece != null)
+        {
+            piece.GetComponent<MeshRenderer>().material = pieceSelectedMaterial;
+        }
+        else 
+        {
+            int team = piece.GetComponent<Pieces>().team;
+            if (team == 1)
+            {
+                piece.GetComponent<MeshRenderer>().material = teamMaterials[1];
+            }
+            else 
+            {
+                piece.GetComponent<MeshRenderer>().material = teamMaterials[0];
+            }
+        }*/
     }
 
     //get last piece selected
