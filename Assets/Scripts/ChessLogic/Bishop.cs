@@ -28,13 +28,8 @@ public class Bishop : Pieces
         return this.tileStartColour;
     }
 
-    public void bishopMoveRules(Vector3 tilePos, Board boardScript) 
+    public void bishopRules(Vector3 tilePos, Board boardScript) 
     {
-        
-    }
-
-    public void bishopTakeRules(Vector3 tilePos, Board boardScript)
-    {
-
+        Debug.Log("Bishop Rules");
     }
 }

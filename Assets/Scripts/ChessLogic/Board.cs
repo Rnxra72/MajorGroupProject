@@ -182,9 +182,19 @@ public class Board : MonoBehaviour
                 Debug.Log("invalid move");
                 return false;
             }
-            
-            getCurrentPiece().GetComponent<Pieces>().TakingPieceRules(tilePos);
 
+            //check for pawn due to taking differently than moving
+            if (getCurrentPiece().GetComponent<Pieces>().ptype == PieceType.Pawn)
+            {
+                Pawn pawn = getCurrentPiece().GetComponent<Pawn>();
+                pawn.pawnTakeRules(tilePos);
+            }
+            else 
+            {
+                getCurrentPiece().GetComponent<Pieces>().Rules(tilePos);
+            }
+
+            //remove piece if move is valid
             if (getCurrentMoveValid())
             {
                 removePiece(chessPieces[(int)tilePos.x, (int)tilePos.z]);
@@ -197,7 +207,7 @@ public class Board : MonoBehaviour
         else
         {
             //piece not at position
-            getCurrentPiece().GetComponent<Pieces>().MovingToTileRules(tilePos);
+            getCurrentPiece().GetComponent<Pieces>().Rules(tilePos);
             if (!getCurrentMoveValid())
             {
                 return false;

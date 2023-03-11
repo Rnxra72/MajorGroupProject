@@ -43,8 +43,11 @@ public class Pawn : Pieces
         }
     }
 
-    public void pawnTakeRules(Vector3 tilePos, Board boardScript) 
+    public void pawnTakeRules(Vector3 tilePos) 
     {
+        GameObject board = GameObject.FindWithTag("BoardLayout");
+        Board boardScript = board.GetComponent<Board>();
+
         Pieces pieceScript = boardScript.getCurrentPiece().GetComponent<Pieces>();
         int right = (pieceScript.currentXPos + 1), left = (pieceScript.currentXPos - 1);
         

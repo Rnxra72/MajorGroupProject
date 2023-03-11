@@ -16,7 +16,7 @@ public class Pieces : MonoBehaviour
     public int currentZPos;
     public int pieceWorth = 0;
 
-    public void MovingToTileRules(Vector3 tilePos)
+    public void Rules(Vector3 tilePos)
     {
         GameObject board = GameObject.FindWithTag("BoardLayout");
         Board boardScript = board.GetComponent<Board>();
@@ -34,72 +34,27 @@ public class Pieces : MonoBehaviour
         {
             //call pawn method specific rules
             King kingScript = piece.GetComponent<King>(); 
-            kingScript.kingMoveRules(tilePos, boardScript);
+            kingScript.kingRules(tilePos, boardScript);
         }
         else if (type == PieceType.Queen)
         {
             Queen queenScript = piece.GetComponent<Queen>();
-            queenScript.queenMoveRules(tilePos, boardScript);
+            queenScript.queenRules(tilePos, boardScript);
         }
         else if (type == PieceType.Knight)
         {
             Knight knightScript = piece.GetComponent<Knight>();
-            knightScript.knightMoveRules(tilePos, boardScript);
+            knightScript.knightRules(tilePos, boardScript);
         }
         else if (type == PieceType.Rook)
         {
             Rook rookScript = piece.GetComponent<Rook>();
-            rookScript.rookMoveRules(tilePos, boardScript);
+            rookScript.rookRules(tilePos, boardScript);
         }
         else if (type == PieceType.Bishop)
         {
             Bishop bishopScript = piece.GetComponent<Bishop>();
-            bishopScript.bishopMoveRules(tilePos, boardScript);
-        }
-    }
-
-    public void TakingPieceRules(Vector3 tilePos) 
-    {
-        GameObject board = GameObject.FindWithTag("BoardLayout");
-        Board boardScript = board.GetComponent<Board>();
-        //Debug.Log("Move regular piece");
-        GameObject piece = boardScript.getCurrentPiece().gameObject;
-        PieceType type = piece.GetComponent<Pieces>().ptype;
-
-        //Debug.Log("Take piece at pos");
-
-        //if statments for all piece types
-        if (type == PieceType.Pawn)
-        {
-            //call pawn method specific rules
-            Pawn pawnScript = piece.GetComponent<Pawn>(); 
-            pawnScript.pawnTakeRules(tilePos, boardScript);
-        }
-        else if (type == PieceType.King)
-        {
-            //call pawn method specific rules
-            King kingScript = piece.GetComponent<King>(); 
-            kingScript.kingTakeRules(tilePos, boardScript);
-        }
-        else if (type == PieceType.Queen)
-        {
-            Queen queenScript = piece.GetComponent<Queen>(); 
-            queenScript.queenTakeRules(tilePos, boardScript);
-        }
-        else if (type == PieceType.Knight)
-        {
-            Knight knightScript = piece.GetComponent<Knight>();
-            knightScript.knightTakeRules(tilePos, boardScript);
-        }
-        else if (type == PieceType.Rook)
-        {
-            Rook rookScript = piece.GetComponent<Rook>();
-            rookScript.rookTakeRules(tilePos, boardScript);
-        }
-        else if (type == PieceType.Bishop)
-        {
-            Bishop bishopScript = piece.GetComponent<Bishop>();
-            bishopScript.bishopTakeRules(tilePos, boardScript);
+            bishopScript.bishopRules(tilePos, boardScript);
         }
     }
 }

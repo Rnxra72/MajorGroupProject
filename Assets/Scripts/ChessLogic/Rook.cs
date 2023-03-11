@@ -16,13 +16,8 @@ public class Rook : Pieces
         
     }
 
-    public void rookMoveRules(Vector3 tilePos, Board boardScript)
+    public void rookRules(Vector3 tilePos, Board boardScript)
     {
-
-    }
-
-    public void rookTakeRules(Vector3 tilePos, Board boardScript)
-    {
-
+        Debug.Log("Rook Rules");
     }
 }
