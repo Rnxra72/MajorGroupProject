@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -8179016115405782924}
   - component: {fileID: 9151458473639150333}
   - component: {fileID: 1263566000131302171}
+  - component: {fileID: 2944998180510363250}
   m_Layer: 0
   m_Name: King
   m_TagString: Piece
@@ -211,3 +212,15 @@ MonoBehaviour:
   m_OnDeactivate:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2944998180510363250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5745674015942888685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e69f886e13fc1f34f9c7dbfcfdc29721, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

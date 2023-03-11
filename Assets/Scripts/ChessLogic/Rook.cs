@@ -19,5 +19,6 @@ public class Rook : Pieces
     public void rookRules(Vector3 tilePos, Board boardScript)
     {
         Debug.Log("Rook Rules");
+        
     }
 }
