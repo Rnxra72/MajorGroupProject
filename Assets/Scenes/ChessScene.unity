@@ -422,7 +422,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 1
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -595,7 +595,7 @@ MonoBehaviour:
   m_Camera: {fileID: 227669767}
   m_OriginBaseGameObject: {fileID: 803762261}
   m_CameraFloorOffsetObject: {fileID: 2104635646}
-  m_RequestedTrackingOriginMode: 1
+  m_RequestedTrackingOriginMode: 0
   m_CameraYOffset: 1.01
 --- !u!4 &803762264
 Transform:
