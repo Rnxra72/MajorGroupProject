@@ -64,45 +64,38 @@ public class Board : MonoBehaviour
 
         int whiteTeam = 1, blackTeam = 0;
 
+
         //white team
         chessPieces[0, 0] = SpawnOnePiece(PieceType.Rook, whiteTeam);
         chessPieces[1, 0] = SpawnOnePiece(PieceType.Knight, whiteTeam);
         chessPieces[2, 0] = SpawnOnePiece(PieceType.Bishop, whiteTeam);
-        
         //black square start
-
-
         chessPieces[3, 0] = SpawnOnePiece(PieceType.Queen, whiteTeam);
         chessPieces[4, 0] = SpawnOnePiece(PieceType.King, whiteTeam);
         chessPieces[5, 0] = SpawnOnePiece(PieceType.Bishop, whiteTeam);
-
         //white square start
-
-
         chessPieces[6, 0] = SpawnOnePiece(PieceType.Knight, whiteTeam);
         chessPieces[7, 0] = SpawnOnePiece(PieceType.Rook, whiteTeam);
+
 
         //white pawns
         for (int i = 0; i < lengthOfBoard; i++) {
             chessPieces[i, 1] = SpawnOnePiece(PieceType.Pawn, whiteTeam);
         }
 
+
         //black team
         chessPieces[0, 7] = SpawnOnePiece(PieceType.Rook, blackTeam);
         chessPieces[1, 7] = SpawnOnePiece(PieceType.Knight, blackTeam);
         chessPieces[2, 7] = SpawnOnePiece(PieceType.Bishop, blackTeam);
-
         //white square start
-
         chessPieces[3, 7] = SpawnOnePiece(PieceType.Queen, blackTeam);
         chessPieces[4, 7] = SpawnOnePiece(PieceType.King, blackTeam);
         chessPieces[5, 7] = SpawnOnePiece(PieceType.Bishop, blackTeam);
-
         //black square start
-
-
         chessPieces[6, 7] = SpawnOnePiece(PieceType.Knight, blackTeam);
         chessPieces[7, 7] = SpawnOnePiece(PieceType.Rook, blackTeam);
+
 
         for (int i = 0; i < lengthOfBoard; i++)
         {

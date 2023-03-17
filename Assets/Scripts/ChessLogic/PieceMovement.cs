@@ -62,33 +62,3 @@ public class PieceMovement : MonoBehaviour
     }
 
 }
-      /*  public void pieceActivated(ActivateEventArgs args) {
-            //getGameObject
-            XRSimpleInteractable pieceInteractable = GetComponent<XRSimpleInteractable>();
-            //args.GetType();
-            Debug.Log("piece name: " + pieceInteractable);
-            pieceInteractable.GetType();
-            Debug.Log("here: Type: " );
-            Pieces tempP = pieceInteractable.GetComponent<Pieces>();
-
-            int tempTeam = tempP.team;//team attributes
-
-            Debug.Log(tempTeam);
-
-
-            //try moving piece
-            pieceInteractable.transform.position = new Vector3(4, 0, 4);
-
-
-            /* PieceType pType = pieceInteractable.GetComponent<PieceType>();//pieceType
-
-             Pieces pScript = pieceInteractable.GetComponent<Pieces>();//script piece, for attributes in this class
-             int tempTeam = pScript.team;//team attributes
-
-             //instatntiate gameobject
-             Pieces p = Instantiate(prefabs[(int)pType - 1], transform).GetComponent<Pieces>();
-
-             p.ptype = pType;
-             p.team = tempTeam;
-             p.GetComponent<MeshRenderer>().material = teamMaterials[tempTeam];
-        }*/
