@@ -118,25 +118,23 @@ extern void Queen_queenRules_mF1D58154606D1C30C931FA21CCF7640045288777 (void);
 extern void Queen__ctor_m7ABC6B14337B0A10B45B174113E9693F52A45E1A (void);
 // 0x00000035 System.Void Rook::Start()
 extern void Rook_Start_mAF1D9E67F75884140AF4F39B57F8692E06C7FF27 (void);
-// 0x00000036 System.Void Rook::Update()
-extern void Rook_Update_m5E337D64F8C7A667F98A97927DA025B5B5655E75 (void);
-// 0x00000037 System.Void Rook::rookRules(UnityEngine.Vector3,Board)
+// 0x00000036 System.Void Rook::rookRules(UnityEngine.Vector3,Board)
 extern void Rook_rookRules_m3EFFC1A7D4B37394664F0983044FC8F864D3F1EE (void);
-// 0x00000038 System.Void Rook::.ctor()
+// 0x00000037 System.Void Rook::.ctor()
 extern void Rook__ctor_m0BC5D3F2407E14DE98B67A083573631786236341 (void);
-// 0x00000039 System.Void PanelChanger::Start()
+// 0x00000038 System.Void PanelChanger::Start()
 extern void PanelChanger_Start_mB60924F29FBBE7482BA4887D0285AAD361644184 (void);
-// 0x0000003A System.Void PanelChanger::Update()
+// 0x00000039 System.Void PanelChanger::Update()
 extern void PanelChanger_Update_mCF8B2B9DC64AB5F9D4078E023D361C80CB520812 (void);
-// 0x0000003B System.Void PanelChanger::.ctor()
+// 0x0000003A System.Void PanelChanger::.ctor()
 extern void PanelChanger__ctor_m9CDA726E0ADF3090EC713BB11F678D64AA80E239 (void);
-// 0x0000003C System.Void SceneChanger::SceneLoad(System.Int32)
+// 0x0000003B System.Void SceneChanger::SceneLoad(System.Int32)
 extern void SceneChanger_SceneLoad_mE021E29B86B3BCD01A6B6854308F77C3EC690F72 (void);
-// 0x0000003D System.Void SceneChanger::QuitGame()
+// 0x0000003C System.Void SceneChanger::QuitGame()
 extern void SceneChanger_QuitGame_m87A43F012CBD40BFA780713C62CF6478AF91FDE4 (void);
-// 0x0000003E System.Void SceneChanger::.ctor()
+// 0x0000003D System.Void SceneChanger::.ctor()
 extern void SceneChanger__ctor_mE9DB2B4102825D23A4B0271C2A6023F02920B4AD (void);
-static Il2CppMethodPointer s_methodPointers[62] = 
+static Il2CppMethodPointer s_methodPointers[61] = 
 {
 	CameraRotate_FixedUpdate_m9A96578A0D91B670CF857A0F544C1CDE75CABA0B,
 	CameraRotate__ctor_m9DB63B85EE11F94E5394A744A8F6672221464856,
@@ -191,7 +189,6 @@ static Il2CppMethodPointer s_methodPointers[62] =
 	Queen_queenRules_mF1D58154606D1C30C931FA21CCF7640045288777,
 	Queen__ctor_m7ABC6B14337B0A10B45B174113E9693F52A45E1A,
 	Rook_Start_mAF1D9E67F75884140AF4F39B57F8692E06C7FF27,
-	Rook_Update_m5E337D64F8C7A667F98A97927DA025B5B5655E75,
 	Rook_rookRules_m3EFFC1A7D4B37394664F0983044FC8F864D3F1EE,
 	Rook__ctor_m0BC5D3F2407E14DE98B67A083573631786236341,
 	PanelChanger_Start_mB60924F29FBBE7482BA4887D0285AAD361644184,
@@ -201,76 +198,75 @@ static Il2CppMethodPointer s_methodPointers[62] =
 	SceneChanger_QuitGame_m87A43F012CBD40BFA780713C62CF6478AF91FDE4,
 	SceneChanger__ctor_mE9DB2B4102825D23A4B0271C2A6023F02920B4AD,
 };
-static const int32_t s_InvokerIndices[62] = 
+static const int32_t s_InvokerIndices[61] = 
 {
-	6798,
-	6798,
-	6798,
-	6798,
-	5304,
-	6634,
-	3016,
-	6798,
-	6798,
-	6798,
-	6798,
-	6798,
-	6798,
-	2256,
-	6798,
-	1409,
-	5335,
-	6666,
-	5449,
-	6666,
-	3859,
-	5335,
-	3859,
-	5230,
-	6562,
-	6798,
-	6798,
-	6798,
-	6798,
-	6798,
-	6798,
-	3016,
-	6798,
-	6798,
-	6798,
-	3016,
-	6798,
-	6798,
-	3016,
-	5449,
-	6798,
-	6798,
-	6798,
-	5335,
-	2923,
-	6798,
-	5449,
-	6798,
-	6798,
-	6798,
-	3016,
-	6798,
-	6798,
-	6798,
-	3016,
-	6798,
-	6798,
-	6798,
-	6798,
-	5304,
-	6798,
-	6798,
+	6732,
+	6732,
+	6732,
+	6732,
+	5269,
+	6569,
+	3005,
+	6732,
+	6732,
+	6732,
+	6732,
+	6732,
+	6732,
+	2250,
+	6732,
+	1405,
+	5300,
+	6601,
+	5411,
+	6601,
+	3839,
+	5300,
+	3839,
+	5195,
+	6497,
+	6732,
+	6732,
+	6732,
+	6732,
+	6732,
+	6732,
+	3005,
+	6732,
+	6732,
+	6732,
+	3005,
+	6732,
+	6732,
+	3005,
+	5411,
+	6732,
+	6732,
+	6732,
+	5300,
+	2912,
+	6732,
+	5411,
+	6732,
+	6732,
+	6732,
+	3005,
+	6732,
+	6732,
+	3005,
+	6732,
+	6732,
+	6732,
+	6732,
+	5269,
+	6732,
+	6732,
 };
 IL2CPP_EXTERN_C const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule;
 const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule = 
 {
 	"Assembly-CSharp.dll",
-	62,
+	61,
 	s_methodPointers,
 	0,
 	NULL,

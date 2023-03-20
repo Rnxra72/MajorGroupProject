@@ -31,5 +31,8 @@ public class Bishop : Pieces
     public void bishopRules(Vector3 tilePos, Board boardScript) 
     {
         Debug.Log("Bishop Rules");
+
+        //if z==z or x==x set moveValid false
+        //else preform other checks
     }
 }

@@ -29,28 +29,48 @@ public class Rook : Pieces
         //right
         if (tileX > x && tileZ == z)
         {
+            boardScript.setCurrentMoveValid(true);
+            for (int i = x; i < tileX; i++)
+            {
+                //check if piece in the way
+                Vector3 temp = new Vector3((float)i, 0.0f, (float)z);
 
+                bool pieceAtPos = boardScript.isPieceOnTile(temp);
+                /* if (pieceAtPos)
+                 {
+                     //check colour
+                     Pieces[,] chessArray = boardScript.getChessArray();
+                     Pieces p = chessArray[x, i];
+                     if (p.team == rookScipt.team) 
+                     {
+                         boardScript.setCurrentMoveValid(false);
+                     }
+                 }*/
+            }
         }
 
         //forward
         else if (tileZ > z && tileX == x)
         {
-            boardScript.setCurrentMoveValid(true);
+            boardScript.setCurrentMoveValid(false);
             for (int i = z; i < tileZ; i++)
             {
                 //check if piece in the way
                 Vector3 temp = new Vector3((float)x, 0.0f, (float)i);
-
-                bool pieceAtPos = boardScript.isPieceOnTile(temp);
-                if (pieceAtPos)
+                Debug.Log(temp); bool pieceAtPos = false;
+                pieceAtPos = boardScript.isPieceOnTile(temp);
+                Debug.Log(pieceAtPos);
+                if (!pieceAtPos)
                 {
-                    //check colour
+                    boardScript.setCurrentMoveValid(true);
+                    /*//check colour
                     Pieces[,] chessArray = boardScript.getChessArray();
                     Pieces p = chessArray[x, i];
                     if (p.team == rookScipt.team) 
                     {
                         boardScript.setCurrentMoveValid(false);
-                    }
+                        //Debug.Log("this here");
+                    }*/
                 }
             }
         }
@@ -58,13 +78,47 @@ public class Rook : Pieces
         //backwards
         else if (tileZ < z && tileX == x)
         {
+            boardScript.setCurrentMoveValid(true);
+            for (int i = z; i < tileZ; i--)
+            {
+                //check if piece in the way
+                Vector3 temp = new Vector3((float)x, 0.0f, (float)i);
 
+                bool pieceAtPos = boardScript.isPieceOnTile(temp);
+                /* if (pieceAtPos)
+                 {
+                     //check colour
+                     Pieces[,] chessArray = boardScript.getChessArray();
+                     Pieces p = chessArray[x, i];
+                     if (p.team == rookScipt.team) 
+                     {
+                         boardScript.setCurrentMoveValid(false);
+                     }
+                 }*/
+            }
         }
 
         //left
         else if (tileX < x && tileZ == z)
         {
+            boardScript.setCurrentMoveValid(true);
+            for (int i = x; i < tileX; i--)
+            {
+                //check if piece in the way
+                Vector3 temp = new Vector3((float)i, 0.0f, (float)z);
 
+                bool pieceAtPos = boardScript.isPieceOnTile(temp);
+                /* if (pieceAtPos)
+                 {
+                     //check colour
+                     Pieces[,] chessArray = boardScript.getChessArray();
+                     Pieces p = chessArray[x, i];
+                     if (p.team == rookScipt.team) 
+                     {
+                         boardScript.setCurrentMoveValid(false);
+                     }
+                 }*/
+            }
         }
 
         else 

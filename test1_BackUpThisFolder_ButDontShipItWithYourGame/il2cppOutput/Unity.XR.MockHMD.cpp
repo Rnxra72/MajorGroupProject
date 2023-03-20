@@ -461,8 +461,6 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR MockHMDBuildSettings_t04FF4AEA668276CF3FF947D
 		s_Il2CppMethodInitialized = true;
 	}
 	MockHMDBuildSettings_t04FF4AEA668276CF3FF947D1C57CB4F4CE3DA235* V_0 = NULL;
-	bool V_1 = false;
-	MockHMDBuildSettings_t04FF4AEA668276CF3FF947D1C57CB4F4CE3DA235* V_2 = NULL;
 	{
 		// MockHMDBuildSettings settings = null;
 		V_0 = (MockHMDBuildSettings_t04FF4AEA668276CF3FF947D1C57CB4F4CE3DA235*)NULL;
@@ -474,34 +472,24 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR MockHMDBuildSettings_t04FF4AEA668276CF3FF947D
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_2;
 		L_2 = Object_op_Equality_mB6120F782D83091EF56A198FCEBCF066DB4A9605(L_1, (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C*)NULL, NULL);
-		V_1 = L_2;
-		bool L_3 = V_1;
-		if (!L_3)
+		if (!L_2)
 		{
-			goto IL_001a;
+			goto IL_0017;
 		}
 	}
 	{
 		// settings = new MockHMDBuildSettings();
-		MockHMDBuildSettings_t04FF4AEA668276CF3FF947D1C57CB4F4CE3DA235* L_4 = (MockHMDBuildSettings_t04FF4AEA668276CF3FF947D1C57CB4F4CE3DA235*)il2cpp_codegen_object_new(MockHMDBuildSettings_t04FF4AEA668276CF3FF947D1C57CB4F4CE3DA235_il2cpp_TypeInfo_var);
-		NullCheck(L_4);
-		MockHMDBuildSettings__ctor_mEAC99755E1DECC727F534B2AC153866931E50F16(L_4, NULL);
-		V_0 = L_4;
+		MockHMDBuildSettings_t04FF4AEA668276CF3FF947D1C57CB4F4CE3DA235* L_3 = (MockHMDBuildSettings_t04FF4AEA668276CF3FF947D1C57CB4F4CE3DA235*)il2cpp_codegen_object_new(MockHMDBuildSettings_t04FF4AEA668276CF3FF947D1C57CB4F4CE3DA235_il2cpp_TypeInfo_var);
+		NullCheck(L_3);
+		MockHMDBuildSettings__ctor_mEAC99755E1DECC727F534B2AC153866931E50F16(L_3, NULL);
+		V_0 = L_3;
 	}
 
-IL_001a:
+IL_0017:
 	{
 		// return settings;
-		MockHMDBuildSettings_t04FF4AEA668276CF3FF947D1C57CB4F4CE3DA235* L_5 = V_0;
-		V_2 = L_5;
-		goto IL_001e;
-	}
-
-IL_001e:
-	{
-		// }
-		MockHMDBuildSettings_t04FF4AEA668276CF3FF947D1C57CB4F4CE3DA235* L_6 = V_2;
-		return L_6;
+		MockHMDBuildSettings_t04FF4AEA668276CF3FF947D1C57CB4F4CE3DA235* L_4 = V_0;
+		return L_4;
 	}
 }
 // System.Void Unity.XR.MockHMD.MockHMDBuildSettings::OnEnable()
@@ -552,8 +540,6 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool MockHMDLoader_Initialize_m9D399A6BB46197
 		s_Il2CppMethodInitialized = true;
 	}
 	MockHMDBuildSettings_t04FF4AEA668276CF3FF947D1C57CB4F4CE3DA235* V_0 = NULL;
-	bool V_1 = false;
-	bool V_2 = false;
 	{
 		// CreateSubsystem<XRDisplaySubsystemDescriptor, XRDisplaySubsystem>(s_DisplaySubsystemDescriptors, "MockHMD Display");
 		il2cpp_codegen_runtime_class_init_inline(MockHMDLoader_tD907BB7814BF34F5BC755B09DA674C27C8070984_il2cpp_TypeInfo_var);
@@ -571,34 +557,24 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool MockHMDLoader_Initialize_m9D399A6BB46197
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_4;
 		L_4 = Object_op_Inequality_mD0BE578448EAA61948F25C32F8DD55AB1F778602(L_3, (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C*)NULL, NULL);
-		V_1 = L_4;
-		bool L_5 = V_1;
-		if (!L_5)
+		if (!L_4)
 		{
-			goto IL_0042;
+			goto IL_003b;
 		}
 	}
 	{
 		// MockHMD.SetRenderMode(buildSettings.renderMode);
-		MockHMDBuildSettings_t04FF4AEA668276CF3FF947D1C57CB4F4CE3DA235* L_6 = V_0;
-		NullCheck(L_6);
-		int32_t L_7 = L_6->___renderMode_5;
-		bool L_8;
-		L_8 = MockHMD_SetRenderMode_mABBB2BDD5EAB1E9D496D95273E2746080E9E1C83(L_7, NULL);
+		MockHMDBuildSettings_t04FF4AEA668276CF3FF947D1C57CB4F4CE3DA235* L_5 = V_0;
+		NullCheck(L_5);
+		int32_t L_6 = L_5->___renderMode_5;
+		bool L_7;
+		L_7 = MockHMD_SetRenderMode_mABBB2BDD5EAB1E9D496D95273E2746080E9E1C83(L_6, NULL);
 	}
 
-IL_0042:
+IL_003b:
 	{
 		// return true;
-		V_2 = (bool)1;
-		goto IL_0046;
-	}
-
-IL_0046:
-	{
-		// }
-		bool L_9 = V_2;
-		return L_9;
+		return (bool)1;
 	}
 }
 // System.Boolean Unity.XR.MockHMD.MockHMDLoader::Start()
@@ -611,22 +587,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool MockHMDLoader_Start_m7905D3DCEFE46ED0BE2
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&XRLoaderHelper_StartSubsystem_TisXRInputSubsystem_tFECE6683FCAEBF05BAD05E5D612690095D8BAD34_m08AC127201FE89396BD81BEA52D40790BC0CA3FA_RuntimeMethod_var);
 		s_Il2CppMethodInitialized = true;
 	}
-	bool V_0 = false;
 	{
 		// StartSubsystem<XRDisplaySubsystem>();
 		XRLoaderHelper_StartSubsystem_TisXRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1_mC1643794A5D3CC32BF1EE9C976CE5F23A6BB8962(__this, XRLoaderHelper_StartSubsystem_TisXRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1_mC1643794A5D3CC32BF1EE9C976CE5F23A6BB8962_RuntimeMethod_var);
 		// StartSubsystem<XRInputSubsystem>();
 		XRLoaderHelper_StartSubsystem_TisXRInputSubsystem_tFECE6683FCAEBF05BAD05E5D612690095D8BAD34_m08AC127201FE89396BD81BEA52D40790BC0CA3FA(__this, XRLoaderHelper_StartSubsystem_TisXRInputSubsystem_tFECE6683FCAEBF05BAD05E5D612690095D8BAD34_m08AC127201FE89396BD81BEA52D40790BC0CA3FA_RuntimeMethod_var);
 		// return true;
-		V_0 = (bool)1;
-		goto IL_0013;
-	}
-
-IL_0013:
-	{
-		// }
-		bool L_0 = V_0;
-		return L_0;
+		return (bool)1;
 	}
 }
 // System.Boolean Unity.XR.MockHMD.MockHMDLoader::Stop()
@@ -639,22 +606,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool MockHMDLoader_Stop_m8DC4B74EC9C430065594
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&XRLoaderHelper_StopSubsystem_TisXRInputSubsystem_tFECE6683FCAEBF05BAD05E5D612690095D8BAD34_mE6F3E85E0C64666EE9A517CD7CF3669FB7BAC750_RuntimeMethod_var);
 		s_Il2CppMethodInitialized = true;
 	}
-	bool V_0 = false;
 	{
 		// StopSubsystem<XRInputSubsystem>();
 		XRLoaderHelper_StopSubsystem_TisXRInputSubsystem_tFECE6683FCAEBF05BAD05E5D612690095D8BAD34_mE6F3E85E0C64666EE9A517CD7CF3669FB7BAC750(__this, XRLoaderHelper_StopSubsystem_TisXRInputSubsystem_tFECE6683FCAEBF05BAD05E5D612690095D8BAD34_mE6F3E85E0C64666EE9A517CD7CF3669FB7BAC750_RuntimeMethod_var);
 		// StopSubsystem<XRDisplaySubsystem>();
 		XRLoaderHelper_StopSubsystem_TisXRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1_m00A3A82597D484DE2EBB03EA9A2430AFDE44DE24(__this, XRLoaderHelper_StopSubsystem_TisXRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1_m00A3A82597D484DE2EBB03EA9A2430AFDE44DE24_RuntimeMethod_var);
 		// return true;
-		V_0 = (bool)1;
-		goto IL_0013;
-	}
-
-IL_0013:
-	{
-		// }
-		bool L_0 = V_0;
-		return L_0;
+		return (bool)1;
 	}
 }
 // System.Boolean Unity.XR.MockHMD.MockHMDLoader::Deinitialize()
@@ -667,22 +625,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool MockHMDLoader_Deinitialize_mD6F8BA7F4E6F
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&XRLoaderHelper_DestroySubsystem_TisXRInputSubsystem_tFECE6683FCAEBF05BAD05E5D612690095D8BAD34_m22B2454EB0F4E32155EEE6022768B9781DB0085F_RuntimeMethod_var);
 		s_Il2CppMethodInitialized = true;
 	}
-	bool V_0 = false;
 	{
 		// DestroySubsystem<XRInputSubsystem>();
 		XRLoaderHelper_DestroySubsystem_TisXRInputSubsystem_tFECE6683FCAEBF05BAD05E5D612690095D8BAD34_m22B2454EB0F4E32155EEE6022768B9781DB0085F(__this, XRLoaderHelper_DestroySubsystem_TisXRInputSubsystem_tFECE6683FCAEBF05BAD05E5D612690095D8BAD34_m22B2454EB0F4E32155EEE6022768B9781DB0085F_RuntimeMethod_var);
 		// DestroySubsystem<XRDisplaySubsystem>();
 		XRLoaderHelper_DestroySubsystem_TisXRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1_m8E2572BB5610CCE3B1DBA87453CFE09BB4B2B606(__this, XRLoaderHelper_DestroySubsystem_TisXRDisplaySubsystem_t4B00B0BF1894A039ACFA8DDC2C2EB9301118C1F1_m8E2572BB5610CCE3B1DBA87453CFE09BB4B2B606_RuntimeMethod_var);
 		// return true;
-		V_0 = (bool)1;
-		goto IL_0013;
-	}
-
-IL_0013:
-	{
-		// }
-		bool L_0 = V_0;
-		return L_0;
+		return (bool)1;
 	}
 }
 // System.Void Unity.XR.MockHMD.MockHMDLoader::.ctor()
