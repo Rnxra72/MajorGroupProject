@@ -44,7 +44,13 @@ public class Rook : Pieces
                 bool pieceAtPos = boardScript.isPieceOnTile(temp);
                 if (pieceAtPos)
                 {
-                    boardScript.setCurrentMoveValid(false);
+                    //check colour
+                    Pieces[,] chessArray = boardScript.getChessArray();
+                    Pieces p = chessArray[x, i];
+                    if (p.team == rookScipt.team) 
+                    {
+                        boardScript.setCurrentMoveValid(false);
+                    }
                 }
             }
         }
@@ -65,23 +71,5 @@ public class Rook : Pieces
         {
             boardScript.setCurrentMoveValid(false);
         }
-
-
-
-        /*
-        //z++
-        for (int i = z; i < tileZ; i++) 
-        {
-            //check if piece in the way
-            Vector3 temp = new Vector3((float)x, 0.0f, (float)i);
-
-            bool pieceAtPos = boardScript.isPieceOnTile(temp);
-            if (pieceAtPos) 
-            {
-                boardScript.setCurrentMoveValid(false);
-                break;
-            }
-        }
-        */
     }
 }
