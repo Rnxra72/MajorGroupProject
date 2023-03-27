@@ -18,21 +18,12 @@ public class Bishop : Pieces
         
     }
 
-    public void setTileStartColour(int colour) 
-    {
-        this.tileStartColour = colour;
-    }
-
-    public int getTileStartColour() 
-    {
-        return this.tileStartColour;
-    }
-
     public void bishopRules(Vector3 tilePos, Board boardScript) 
     {
         Debug.Log("Bishop Rules");
 
         //if z==z or x==x set moveValid false
         //else preform other checks
+        boardScript.setCurrentMoveValid(true);
     }
 }
