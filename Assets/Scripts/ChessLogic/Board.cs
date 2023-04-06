@@ -261,16 +261,16 @@ public class Board : MonoBehaviour
 
     public void winSceneRedirect()
     {
-        SceneManager.LoadScene("Win scene");
+        SceneManager.LoadScene("WinScene");
     }
 
     public void loseSceneRedirect()
     {
-        SceneManager.LoadScene("Lose scene");
+        SceneManager.LoadScene("LoseScene");
     }
     public void drawSceneRedirect()
     {
-        SceneManager.LoadScene("Draw scene");
+        SceneManager.LoadScene("DrawScene");
     }
 
     public void highlightSeletedPiece(GameObject selected)
