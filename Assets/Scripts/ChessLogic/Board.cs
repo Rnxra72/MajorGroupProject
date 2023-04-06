@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.SceneManagement;
 
 
 public class Board : MonoBehaviour
 {
-    private XRSimpleInteractable currecntlySelectedPiece;
+    private GameObject currecntlySelectedPiece;
 
     public Pieces[,] chessPieces;//array for all chess pieces/pieces objects
 
@@ -19,6 +20,8 @@ public class Board : MonoBehaviour
 
     private int wPlayerScore = 0;
     private int bPlayerScore = 0;
+    private bool playerTurn;
+    public Material[] tileMaterials;
 
     private bool currentMoveValid;
 
@@ -33,6 +36,7 @@ public class Board : MonoBehaviour
     void Start()
     {
         setStartLayout();
+        playerTurn = true;
     }
 
     public void setStartLayout() 
@@ -40,11 +44,6 @@ public class Board : MonoBehaviour
         BoardTilesCreated();
         SpawnAllPieces();
         positionAllPiece();
-    }
-
-   public void getPieces()
-    {
-        Debug.Log("items inPieces: " + chessPieces);
     }
 
     void BoardTilesCreated()
@@ -134,30 +133,25 @@ public class Board : MonoBehaviour
     }
 
     //set piece last selected
-    public void setCurrentPiece(XRSimpleInteractable piece) 
+    public void setCurrentPiece(GameObject piece) 
     {
         this.currecntlySelectedPiece = piece;
-       /* if (piece != null)
-        {
-            piece.GetComponent<MeshRenderer>().material = pieceSelectedMaterial;
-        }
-        else 
-        {
-            int team = piece.GetComponent<Pieces>().team;
-            if (team == 1)
-            {
-                piece.GetComponent<MeshRenderer>().material = teamMaterials[1];
-            }
-            else 
-            {
-                piece.GetComponent<MeshRenderer>().material = teamMaterials[0];
-            }
-        }*/
     }
 
     //get last piece selected
-    public XRSimpleInteractable getCurrentPiece() {
+    public GameObject getCurrentPiece() {
         return this.currecntlySelectedPiece;
+    }
+
+    //used for changing turns
+    public void setPlayerTurn(bool playerTurn)
+    {
+        this.playerTurn = playerTurn;
+    }
+
+    public bool getPlayerTurn()
+    {
+        return this.playerTurn;
     }
 
     public void updateChessArray(Vector3 position)
@@ -263,5 +257,55 @@ public class Board : MonoBehaviour
     public bool getCurrentMoveValid() 
     {
         return this.currentMoveValid;
+    }
+
+    public void winSceneRedirect()
+    {
+        SceneManager.LoadScene("Win scene");
+    }
+
+    public void loseSceneRedirect()
+    {
+        SceneManager.LoadScene("Lose scene");
+    }
+    public void drawSceneRedirect()
+    {
+        SceneManager.LoadScene("Draw scene");
+    }
+
+    public void highlightSeletedPiece(GameObject selected)
+    {
+        selected.GetComponent<MeshRenderer>().material = pieceSelectedMaterial;
+    }
+
+    //highlighting piece selected by player
+    public void unHighlightAllPieces()
+    {
+        GameObject[] PieceObjects;
+        PieceObjects = GameObject.FindGameObjectsWithTag("Piece");
+        for (int i = 0; i < PieceObjects.Length; i++)
+        {
+            unHighlightSinglePiece(PieceObjects[i]);
+        }
+    }
+    public void unHighlightSinglePiece(GameObject gameObject)
+    {
+        Pieces p = gameObject.GetComponent<Pieces>();
+
+        gameObject.GetComponent<MeshRenderer>().material = teamMaterials[p.team];
+    }
+
+    //available moves for that piece highlighting
+    public void HighlightAllTiles(List<Vector3> availableMoves)
+    {
+        //foreach (var i in avaiableMoves) {
+
+        //}
+    }
+    public void HighlightSingleTile(GameObject gameObject)
+    {
+        Pieces p = gameObject.GetComponent<Pieces>();
+
+        gameObject.GetComponent<MeshRenderer>().material = tileMaterials[1];
     }
 }

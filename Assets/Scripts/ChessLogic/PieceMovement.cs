@@ -14,34 +14,59 @@ public class PieceMovement : MonoBehaviour
     public void interactableActivated(ActivateEventArgs args)
     {
         XRSimpleInteractable interactable = GetComponent<XRSimpleInteractable>();
+
+        //instance of board needed
         GameObject board = GameObject.FindWithTag("BoardLayout");
         Board boardScript = board.GetComponent<Board>();
 
-        if (interactable.tag == "Piece")
-        {
-            // Debug.Log("hello piece");
+        //get gameobject from interactable, and script on gameobject
+        GameObject gameObject = interactable.gameObject;
+        Pieces p = gameObject.GetComponent<Pieces>();
 
-            boardScript.setCurrentPiece(interactable);
+        if (gameObject.tag == "Piece")
+        {
+
+            //checks for player turns
+            if (boardScript.getPlayerTurn() && p.team == 1)
+            {
+                boardScript.setCurrentPiece(gameObject);
+
+                //piece highlighting
+                boardScript.unHighlightAllPieces();
+                boardScript.highlightSeletedPiece(gameObject);
+            }
+            else if (!boardScript.getPlayerTurn() && p.team == 0)
+            {
+                boardScript.setCurrentPiece(gameObject);
+
+                //piece highlighting
+                boardScript.unHighlightAllPieces();
+                boardScript.highlightSeletedPiece(gameObject);
+            }
+            else
+            {
+                Debug.Log("Other Players turn");
+            }
         }
-        else if (interactable.tag == "Tile")
+        else if (gameObject.tag == "Tile")
         {
             //Debug.Log("Hello tile");
 
             if (boardScript.getCurrentPiece() != null)
             {
-                movePieceToTile(interactable, boardScript);
+                movePieceToTile(gameObject, boardScript);
             }
             else
             {
-                Debug.Log("error, No piece selected");//display this out to user
+                Debug.Log("error, No piece selected");
             }
         }
     }
 
-    public void movePieceToTile(XRSimpleInteractable interactable, Board boardSript)
+    public void movePieceToTile(GameObject gameObject, Board boardSript)
     {
         boardSript.setCurrentMoveValid(false);
-        Vector3 xPos = interactable.GetComponent<Transform>().position;
+        Vector3 xPos = gameObject.GetComponent<Transform>().position;
 
         bool validMove = boardSript.TileIsValid(xPos);
        // Debug.Log("Is tile valid: " + validMove);
@@ -52,7 +77,22 @@ public class PieceMovement : MonoBehaviour
 
             boardSript.getCurrentPiece().transform.position = xPos;
             boardSript.updateChessArray(xPos);
-            boardSript.setCurrentPiece(null);
+            // boardSript.setCurrentPiece(null);
+
+            //Debug.Log("Before move: " + boardSript.getPlayerTurn());
+
+            //after valid move change player turn
+            if (boardSript.getPlayerTurn())
+            {
+                boardSript.setPlayerTurn(false);
+                //boardSript.unHighlightSinglePiece(boardSript.getCurrentPiece());
+            }
+            else
+            {
+                boardSript.setPlayerTurn(true);
+            }
+            //Debug.Log("After move: " + boardSript.getPlayerTurn());
+            boardSript.unHighlightSinglePiece(boardSript.getCurrentPiece());
         }
         else
         {
