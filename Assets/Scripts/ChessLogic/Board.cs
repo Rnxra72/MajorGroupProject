@@ -16,6 +16,8 @@ public class Board : MonoBehaviour
 
     public GameObject boardTiles;
 
+    private List<Vector3> avaiableMoves = new List<Vector3>();
+
     GameObject[,] tilesArray = new GameObject[8, 8];
 
     private int wPlayerScore = 0;
@@ -27,6 +29,7 @@ public class Board : MonoBehaviour
 
     public Material pieceSelectedMaterial;
 
+    GameObject[] PieceObjects;
 
     //for asset type, piece type and colours/materials
     [SerializeField] private GameObject[] prefabs;
@@ -172,7 +175,25 @@ public class Board : MonoBehaviour
         return this.chessPieces;
     }
 
-    public bool TileIsValid(Vector3 tilePos)
+    public void CreateMovesList() 
+    {
+        Pieces pieceScript = getCurrentPiece().GetComponent<Pieces>();
+        pieceScript.Rules();
+        HighlightAllTiles();
+        Debug.Log("checking here, CreateMoveList");
+    }
+
+    public void SetMovesAvailable(List<Vector3> avaiableMoves) 
+    {
+        this.avaiableMoves = avaiableMoves;
+    }
+
+    public List<Vector3> GetMovesAvailable()
+    {
+        return this.avaiableMoves;
+    }
+
+    /*public bool TileIsValid(Vector3 tilePos)
     {
         bool pieceAtPos = isPieceOnTile(tilePos);
         if (pieceAtPos)
@@ -218,7 +239,7 @@ public class Board : MonoBehaviour
             }
         }
         return true;
-    }
+    }*/
 
     public void removePiece(Pieces tempPiece)
     {
@@ -247,6 +268,12 @@ public class Board : MonoBehaviour
         }
         //no piece on tile
         return false;
+    }
+
+    public GameObject[] GetPiecesOnBoard() 
+    {
+        PieceObjects = GameObject.FindGameObjectsWithTag("Piece");
+        return PieceObjects;
     }
 
     public void setCurrentMoveValid(bool isMoveValid) 
@@ -281,11 +308,9 @@ public class Board : MonoBehaviour
     //highlighting piece selected by player
     public void unHighlightAllPieces()
     {
-        GameObject[] PieceObjects;
-        PieceObjects = GameObject.FindGameObjectsWithTag("Piece");
-        for (int i = 0; i < PieceObjects.Length; i++)
+        for (int i = 0; i < GetPiecesOnBoard().Length; i++)
         {
-            unHighlightSinglePiece(PieceObjects[i]);
+            unHighlightSinglePiece(GetPiecesOnBoard()[i]);
         }
     }
     public void unHighlightSinglePiece(GameObject gameObject)
@@ -295,17 +320,50 @@ public class Board : MonoBehaviour
         gameObject.GetComponent<MeshRenderer>().material = teamMaterials[p.team];
     }
 
-    //available moves for that piece highlighting
-    public void HighlightAllTiles(List<Vector3> availableMoves)
+    public void unHighlightAllTiles()
     {
-        //foreach (var i in avaiableMoves) {
+        for (int i = 0; i < 8; i++)
+        {
+            for (int j = 0; j < 8; j++)
+            {
+                unHighlightSingleTile(tilesArray[i, j]);
+            }
+        }
+    }
+    public void unHighlightSingleTile(GameObject gameObject)
+    {
+        Pieces p = gameObject.GetComponent<Pieces>();
 
-        //}
+        gameObject.GetComponent<MeshRenderer>().material = tileMaterials[0];
+    }
+
+    //available moves for that piece highlighting
+    public void HighlightAllTiles()
+    {
+        for (int i = 0;  i < GetMovesAvailable().Count; i++) {
+            Vector3 vect = GetMovesAvailable()[i];
+            int tempX = (int)vect.x; int tempZ = (int)vect.z;
+            GameObject gO = tilesArray[tempX, tempZ];
+            HighlightSingleTile(gO);
+        }
+        Debug.Log("checking here, Highlight All tile");
     }
     public void HighlightSingleTile(GameObject gameObject)
     {
         Pieces p = gameObject.GetComponent<Pieces>();
 
         gameObject.GetComponent<MeshRenderer>().material = tileMaterials[1];
+        Debug.Log("checking here, Highlight Single tile");
+    }
+
+
+
+    public bool HasCheckOcurred() 
+    {
+        return false;
+    }
+    public bool HasCheckMateOcurred()
+    {
+        return false;
     }
 }

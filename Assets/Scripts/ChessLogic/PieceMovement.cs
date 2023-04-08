@@ -22,7 +22,8 @@ public class PieceMovement : MonoBehaviour
         //get gameobject from interactable, and script on gameobject
         GameObject gameObject = interactable.gameObject;
         Pieces p = gameObject.GetComponent<Pieces>();
-
+        boardScript.unHighlightAllTiles();
+        boardScript.setCurrentMoveValid(false);
         if (gameObject.tag == "Piece")
         {
 
@@ -34,6 +35,9 @@ public class PieceMovement : MonoBehaviour
                 //piece highlighting
                 boardScript.unHighlightAllPieces();
                 boardScript.highlightSeletedPiece(gameObject);
+
+                //createMovesList
+                boardScript.CreateMovesList();
             }
             else if (!boardScript.getPlayerTurn() && p.team == 0)
             {
@@ -42,6 +46,7 @@ public class PieceMovement : MonoBehaviour
                 //piece highlighting
                 boardScript.unHighlightAllPieces();
                 boardScript.highlightSeletedPiece(gameObject);
+                boardScript.CreateMovesList();
             }
             else
             {
@@ -54,7 +59,10 @@ public class PieceMovement : MonoBehaviour
 
             if (boardScript.getCurrentPiece() != null)
             {
-                movePieceToTile(gameObject, boardScript);
+                //movePieceToTile(gameObject, boardScript);
+
+                MoveToTileSelected(gameObject, boardScript);
+
             }
             else
             {
@@ -63,14 +71,17 @@ public class PieceMovement : MonoBehaviour
         }
     }
 
-    public void movePieceToTile(GameObject gameObject, Board boardSript)
+   /*
+    * public void movePieceToTile(GameObject gameObject, Board boardSript)
     {
         boardSript.setCurrentMoveValid(false);
         Vector3 xPos = gameObject.GetComponent<Transform>().position;
 
-        bool validMove = boardSript.TileIsValid(xPos);
+        //bool validMove = boardSript.TileIsValid(xPos);   /////////////////////////////////////////////////////
        // Debug.Log("Is tile valid: " + validMove);
-        if (validMove)
+
+       //if (validMove)
+        if (true)
         {
             //Debug.Log("valid move...if");
             Pieces[,] p = boardSript.getChessArray();
@@ -100,5 +111,60 @@ public class PieceMovement : MonoBehaviour
             boardSript.setCurrentPiece(null);
         }
     }
+   */
 
+    public void MoveToTileSelected(GameObject gameObject, Board boardScript) 
+    {
+        Vector3 pos = gameObject.GetComponent<Transform>().position;//tile position
+        Vector3 temp;
+        Pieces[,] piecesArray = boardScript.getChessArray();
+        Debug.Log("checking here, move selected");
+        for (int i = 0; i < boardScript.GetMovesAvailable().Count; i++) 
+        {
+            temp = boardScript.GetMovesAvailable()[i];
+            if (pos.x == temp.x && pos.z == temp.z) 
+            {
+                Debug.Log("valid move");
+                boardScript.setCurrentMoveValid(true);
+            }
+        }
+
+        if (boardScript.getCurrentMoveValid())
+        {
+            Pieces[,] p = boardScript.getChessArray();
+
+            bool pieceHere = boardScript.isPieceOnTile(pos);
+
+            if (pieceHere)
+            {
+                boardScript.removePiece(piecesArray[(int)pos.x, (int)pos.z]);
+            }
+
+                boardScript.getCurrentPiece().transform.position = pos;
+            boardScript.updateChessArray(pos);
+            // boardSript.setCurrentPiece(null);
+
+            //Debug.Log("Before move: " + boardSript.getPlayerTurn());
+
+            //after valid move change player turn
+            if (boardScript.getPlayerTurn())
+            {
+                boardScript.setPlayerTurn(false);
+                //boardSript.unHighlightSinglePiece(boardSript.getCurrentPiece());
+            }
+            else
+            {
+                boardScript.setPlayerTurn(true);
+            }
+            //Debug.Log("After move: " + boardSript.getPlayerTurn());
+            boardScript.unHighlightSinglePiece(boardScript.getCurrentPiece());
+        }
+
+
+        else 
+        {
+            Debug.Log("Not a valid move");
+        }
+
+    }
 }

@@ -16,35 +16,124 @@ public class Knight : Pieces
         
     }
 
-    public void knightRules(Vector3 tilePos, Board boardScript)
+    /* public void knightRules(Vector3 tilePos, Board boardScript)
+     {
+         Debug.Log("Knight Rules");
+
+         Knight knightScipt = boardScript.getCurrentPiece().GetComponent<Knight>();
+
+         int x = (knightScipt.currentXPos);
+         int z = (knightScipt.currentZPos);
+
+
+         //pairs of positions x and z value
+         int[,] positions = { 
+             { (x-1), (z+2)},
+             { (x-2), (z+1)},
+             { (x-2), (z-1)},
+             { (x-1), (z-2)},
+             { (x+1), (z+2)},
+             { (x+2), (z+1)},
+             { (x+2), (z-1)},
+             { (x+1), (z-2)}
+         };
+
+         //check all moves
+         for (int i = 0; i < 8; i++) 
+         {
+             if (tilePos.x == positions[i, 0] && tilePos.z == positions[i, 1]) 
+             {
+                 boardScript.setCurrentMoveValid(true);
+             }
+         }
+     }*/
+
+    public void knightRules(Board boardScript)
     {
-        Debug.Log("Knight Rules");
-
+        List<Vector3> avaiableMoves = new List<Vector3>();
         Knight knightScipt = boardScript.getCurrentPiece().GetComponent<Knight>();
+        Pieces pieceScript = boardScript.getCurrentPiece().GetComponent<Pieces>();
 
-        int x = (knightScipt.currentXPos);
-        int z = (knightScipt.currentZPos);
-        
+        float x = (float)(knightScipt.currentXPos);
+        float z = (float)(knightScipt.currentZPos);
+        Vector3 temp;
 
-        //pairs of positions x and z value
-        int[,] positions = { 
-            { (x-1), (z+2)},
-            { (x-2), (z+1)},
-            { (x-2), (z-1)},
-            { (x-1), (z-2)},
-            { (x+1), (z+2)},
-            { (x+2), (z+1)},
-            { (x+2), (z-1)},
-            { (x+1), (z-2)}
-        };
+        //Pieces[,] chessArray = boardScript.getChessArray();
+        bool check = false;
 
-        //check all moves
-        for (int i = 0; i < 8; i++) 
+
+
+        if (x > 0) 
         {
-            if (tilePos.x == positions[i, 0] && tilePos.z == positions[i, 1]) 
+            if (x > 1) 
             {
-                boardScript.setCurrentMoveValid(true);
+                if (z > 0) 
+                {
+                    temp = new Vector3(x-2, 0f, z - 1);
+                    check = positionsChecks(temp, boardScript, pieceScript);
+                    if (check)
+                        avaiableMoves.Add(temp);
+                }
+                if (z < 7) 
+                {
+                    temp = new Vector3(x - 2, 0f, z + 1);
+                    check = positionsChecks(temp, boardScript, pieceScript);
+                    if (check)
+                        avaiableMoves.Add(temp);
+                }
+            }
+            if (z > 1) 
+            {
+                temp = new Vector3(x - 1, 0f, z - 2);
+                check = positionsChecks(temp, boardScript, pieceScript);
+                if (check)
+                    avaiableMoves.Add(temp);
+            }
+            if (z < 6)
+            {
+                temp = new Vector3(x - 1, 0f, z + 2);
+                check = positionsChecks(temp, boardScript, pieceScript);
+                if (check)
+                    avaiableMoves.Add(temp);
             }
         }
+        if (x < 7) 
+        {
+            if (x < 6)
+            {
+                if (z > 0)
+                {
+                    temp = new Vector3(x + 2, 0f, z - 1);
+                    check = positionsChecks(temp, boardScript, pieceScript);
+                    if (check)
+                        avaiableMoves.Add(temp);
+                }
+                if (z < 7)
+                {
+                    temp = new Vector3(x + 2, 0f, z + 1);
+                    check = positionsChecks(temp, boardScript, pieceScript);
+                    if (check)
+                        avaiableMoves.Add(temp);
+                }
+            }
+            if (z > 1)
+            {
+                temp = new Vector3(x + 1, 0f, z - 2);
+                check = positionsChecks(temp, boardScript, pieceScript);
+                if (check)
+                    avaiableMoves.Add(temp);
+            }
+            if (z < 6)
+            {
+                temp = new Vector3(x + 1, 0f, z + 2);
+                check = positionsChecks(temp, boardScript, pieceScript);
+                if (check)
+                    avaiableMoves.Add(temp);
+            }
+        }
+
+        //boardScript.setCurrentMoveValid(true);
+        Debug.Log("checking here, King adding Moves");
+        boardScript.SetMovesAvailable(avaiableMoves);
     }
 }

@@ -16,9 +16,14 @@ public class Queen : Pieces
         
     }
 
-    public void queenRules(Vector3 tilePos, Board boardScript)
+    /*public void queenRules(Vector3 tilePos, Board boardScript)
     {
         Debug.Log("Queen Rules");
         boardScript.setCurrentMoveValid(true);
+    }*/
+
+    public void queenRules(Board boardScript)
+    {
+
     }
 }

@@ -537,6 +537,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boardTiles: {fileID: 1004212655399775992, guid: e503d883b029cbd40ae449cae9708282, type: 3}
+  tileMaterials:
+  - {fileID: 2100000, guid: 10a34bbc1eae35d49b0d1312ec46448b, type: 2}
+  - {fileID: 2100000, guid: f2de6175ec36a8341aa33c528cd61d7b, type: 2}
   pieceSelectedMaterial: {fileID: 2100000, guid: dc0d66b414b428445be9cdceb60edf15, type: 2}
   prefabs:
   - {fileID: 4783304565382695939, guid: fd6866b85a732b742be88a4f1ed3175e, type: 3}

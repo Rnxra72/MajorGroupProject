@@ -10,120 +10,102 @@ public class Rook : Pieces
         pieceWorth = 5;
     }
 
-    public void rookRules(Vector3 tilePos, Board boardScript)
+
+    public void rookRules(Board boardScript)
     {
-        Debug.Log("Rook Rules");
-
-        //[x, z++] , [x, z--] , [x++, z] , [x--, z]
-
-        //check all tiles from piece to tile location
-        int tileX = (int)tilePos.x; int tileZ = (int)tilePos.z;
         Rook rookScipt = boardScript.getCurrentPiece().GetComponent<Rook>();
-
+        Pieces pieceScript = boardScript.getCurrentPiece().GetComponent<Pieces>();
         int x = (rookScipt.currentXPos);
         int z = (rookScipt.currentZPos);
-        bool forwardOrBack, blocked;
-
-        boardScript.setCurrentMoveValid(true);
-
-        //right
-        if (tileX > x && tileZ == z)
+        Vector3 temp; List<Vector3> avaiableMoves = new List<Vector3>();
+        int counter = 0;
+        int i = x, j=z;
+        bool pieceAtPos = false, sameTeam;
+        while (i <7 && !pieceAtPos) 
         {
-            forwardOrBack = false;
-            for (int i = x; i < tileX; i++)
+            i++;
+            
+            temp = new Vector3((float)i, 0f ,(float)z);
+            pieceAtPos = boardScript.isPieceOnTile(temp);
+
+            if (!pieceAtPos)
+                avaiableMoves.Add(temp);
+
+            if (pieceAtPos && counter > 1)
             {
-                blocked = isMoveBlocked(boardScript, i, x, z, forwardOrBack);
-                if (blocked)
-                {
-                    boardScript.setCurrentMoveValid(false);
-                }
+                sameTeam = pieceScript.positionsChecks(temp, boardScript, pieceScript);
+                if (sameTeam)
+                    avaiableMoves.Add(temp);
+                counter++;
+            }
+
+        }
+        pieceAtPos = false; counter = 0;
+        while (j <7 && !pieceAtPos)
+        {
+            j++;
+            temp = new Vector3((float)x, 0f, (float)j);
+            pieceAtPos = boardScript.isPieceOnTile(temp);
+
+            if (!pieceAtPos)
+                avaiableMoves.Add(temp);
+
+            if (pieceAtPos && counter > 1) 
+            {
+                sameTeam = pieceScript.positionsChecks(temp, boardScript, pieceScript);
+                if (sameTeam)
+                    avaiableMoves.Add(temp);
+                counter++;
             }
         }
 
-        //forward
-        else if (tileZ > z && tileX == x)
+        i = x; j = z;
+        pieceAtPos = false; counter = 0;
+        while (i > 0 && !pieceAtPos)
         {
-            forwardOrBack = true;
-            for (int i = z; i < tileZ; i++)
-            {
-                blocked = isMoveBlocked(boardScript, i, x, z, forwardOrBack);
-                if (blocked)
-                {
-                    boardScript.setCurrentMoveValid(false);
-                }
-            }
-        }
+            i--;
+            temp = new Vector3((float)i, 0f, (float)z);
+            pieceAtPos = boardScript.isPieceOnTile(temp);
+             
+            if(!pieceAtPos)
+                avaiableMoves.Add(temp);
 
-        //backwards
-        else if (tileZ < z && tileX == x)
-        {
-            forwardOrBack = true;
-            for (int i = z; i < tileZ; i--)
+            if (pieceAtPos && counter > 1)
             {
-                blocked = isMoveBlocked(boardScript, i, x, z, forwardOrBack);
-                if (blocked)
-                {
-                    boardScript.setCurrentMoveValid(false);
-                }
-            }
-        }
+                sameTeam = pieceScript.positionsChecks(temp, boardScript, pieceScript);
 
-        //left
-        else if (tileX < x && tileZ == z)
+                if (sameTeam)
+                    avaiableMoves.Add(temp);
+
+                counter++;
+            }
+
+        }
+        pieceAtPos = false; counter = 0;
+        while (j > 0 && !pieceAtPos)
         {
-            forwardOrBack = false;
-            for (int i = x; i < tileX; i--)
+            j--;
+            temp = new Vector3((float)x, 0f, (float)j);
+            pieceAtPos = boardScript.isPieceOnTile(temp);
+
+
+            if (!pieceAtPos)
+                avaiableMoves.Add(temp);
+
+            if (pieceAtPos && counter > 1)
             {
-                blocked = isMoveBlocked(boardScript, i, x, z, forwardOrBack);
-                if (blocked) 
-                {
-                    boardScript.setCurrentMoveValid(false);
-                }
+                sameTeam = pieceScript.positionsChecks(temp, boardScript, pieceScript);
+                if (sameTeam)
+                    avaiableMoves.Add(temp);
+                counter++;
             }
-        }
 
-        else 
-        {
-            boardScript.setCurrentMoveValid(false);
         }
+        boardScript.SetMovesAvailable(avaiableMoves);
     }
 
-    public bool isMoveBlocked(Board boardScript, int i, int x, int z, bool forwardOrBack) 
+    public bool checkTeamOfPiece() 
     {
-        int tempX =0, tempZ=0;
-
-        if (!forwardOrBack)
-        {
-            tempX = i;
-            tempZ = z;
-        }
-        else if (forwardOrBack) 
-        {
-            tempZ = i;
-            tempX = x;
-        }
-
-        //check if piece in the way
-        Vector3 temp = new Vector3((float)tempX, 0.0f, (float)tempZ);
-        Debug.Log(temp); bool pieceAtPos = false;
-
-        pieceAtPos = boardScript.isPieceOnTile(temp);
-        Debug.Log(pieceAtPos);
-
-        if (!pieceAtPos)
-        {
-            boardScript.setCurrentMoveValid(true);
-            /*//check colour
-            Pieces[,] chessArray = boardScript.getChessArray();
-            Pieces p = chessArray[x, i];
-            if (p.team == rookScipt.team) 
-            {
-                boardScript.setCurrentMoveValid(false);
-                //Debug.Log("this here");
-            }*/
-        }
-
-        return false;
+        return true;
     }
-
 }
