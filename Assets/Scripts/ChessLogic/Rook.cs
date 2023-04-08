@@ -34,8 +34,9 @@ public class Rook : Pieces
             if (pieceAtPos && counter > 1)
             {
                 sameTeam = pieceScript.positionsChecks(temp, boardScript, pieceScript);
-                if (sameTeam)
+                if (!sameTeam)
                     avaiableMoves.Add(temp);
+
                 counter++;
             }
 
@@ -53,8 +54,9 @@ public class Rook : Pieces
             if (pieceAtPos && counter > 1) 
             {
                 sameTeam = pieceScript.positionsChecks(temp, boardScript, pieceScript);
-                if (sameTeam)
+                if (!sameTeam)
                     avaiableMoves.Add(temp);
+
                 counter++;
             }
         }
@@ -74,7 +76,7 @@ public class Rook : Pieces
             {
                 sameTeam = pieceScript.positionsChecks(temp, boardScript, pieceScript);
 
-                if (sameTeam)
+                if (!sameTeam)
                     avaiableMoves.Add(temp);
 
                 counter++;
@@ -95,8 +97,9 @@ public class Rook : Pieces
             if (pieceAtPos && counter > 1)
             {
                 sameTeam = pieceScript.positionsChecks(temp, boardScript, pieceScript);
-                if (sameTeam)
+                if (!sameTeam)
                     avaiableMoves.Add(temp);
+
                 counter++;
             }
 

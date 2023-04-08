@@ -24,6 +24,15 @@ public class Queen : Pieces
 
     public void queenRules(Board boardScript)
     {
+       /* Queen queenScript = boardScript.getCurrentPiece().GetComponent<Queen>();
+        Pieces pieceScript = boardScript.getCurrentPiece().GetComponent<Pieces>();
+        int x = (queenScript.currentXPos);
+        int z = (queenScript.currentZPos);
+        Vector3 temp; List<Vector3> avaiableMoves = new List<Vector3>();
+        int counter = 0;
+        int i = x, j = z;
+        bool pieceAtPos = false, sameTeam;
+       */
 
     }
 }
