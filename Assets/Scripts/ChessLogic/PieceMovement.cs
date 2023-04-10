@@ -11,6 +11,8 @@ public class PieceMovement : MonoBehaviour
         interactableObject.activated.AddListener(interactableActivated);
     }
 
+    GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
+
     public void interactableActivated(ActivateEventArgs args)
     {
         XRSimpleInteractable interactable = GetComponent<XRSimpleInteractable>();
@@ -50,7 +52,10 @@ public class PieceMovement : MonoBehaviour
             }
             else
             {
-                Debug.Log("Other Players turn");
+                //Debug.Log("Other Players turn");
+                string message = "Other Players turn";
+                TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
+                scriptToUser.ShowTextMessageToUser(message);
             }
         }
         else if (gameObject.tag == "Tile")
@@ -66,52 +71,14 @@ public class PieceMovement : MonoBehaviour
             }
             else
             {
-                Debug.Log("error, No piece selected");
+                //Debug.Log("error, No piece selected");
+                string message = "error, No piece selected";
+                TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
+                scriptToUser.ShowTextMessageToUser(message);
+                //Debug.Log("Not a valid move");
             }
         }
     }
-
-   /*
-    * public void movePieceToTile(GameObject gameObject, Board boardSript)
-    {
-        boardSript.setCurrentMoveValid(false);
-        Vector3 xPos = gameObject.GetComponent<Transform>().position;
-
-        //bool validMove = boardSript.TileIsValid(xPos);   /////////////////////////////////////////////////////
-       // Debug.Log("Is tile valid: " + validMove);
-
-       //if (validMove)
-        if (true)
-        {
-            //Debug.Log("valid move...if");
-            Pieces[,] p = boardSript.getChessArray();
-
-            boardSript.getCurrentPiece().transform.position = xPos;
-            boardSript.updateChessArray(xPos);
-            // boardSript.setCurrentPiece(null);
-
-            //Debug.Log("Before move: " + boardSript.getPlayerTurn());
-
-            //after valid move change player turn
-            if (boardSript.getPlayerTurn())
-            {
-                boardSript.setPlayerTurn(false);
-                //boardSript.unHighlightSinglePiece(boardSript.getCurrentPiece());
-            }
-            else
-            {
-                boardSript.setPlayerTurn(true);
-            }
-            //Debug.Log("After move: " + boardSript.getPlayerTurn());
-            boardSript.unHighlightSinglePiece(boardSript.getCurrentPiece());
-        }
-        else
-        {
-            Debug.Log("Not valid move");
-            boardSript.setCurrentPiece(null);
-        }
-    }
-   */
 
     public void MoveToTileSelected(GameObject gameObject, Board boardScript) 
     {
@@ -133,16 +100,30 @@ public class PieceMovement : MonoBehaviour
         {
             Pieces[,] p = boardScript.getChessArray();
 
+
+
             bool pieceHere = boardScript.isPieceOnTile(pos);
 
             if (pieceHere)
             {
                 boardScript.removePiece(piecesArray[(int)pos.x, (int)pos.z]);
+                //AudioSource.PlayClipAtPoint();
             }
 
-                boardScript.getCurrentPiece().transform.position = pos;
+            //audioSource.PlayOneShot(AudioClip audioClip, Float volumeScale);
+
+            boardScript.getCurrentPiece().transform.position = pos;
             boardScript.updateChessArray(pos);
             // boardSript.setCurrentPiece(null);
+
+
+            //if it was a pawn need to say it has moved before
+            PieceType pty = boardScript.getCurrentPiece().GetComponent<Pieces>().ptype;
+            if (pty == PieceType.Pawn)
+            {
+                Pawn currentPiece = boardScript.getCurrentPiece().GetComponent<Pawn>();
+                currentPiece.SetMovedFromStartPos(true);
+            }
 
             //Debug.Log("Before move: " + boardSript.getPlayerTurn());
 
@@ -158,12 +139,16 @@ public class PieceMovement : MonoBehaviour
             }
             //Debug.Log("After move: " + boardSript.getPlayerTurn());
             boardScript.unHighlightSinglePiece(boardScript.getCurrentPiece());
+            boardScript.setCurrentPiece(null); //lose ref to currently selected piece
         }
 
 
         else 
         {
-            Debug.Log("Not a valid move");
+            string invalid = "Not a valid move";
+            TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
+            scriptToUser.ShowTextMessageToUser(invalid);
+            //Debug.Log("Not a valid move");
         }
 
     }

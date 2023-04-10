@@ -8,6 +8,8 @@ TagManager:
   - Piece
   - BoardLayout
   - pawnPromotion
+  - PawnPro
+  - messageToUser
   layers:
   - Default
   - TransparentFX

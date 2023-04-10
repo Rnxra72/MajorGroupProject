@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Pawn : Pieces
 {
-    bool movedFromStartPos;
+    private bool movedFromStartPos;
     [SerializeField] private GameObject[] pawnProOptions;
 
     // Start is called before the first frame update
@@ -103,6 +103,15 @@ public class Pawn : Pieces
         }
     }*/
 
+    public void SetMovedFromStartPos(bool movedFromStartPos) 
+    {
+        this.movedFromStartPos = movedFromStartPos;
+    }
+    public bool GetMovedFromStartPos()
+    {
+        return this.movedFromStartPos;
+    }
+
     public void pawnMoveRules(Board boardScript)
     {
         Pieces pieceScript = boardScript.getCurrentPiece().GetComponent<Pieces>();
@@ -117,7 +126,6 @@ public class Pawn : Pieces
 
         if (pieceScript.team == 1 && pieceScript.currentZPos < 7 || pieceScript.team == 0 && pieceScript.currentZPos > 0)
         {
-            Debug.Log("this piece here");
             //white piece team
             if (pieceScript.team == 1)
             {
@@ -159,7 +167,7 @@ public class Pawn : Pieces
                 }
             }
 
-            if (!movedFromStartPos)
+            if (!GetMovedFromStartPos())
             {
                 if (pieceScript.team == 0 && pieceScript.currentZPos > 1 || pieceScript.team == 1 && pieceScript.currentZPos < 6)
                 {

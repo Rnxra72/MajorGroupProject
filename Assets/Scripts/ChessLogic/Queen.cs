@@ -13,7 +13,7 @@ public class Queen : Pieces
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     /*public void queenRules(Vector3 tilePos, Board boardScript)
@@ -23,16 +23,11 @@ public class Queen : Pieces
     }*/
 
     public void queenRules(Board boardScript)
-    {
-       /* Queen queenScript = boardScript.getCurrentPiece().GetComponent<Queen>();
-        Pieces pieceScript = boardScript.getCurrentPiece().GetComponent<Pieces>();
-        int x = (queenScript.currentXPos);
-        int z = (queenScript.currentZPos);
-        Vector3 temp; List<Vector3> avaiableMoves = new List<Vector3>();
-        int counter = 0;
-        int i = x, j = z;
-        bool pieceAtPos = false, sameTeam;
-       */
+    { 
+        List<Vector3> avaiableMoves = new List<Vector3>();
+        avaiableMoves = RookMoves(boardScript);
+        avaiableMoves.AddRange(BishopMoves(boardScript));
 
+        boardScript.SetMovesAvailable(avaiableMoves);
     }
 }
