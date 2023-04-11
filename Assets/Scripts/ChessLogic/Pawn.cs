@@ -14,95 +14,6 @@ public class Pawn : Pieces
         pieceWorth = 1;
     }
 
-    /* public void pawnMoveRules(Vector3 tilePos, Board boardScript)
-     {
-         Pieces pieceScript = boardScript.getCurrentPiece().GetComponent<Pieces>();
-         //int forward = (pieceScript.currentZPos + 1), forward2 = (pieceScript.currentZPos + 2);
-
-         //pawn promotion check
-         if (pieceScript.team == 1 && tilePos.z == 7 || pieceScript.team == 0 && tilePos.z == 0)
-         {
-             pawnPromotion(boardScript);
-         }
-
-         //white pieces moves are 1, black pieces moves are 0. [1, 0] single move forward white..
-         int[,] positions ={ { (pieceScript.currentZPos - 1), (pieceScript.currentZPos - 2) }, { (pieceScript.currentZPos + 1), (pieceScript.currentZPos + 2) } };
-
-         //Debug.Log("this here" + positions[pieceScript.team, 0]);
-         if (!movedFromStartPos)
-         {
-             for (int i=0; i<2; i++) 
-             {
-                 if (tilePos.z == positions[pieceScript.team, i] && tilePos.x == pieceScript.currentXPos) 
-                 {
-                     boardScript.setCurrentMoveValid(true);
-                     movedFromStartPos = true;
-                 }
-             }
-         }
-         else if (tilePos.z == positions[pieceScript.team, 0] && tilePos.x == pieceScript.currentXPos)
-         {
-             boardScript.setCurrentMoveValid(true);
-             movedFromStartPos = true;
-         }
-         else {
-             boardScript.setCurrentMoveValid(false);
-         }
-     }*/
-
-    /*public void pawnTakeRules(Vector3 tilePos) 
-    {
-        GameObject board = GameObject.FindWithTag("BoardLayout");
-        Board boardScript = board.GetComponent<Board>();
-
-        Pieces pieceScript = boardScript.getCurrentPiece().GetComponent<Pieces>();
-        //pawn promotion check
-        if (pieceScript.team == 1 && tilePos.z == 7 || pieceScript.team == 0 && tilePos.z == 0)
-        {
-            pawnPromotion(boardScript);
-        }
-        int right = (pieceScript.currentXPos + 1), left = (pieceScript.currentXPos - 1);
-        
-        int[] offset = { (pieceScript.currentZPos -1), (pieceScript.currentZPos + 1) };//black0, white1
-
-        if (tilePos.x == right && tilePos.z == offset[pieceScript.team])
-        {
-            boardScript.setCurrentMoveValid(true);
-            movedFromStartPos = true;
-        }
-        else if (tilePos.x == left && tilePos.z == offset[pieceScript.team])
-        {
-            boardScript.setCurrentMoveValid(true);
-            movedFromStartPos = true;
-        }
-        else 
-        {
-            boardScript.setCurrentMoveValid(false);
-        }
-    }
-
-    //handles pawn promotion
-    public void pawnPromotion(Board boardScript)
-    {
-
-        for (int i = 0; i < 4; i++)
-        {
-            //instantiate all pieces in array at array positions
-            //pawnProOptions[i] = Instantiate(pawnProOptions[i], new Vector3(8, 0 , i+3));
-            Instantiate(pawnProOptions[i], new Vector3(-1, 0, i + 3), Quaternion.identity);
-
-        }
-    }
-    public void removePawnPromotionPieces()
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            //instantiate all pieces in array at array positions
-            //pawnProOptions[i] = Instantiate(pawnProOptions[i], new Vector3(8, 0 , i+3));
-            Destroy(pawnProOptions[i]);
-        }
-    }*/
-
     public void SetMovedFromStartPos(bool movedFromStartPos) 
     {
         this.movedFromStartPos = movedFromStartPos;
@@ -129,41 +40,64 @@ public class Pawn : Pieces
             //white piece team
             if (pieceScript.team == 1)
             {
+                Debug.Log(pieceScript.currentZPos + 1);
                 temp = new Vector3((float)pieceScript.currentXPos, 0f, (float)pieceScript.currentZPos + 1);
-                check = positionsChecks(temp, boardScript, pieceScript);
-                if (check)
+                bool isPieceOnPos = boardScript.isPieceOnTile(temp);
+
+                if (!isPieceOnPos)
                     avaiableMoves.Add(temp);
 
-                if (pieceScript.currentXPos > 7)
+                int zPos = pieceScript.currentZPos + 1;
+                
+                if (pieceScript.currentXPos < 7) 
                 {
-                    int zPos = pieceScript.currentZPos + 1;
-                    avaiableMoves =  TakeChecksMinus(avaiableMoves, pieceScript, zPos, boardScript);
+                    isPieceOnPos = TakeChecksAdding(avaiableMoves, pieceScript, zPos, boardScript);
+                    if (isPieceOnPos) 
+                    {
+                        temp = new Vector3((float)pieceScript.currentXPos + 1, 0f, (float)zPos);
+                        avaiableMoves.Add(temp);
+                    }
+                    
                 }
-                if (pieceScript.currentXPos < 0)
+                if (pieceScript.currentXPos > 0)
                 {
-                    int zPos = pieceScript.currentZPos + 1;
-                    avaiableMoves = TakeChecksAdding(avaiableMoves, pieceScript, zPos, boardScript);
+                    isPieceOnPos = TakeChecksMinus(avaiableMoves, pieceScript, zPos, boardScript);
+                    if (isPieceOnPos)
+                    {
+                        temp = new Vector3((float)pieceScript.currentXPos - 1, 0f, (float)zPos);
+                        avaiableMoves.Add(temp);
+                    }
                 }
             }
 
             //black piece team
-            else
+            else if(pieceScript.team == 0)
             {
                 temp = new Vector3((float)pieceScript.currentXPos, 0f, (float)pieceScript.currentZPos - 1);
-                check = positionsChecks(temp, boardScript, pieceScript);
-                if (check)
+                bool isPieceOnPos = boardScript.isPieceOnTile(temp);
+                if (!isPieceOnPos)
                     avaiableMoves.Add(temp);
 
-                if (pieceScript.currentXPos > 7)
+                int zPos = pieceScript.currentZPos - 1;
+
+                if (pieceScript.currentXPos < 7)
                 {
-                    int zPos = pieceScript.currentZPos - 1;
-                    avaiableMoves = TakeChecksMinus(avaiableMoves, pieceScript, zPos, boardScript);
-                    Debug.Log("idk here");
+                    isPieceOnPos = TakeChecksAdding(avaiableMoves, pieceScript, zPos, boardScript);
+                    if (isPieceOnPos)
+                    {
+                        temp = new Vector3((float)pieceScript.currentXPos + 1, 0f, (float)zPos);
+                        avaiableMoves.Add(temp);
+                    }
+
                 }
-                if (pieceScript.currentXPos < 0)
+                if (pieceScript.currentXPos > 0)
                 {
-                    int zPos = pieceScript.currentZPos - 1;
-                    avaiableMoves = TakeChecksAdding(avaiableMoves, pieceScript, zPos, boardScript);
+                    isPieceOnPos = TakeChecksMinus(avaiableMoves, pieceScript, zPos, boardScript);
+                    if (isPieceOnPos)
+                    {
+                        temp = new Vector3((float)pieceScript.currentXPos - 1, 0f, (float)zPos);
+                        avaiableMoves.Add(temp);
+                    }
                 }
             }
 
@@ -190,29 +124,36 @@ public class Pawn : Pieces
                 }
             }
         }
-        Debug.Log("checking here, Pawn adding Moves");
         boardScript.SetMovesAvailable(avaiableMoves);
     }
-    public List<Vector3> TakeChecksMinus(List<Vector3> movesList, Pieces pieceScript, int zPos, Board boardScript) 
+    public bool TakeChecksMinus(List<Vector3> movesList, Pieces pieceScript, int zPos, Board boardScript) 
     {
         Vector3 temp;
         temp = new Vector3((float)pieceScript.currentXPos - 1, 0f, (float)zPos);
         bool tileAtPos = boardScript.isPieceOnTile(temp);
-        if (tileAtPos)
+        Pieces pieceOnTile =boardScript.getChessArray()[(int)currentXPos - 1, zPos];
+
+        if (tileAtPos && pieceScript.team != pieceOnTile.team)
         {
-            movesList.Add(temp);
+            //movesList.Add(temp);
+            return true;
         }
-        return movesList;
+        //return movesList;
+        return false;
     }
-    public List<Vector3> TakeChecksAdding(List<Vector3> movesList, Pieces pieceScript, int zPos, Board boardScript)
+    public bool TakeChecksAdding(List<Vector3> movesList, Pieces pieceScript, int zPos, Board boardScript)
     {
         Vector3 temp;
         temp = new Vector3((float)pieceScript.currentXPos+1, 0f, (float)zPos);
         bool tileAtPos = boardScript.isPieceOnTile(temp);
-        if (tileAtPos) 
+        Pieces pieceOnTile = boardScript.getChessArray()[(int)currentXPos + 1, zPos];
+
+        if (tileAtPos && pieceScript.team != pieceOnTile.team)
         {
-            movesList.Add(temp);
+            //movesList.Add(temp);
+            return true;
         }
-        return movesList;
+        //return movesList;
+        return false;
     }
 }

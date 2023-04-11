@@ -11,7 +11,7 @@ public class PieceMovement : MonoBehaviour
         interactableObject.activated.AddListener(interactableActivated);
     }
 
-    GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
+    
 
     public void interactableActivated(ActivateEventArgs args)
     {
@@ -54,6 +54,7 @@ public class PieceMovement : MonoBehaviour
             {
                 //Debug.Log("Other Players turn");
                 string message = "Other Players turn";
+                GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
                 TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
                 scriptToUser.ShowTextMessageToUser(message);
             }
@@ -73,6 +74,7 @@ public class PieceMovement : MonoBehaviour
             {
                 //Debug.Log("error, No piece selected");
                 string message = "error, No piece selected";
+                GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
                 TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
                 scriptToUser.ShowTextMessageToUser(message);
                 //Debug.Log("Not a valid move");
@@ -146,6 +148,7 @@ public class PieceMovement : MonoBehaviour
         else 
         {
             string invalid = "Not a valid move";
+            GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
             TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
             scriptToUser.ShowTextMessageToUser(invalid);
             //Debug.Log("Not a valid move");

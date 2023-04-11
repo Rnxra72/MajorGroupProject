@@ -93,8 +93,6 @@ public class King : Pieces
             if (check)
                 avaiableMoves.Add(temp);
         }
-        //boardScript.setCurrentMoveValid(true);
-        Debug.Log("checking here, King adding Moves");
         boardScript.SetMovesAvailable(avaiableMoves);
     }
 

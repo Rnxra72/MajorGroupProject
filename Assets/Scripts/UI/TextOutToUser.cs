@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+//class and function to display message out to user
 
 public class TextOutToUser : MonoBehaviour
 {
