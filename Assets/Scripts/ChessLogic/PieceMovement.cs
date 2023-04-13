@@ -11,7 +11,7 @@ public class PieceMovement : MonoBehaviour
         interactableObject.activated.AddListener(interactableActivated);
     }
 
-    
+
 
     public void interactableActivated(ActivateEventArgs args)
     {
@@ -26,6 +26,8 @@ public class PieceMovement : MonoBehaviour
         Pieces p = gameObject.GetComponent<Pieces>();
         boardScript.unHighlightAllTiles();
         boardScript.setCurrentMoveValid(false);
+        //boardScript.SetMovesAvailable(null);
+
         if (gameObject.tag == "Piece")
         {
 
@@ -88,12 +90,26 @@ public class PieceMovement : MonoBehaviour
         Vector3 temp;
         Pieces[,] piecesArray = boardScript.getChessArray();
         Debug.Log("checking here, move selected");
+        PieceType pty = boardScript.getCurrentPiece().GetComponent<Pieces>().ptype;
+
+        //for checkmate
+        if (pty == PieceType.King)
+        {
+            King currentPiece = boardScript.getCurrentPiece().GetComponent<King>();
+
+            if (currentPiece.GetInCheck() && boardScript.GetMovesAvailable() == null) 
+            {
+                //reroute to checkmate screen
+                boardScript.winSceneRedirect();
+            }
+        }
+
         for (int i = 0; i < boardScript.GetMovesAvailable().Count; i++) 
         {
             temp = boardScript.GetMovesAvailable()[i];
             if (pos.x == temp.x && pos.z == temp.z) 
             {
-                Debug.Log("valid move");
+                //Debug.Log("valid move");
                 boardScript.setCurrentMoveValid(true);
             }
         }
@@ -101,8 +117,6 @@ public class PieceMovement : MonoBehaviour
         if (boardScript.getCurrentMoveValid())
         {
             Pieces[,] p = boardScript.getChessArray();
-
-
 
             bool pieceHere = boardScript.isPieceOnTile(pos);
 
@@ -120,7 +134,6 @@ public class PieceMovement : MonoBehaviour
 
 
             //if it was a pawn need to say it has moved before
-            PieceType pty = boardScript.getCurrentPiece().GetComponent<Pieces>().ptype;
             if (pty == PieceType.Pawn)
             {
                 Pawn currentPiece = boardScript.getCurrentPiece().GetComponent<Pawn>();
@@ -141,7 +154,10 @@ public class PieceMovement : MonoBehaviour
             }
             //Debug.Log("After move: " + boardSript.getPlayerTurn());
             boardScript.unHighlightSinglePiece(boardScript.getCurrentPiece());
+
+            boardScript.HasCheckOcurred();
             boardScript.setCurrentPiece(null); //lose ref to currently selected piece
+            boardScript.SetMovesAvailable(null);
         }
 
 
@@ -155,4 +171,5 @@ public class PieceMovement : MonoBehaviour
         }
 
     }
+
 }

@@ -5,33 +5,54 @@ using UnityEngine;
 public class King : Pieces
 {
 
+    private bool inCheck;
+    private bool movedFromStartPos;
+
     // Start is called before the first frame update
     void Start()
     {
         pieceWorth = 0;
+        inCheck = false;
+        movedFromStartPos = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetInCheck(bool inCheck)
     {
-        
+        this.inCheck = inCheck;
+    }
+    public bool GetInCheck() 
+    {
+        return this.inCheck;
     }
 
     public void kingRules( Board boardScript)
     {
         List<Vector3> avaiableMoves = new List<Vector3>();
-        King kingScipt = boardScript.getCurrentPiece().GetComponent<King>();
+       // King kingScipt = boardScript.getCurrentPiece().GetComponent<King>();
         Pieces pieceScript= boardScript.getCurrentPiece().GetComponent<Pieces>();
 
-        float x = (float)(kingScipt.currentXPos);
-        float z = (float)(kingScipt.currentZPos);
+
+
+        /* if (inCheck)
+         {
+             KingInCheck(pieceScript, boardScript, avaiableMoves);
+         }
+         else 
+         {
+             KingNotInCheck(pieceScript, boardScript, avaiableMoves);
+         }*/
+
+        KingNotInCheck(pieceScript, boardScript, avaiableMoves);
+    }
+
+    public void KingNotInCheck(Pieces pieceScript, Board boardScript, List<Vector3> avaiableMoves) 
+    {
+        float x = (float)(pieceScript.currentXPos);
+        float z = (float)(pieceScript.currentZPos);
         Vector3 temp;
 
         //Pieces[,] chessArray = boardScript.getChessArray();
         bool check = false;
-
-
-
 
         if (z != 7)
         {
@@ -96,5 +117,10 @@ public class King : Pieces
         boardScript.SetMovesAvailable(avaiableMoves);
     }
 
-    
+
+    public void KingInCheck(Pieces pieceScript, Board boardScript, List<Vector3> avaiableMoves)
+    {
+        boardScript.SetMovesAvailable(avaiableMoves);
+    }
+
 }

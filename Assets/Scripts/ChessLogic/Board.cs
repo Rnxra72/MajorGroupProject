@@ -193,54 +193,6 @@ public class Board : MonoBehaviour
         return this.avaiableMoves;
     }
 
-    /*public bool TileIsValid(Vector3 tilePos)
-    {
-        bool pieceAtPos = isPieceOnTile(tilePos);
-        if (pieceAtPos)
-        {
-            //piece at position and oposite team
-            //TakePieceRules();
-            int teamPieceOnTile = chessPieces[(int)tilePos.x, (int)tilePos.z].team; //[this checks the team of the piece on the tile selected]
-            Debug.Log(teamPieceOnTile + " compared to " + getCurrentPiece().GetComponent<Pieces>().team);
-            if (teamPieceOnTile == getCurrentPiece().GetComponent<Pieces>().team)
-            {
-                Debug.Log("invalid move");
-                return false;
-            }
-
-            //check for pawn due to taking differently than moving
-            if (getCurrentPiece().GetComponent<Pieces>().ptype == PieceType.Pawn)
-            {
-                Pawn pawn = getCurrentPiece().GetComponent<Pawn>();
-                pawn.pawnTakeRules(tilePos);
-            }
-            else 
-            {
-                getCurrentPiece().GetComponent<Pieces>().Rules(tilePos);
-            }
-
-            //remove piece if move is valid
-            if (getCurrentMoveValid())
-            {
-                removePiece(chessPieces[(int)tilePos.x, (int)tilePos.z]);
-            }
-
-            //removePiece(tempPiece);
-            return getCurrentMoveValid();
-
-        }
-        else
-        {
-            //piece not at position
-            getCurrentPiece().GetComponent<Pieces>().Rules(tilePos);
-            if (!getCurrentMoveValid())
-            {
-                return false;
-            }
-        }
-        return true;
-    }*/
-
     public void removePiece(Pieces tempPiece)
     {
        GameObject gO = tempPiece.gameObject;
@@ -358,12 +310,27 @@ public class Board : MonoBehaviour
 
 
 
-    public bool HasCheckOcurred() 
+    //when a piece moves will their next move be able to take king(king cant actually be taken by any piece), IE is king in check currently
+    public void HasCheckOcurred() 
     {
-        return false;
+        Pieces p = getCurrentPiece().GetComponent<Pieces>();
+        p.Rules();
+
+        //loop here arrays, if king at pos
+        for (int i = 0; i < GetMovesAvailable().Count; i++) 
+        {
+            Vector3 temp = GetMovesAvailable()[i];
+            Pieces pieceScript = getChessArray()[(int)temp.x, (int)temp.z];
+            if (pieceScript.ptype == PieceType.King)
+            {
+                King k = getCurrentPiece().GetComponent<King>();
+                k.SetInCheck(true);
+
+            }
+        }
     }
-    public bool HasCheckMateOcurred()
+    public void Stalemate() 
     {
-        return false;
+        
     }
 }
