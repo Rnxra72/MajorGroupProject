@@ -155,7 +155,7 @@ public class PieceMovement : MonoBehaviour
             //Debug.Log("After move: " + boardSript.getPlayerTurn());
             boardScript.unHighlightSinglePiece(boardScript.getCurrentPiece());
 
-            boardScript.HasCheckOcurred();
+            //boardScript.HasCheckOcurred();
             boardScript.setCurrentPiece(null); //lose ref to currently selected piece
             boardScript.SetMovesAvailable(null);
         }

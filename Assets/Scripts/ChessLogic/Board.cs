@@ -311,7 +311,7 @@ public class Board : MonoBehaviour
 
 
     //when a piece moves will their next move be able to take king(king cant actually be taken by any piece), IE is king in check currently
-    public void HasCheckOcurred() 
+    /*public void HasCheckOcurred() 
     {
         Pieces p = getCurrentPiece().GetComponent<Pieces>();
         p.Rules();
@@ -328,7 +328,7 @@ public class Board : MonoBehaviour
 
             }
         }
-    }
+    }*/
     public void Stalemate() 
     {
         
