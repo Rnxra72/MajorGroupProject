@@ -178,9 +178,12 @@ public class Board : MonoBehaviour
     public void CreateMovesList() 
     {
         Pieces pieceScript = getCurrentPiece().GetComponent<Pieces>();
-        pieceScript.Rules();
+        //List<Vector3> movesToBeChecked = new List<Vector3>();
+        //movesToBeChecked = pieceScript.Rules(getCurrentPiece());
+        SetMovesAvailable(pieceScript.Rules(getCurrentPiece())); 
+        //SetMovesAvailable(movesToBeChecked);
         HighlightAllTiles();
-        Debug.Log("checking here, CreateMoveList");
+        //Debug.Log("checking here, CreateMoveList");
     }
 
     public void SetMovesAvailable(List<Vector3> avaiableMoves) 

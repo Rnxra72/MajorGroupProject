@@ -16,46 +16,13 @@ public class Knight : Pieces
         
     }
 
-    /* public void knightRules(Vector3 tilePos, Board boardScript)
-     {
-         Debug.Log("Knight Rules");
-
-         Knight knightScipt = boardScript.getCurrentPiece().GetComponent<Knight>();
-
-         int x = (knightScipt.currentXPos);
-         int z = (knightScipt.currentZPos);
-
-
-         //pairs of positions x and z value
-         int[,] positions = { 
-             { (x-1), (z+2)},
-             { (x-2), (z+1)},
-             { (x-2), (z-1)},
-             { (x-1), (z-2)},
-             { (x+1), (z+2)},
-             { (x+2), (z+1)},
-             { (x+2), (z-1)},
-             { (x+1), (z-2)}
-         };
-
-         //check all moves
-         for (int i = 0; i < 8; i++) 
-         {
-             if (tilePos.x == positions[i, 0] && tilePos.z == positions[i, 1]) 
-             {
-                 boardScript.setCurrentMoveValid(true);
-             }
-         }
-     }*/
-
-    public void knightRules(Board boardScript)
+    public List<Vector3> knightRules(Board boardScript, GameObject gO)
     {
         List<Vector3> avaiableMoves = new List<Vector3>();
-        Knight knightScipt = boardScript.getCurrentPiece().GetComponent<Knight>();
-        Pieces pieceScript = boardScript.getCurrentPiece().GetComponent<Pieces>();
+        Pieces pieceScript = gO.GetComponent<Pieces>();
 
-        float x = (float)(knightScipt.currentXPos);
-        float z = (float)(knightScipt.currentZPos);
+        float x = (float)(pieceScript.currentXPos);
+        float z = (float)(pieceScript.currentZPos);
         Vector3 temp;
 
         //Pieces[,] chessArray = boardScript.getChessArray();
@@ -131,6 +98,7 @@ public class Knight : Pieces
                     avaiableMoves.Add(temp);
             }
         }
-        boardScript.SetMovesAvailable(avaiableMoves);
+        //boardScript.SetMovesAvailable(avaiableMoves);
+        return avaiableMoves;
     }
 }

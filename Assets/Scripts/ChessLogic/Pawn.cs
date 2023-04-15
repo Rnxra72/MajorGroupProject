@@ -6,12 +6,14 @@ public class Pawn : Pieces
 {
     private bool movedFromStartPos;
     [SerializeField] private GameObject[] pawnProOptions;
+    public bool currentlyBlocking;
 
     // Start is called before the first frame update
     void Start()
     {
         movedFromStartPos = false;
         pieceWorth = 1;
+        currentlyBlocking = true;
     }
 
     public void SetMovedFromStartPos(bool movedFromStartPos) 
@@ -23,9 +25,9 @@ public class Pawn : Pieces
         return this.movedFromStartPos;
     }
 
-    public void pawnMoveRules(Board boardScript)
+    public List<Vector3> pawnMoveRules(Board boardScript, GameObject gO, int counter)
     {
-        Pieces pieceScript = boardScript.getCurrentPiece().GetComponent<Pieces>();
+        Pieces pieceScript = gO.GetComponent<Pieces>();
         //int forward = (pieceScript.currentZPos + 1), forward2 = (pieceScript.currentZPos + 2);
 
         //white pieces moves are 1, black pieces moves are 0. [1, 0] single move forward white..
@@ -44,8 +46,12 @@ public class Pawn : Pieces
                 temp = new Vector3((float)pieceScript.currentXPos, 0f, (float)pieceScript.currentZPos + 1);
                 bool isPieceOnPos = boardScript.isPieceOnTile(temp);
 
-                if (!isPieceOnPos)
+                if (!isPieceOnPos && counter < 1) 
+                {
                     avaiableMoves.Add(temp);
+                    currentlyBlocking = false;
+                }
+                    
 
                 int zPos = pieceScript.currentZPos + 1;
                 
@@ -76,14 +82,17 @@ public class Pawn : Pieces
                 temp = new Vector3((float)pieceScript.currentXPos, 0f, (float)pieceScript.currentZPos - 1);
                 bool isPieceOnPos = boardScript.isPieceOnTile(temp);
                 if (!isPieceOnPos)
+                {
                     avaiableMoves.Add(temp);
+                    currentlyBlocking = false;
+                }
 
                 int zPos = pieceScript.currentZPos - 1;
 
                 if (pieceScript.currentXPos < 7)
                 {
                     isPieceOnPos = TakeChecksAdding(avaiableMoves, pieceScript, zPos, boardScript);
-                    if (isPieceOnPos)
+                    if (isPieceOnPos || counter == 1)
                     {
                         temp = new Vector3((float)pieceScript.currentXPos + 1, 0f, (float)zPos);
                         avaiableMoves.Add(temp);
@@ -93,7 +102,7 @@ public class Pawn : Pieces
                 if (pieceScript.currentXPos > 0)
                 {
                     isPieceOnPos = TakeChecksMinus(avaiableMoves, pieceScript, zPos, boardScript);
-                    if (isPieceOnPos)
+                    if (isPieceOnPos || counter == 1)
                     {
                         temp = new Vector3((float)pieceScript.currentXPos - 1, 0f, (float)zPos);
                         avaiableMoves.Add(temp);
@@ -101,30 +110,32 @@ public class Pawn : Pieces
                 }
             }
 
-            if (!GetMovedFromStartPos())
+            if (!GetMovedFromStartPos() && !currentlyBlocking && counter < 1)
             {
                 if (pieceScript.team == 0 && pieceScript.currentZPos > 1 || pieceScript.team == 1 && pieceScript.currentZPos < 6)
                 {
                     if (pieceScript.team == 1)
                     {
                         temp = new Vector3((float)pieceScript.currentXPos, 0f, (float)pieceScript.currentZPos + 2);
-                        check = positionsChecks(temp, boardScript, pieceScript);
-                        if (check)
+                        bool isPieceOnPos = boardScript.isPieceOnTile(temp);
+                        if (!isPieceOnPos)
                             avaiableMoves.Add(temp);
                     }
 
                     else
                     {
                         temp = new Vector3((float)pieceScript.currentXPos, 0f, (float)pieceScript.currentZPos - 2);
-                        check = positionsChecks(temp, boardScript, pieceScript);
-                        if (check)
+                        bool isPieceOnPos = boardScript.isPieceOnTile(temp);
+                        if (!isPieceOnPos)
                             avaiableMoves.Add(temp);
 
                     }
                 }
             }
         }
-        boardScript.SetMovesAvailable(avaiableMoves);
+        counter = 0;
+        //boardScript.SetMovesAvailable(avaiableMoves);
+        return avaiableMoves;
     }
     public bool TakeChecksMinus(List<Vector3> movesList, Pieces pieceScript, int zPos, Board boardScript) 
     {

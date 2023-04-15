@@ -18,10 +18,11 @@ public class Bishop : Pieces
         
     }
 
-    public void bishopRules(Board boardScript)
+    public List<Vector3> bishopRules(Board boardScript, GameObject gO)
     {
         List<Vector3> avaiableMoves = new List<Vector3>();
-        avaiableMoves = BishopMoves(boardScript);
-        boardScript.SetMovesAvailable(avaiableMoves);
+        avaiableMoves = BishopMoves(boardScript, gO);
+        //boardScript.SetMovesAvailable(avaiableMoves);
+        return avaiableMoves;
     }
 }

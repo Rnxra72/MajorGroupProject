@@ -16,45 +16,49 @@ public class Pieces : MonoBehaviour
     public int currentZPos;
     public int pieceWorth = 0;
 
-    public void Rules()
+    public List<Vector3> Rules(GameObject piece)
     {
+        List<Vector3> avaiableMoves = new List<Vector3>();
         GameObject board = GameObject.FindWithTag("BoardLayout");
         Board boardScript = board.GetComponent<Board>();
-        GameObject piece = boardScript.getCurrentPiece();
+        //GameObject piece = boardScript.getCurrentPiece();
+        
         PieceType type = piece.GetComponent<Pieces>().ptype;
 
         //if statments for all piece types
         if (type == PieceType.Pawn)
         {
             Pawn pawnScript = piece.GetComponent<Pawn>(); //insatance of pawn script
-            pawnScript.pawnMoveRules(boardScript);
+            avaiableMoves = pawnScript.pawnMoveRules(boardScript, piece, 0);
         }
         else if (type == PieceType.King)
         {
             //call pawn method specific rules
             King kingScript = piece.GetComponent<King>();
-            kingScript.kingRules(boardScript);
+            avaiableMoves = kingScript.kingRules(boardScript, piece);
         }
         else if (type == PieceType.Queen)
         {
             Queen queenScript = piece.GetComponent<Queen>();
-            queenScript.queenRules(boardScript);
+            avaiableMoves = queenScript.queenRules(boardScript, piece);
         }
         else if (type == PieceType.Knight)
         {
             Knight knightScript = piece.GetComponent<Knight>();
-            knightScript.knightRules(boardScript);
+            avaiableMoves = knightScript.knightRules(boardScript, piece);
         }
         else if (type == PieceType.Rook)
         {
             Rook rookScript = piece.GetComponent<Rook>();
-            rookScript.rookRules(boardScript);
+            avaiableMoves = rookScript.rookRules(boardScript, piece);
         }
         else if (type == PieceType.Bishop)
         {
             Bishop bishopScript = piece.GetComponent<Bishop>();
-            bishopScript.bishopRules(boardScript);
+            avaiableMoves = bishopScript.bishopRules(boardScript, piece);
         }
+        //boardScript.SetMovesAvailable(avaiableMoves); //the moves available to the piece selected set here
+        return avaiableMoves;
     }
 
     public bool positionsChecks(Vector3 temp, Board boardScript, Pieces piece)
@@ -80,9 +84,9 @@ public class Pieces : MonoBehaviour
         }
     }
 
-    public List<Vector3> BishopMoves(Board boardScript) 
+    public List<Vector3> BishopMoves(Board boardScript, GameObject gO) 
     {
-        Pieces pieceScript = boardScript.getCurrentPiece().GetComponent<Pieces>();
+        Pieces pieceScript = gO.GetComponent<Pieces>();
 
         int x = (pieceScript.currentXPos);
         int z = (pieceScript.currentZPos);
@@ -178,10 +182,10 @@ public class Pieces : MonoBehaviour
         //boardScript.SetMovesAvailable(avaiableMoves);
         return avaiableMoves;
     }
-    public List<Vector3> RookMoves(Board boardScript)
+    public List<Vector3> RookMoves(Board boardScript, GameObject gO)
     {
         //Rook rookScipt = boardScript.getCurrentPiece().GetComponent<Rook>();
-        Pieces pieceScript = boardScript.getCurrentPiece().GetComponent<Pieces>();
+        Pieces pieceScript = gO.GetComponent<Pieces>();
 
         int x = (pieceScript.currentXPos);
         int z = (pieceScript.currentZPos);

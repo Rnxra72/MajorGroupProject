@@ -16,18 +16,13 @@ public class Queen : Pieces
 
     }
 
-    /*public void queenRules(Vector3 tilePos, Board boardScript)
-    {
-        Debug.Log("Queen Rules");
-        boardScript.setCurrentMoveValid(true);
-    }*/
-
-    public void queenRules(Board boardScript)
+    public List<Vector3> queenRules(Board boardScript, GameObject gO)
     { 
         List<Vector3> avaiableMoves = new List<Vector3>();
-        avaiableMoves = RookMoves(boardScript);
-        avaiableMoves.AddRange(BishopMoves(boardScript));
+        avaiableMoves = RookMoves(boardScript, gO);
+        avaiableMoves.AddRange(BishopMoves(boardScript, gO));
 
-        boardScript.SetMovesAvailable(avaiableMoves);
+        //boardScript.SetMovesAvailable(avaiableMoves);
+        return avaiableMoves;
     }
 }

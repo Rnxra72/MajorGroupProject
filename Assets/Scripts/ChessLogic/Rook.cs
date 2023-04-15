@@ -10,10 +10,11 @@ public class Rook : Pieces
         pieceWorth = 5;
     }
 
-    public void rookRules(Board boardScript) 
+    public List<Vector3> rookRules(Board boardScript, GameObject gO) 
     {
         List<Vector3> avaiableMoves = new List<Vector3>();
-        avaiableMoves = RookMoves(boardScript);
-        boardScript.SetMovesAvailable(avaiableMoves);
+        avaiableMoves = RookMoves(boardScript, gO);
+        //boardScript.SetMovesAvailable(avaiableMoves);
+        return avaiableMoves;
     }
 }
