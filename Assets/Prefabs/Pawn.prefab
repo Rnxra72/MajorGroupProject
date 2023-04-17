@@ -110,6 +110,7 @@ MonoBehaviour:
   - {fileID: 1971375302472462, guid: 4c94aa8019f3d2c468c9eae6fe6fea98, type: 3}
   - {fileID: 1992623236052302, guid: e2e4ab7d18da38643a4571e2bc92f35b, type: 3}
   - {fileID: 1028868664329696, guid: d4ec90eab963703449514db6c4519827, type: 3}
+  currentlyBlocking: 0
 --- !u!54 &-5888663710168182487
 Rigidbody:
   m_ObjectHideFlags: 0

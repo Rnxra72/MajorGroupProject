@@ -16,6 +16,7 @@ public class Pieces : MonoBehaviour
     public int currentZPos;
     public int pieceWorth = 0;
 
+
     public List<Vector3> Rules(GameObject piece)
     {
         List<Vector3> avaiableMoves = new List<Vector3>();

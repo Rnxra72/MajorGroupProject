@@ -31,24 +31,29 @@ public class Pawn : Pieces
         //int forward = (pieceScript.currentZPos + 1), forward2 = (pieceScript.currentZPos + 2);
 
         //white pieces moves are 1, black pieces moves are 0. [1, 0] single move forward white..
-        int[,] positions = { { (pieceScript.currentZPos - 1), (pieceScript.currentZPos - 2) }, { (pieceScript.currentZPos + 1), (pieceScript.currentZPos + 2) } };
+        //int[,] positions = { { (pieceScript.currentZPos - 1), (pieceScript.currentZPos - 2) }, { (pieceScript.currentZPos + 1), (pieceScript.currentZPos + 2) } };
         List<Vector3> avaiableMoves = new List<Vector3>();
         //if piece at position
         Vector3 temp;
-        bool check = false;
+        //bool check = false;
 
         if (pieceScript.team == 1 && pieceScript.currentZPos < 7 || pieceScript.team == 0 && pieceScript.currentZPos > 0)
         {
             //white piece team
             if (pieceScript.team == 1)
             {
-                Debug.Log(pieceScript.currentZPos + 1);
+                //Debug.Log(pieceScript.currentZPos + 1);
                 temp = new Vector3((float)pieceScript.currentXPos, 0f, (float)pieceScript.currentZPos + 1);
                 bool isPieceOnPos = boardScript.isPieceOnTile(temp);
 
                 if (!isPieceOnPos && counter < 1) 
                 {
                     avaiableMoves.Add(temp);
+
+                    //if (temp.z == 0)
+                        //pawnProcalled
+                        //boardScript.PawnPromotion();
+
                     currentlyBlocking = false;
                 }
                     
@@ -84,7 +89,14 @@ public class Pawn : Pieces
                 if (!isPieceOnPos)
                 {
                     avaiableMoves.Add(temp);
-                    currentlyBlocking = false;
+
+                    /*if (temp.z == 7)
+                    {
+                        //pawnProcalled
+                        //boardScript.PawnPromotion(gO);
+                    }*/
+
+                        currentlyBlocking = false;
                 }
 
                 int zPos = pieceScript.currentZPos - 1;
@@ -119,15 +131,29 @@ public class Pawn : Pieces
                         temp = new Vector3((float)pieceScript.currentXPos, 0f, (float)pieceScript.currentZPos + 2);
                         bool isPieceOnPos = boardScript.isPieceOnTile(temp);
                         if (!isPieceOnPos)
+                        {
                             avaiableMoves.Add(temp);
+                           /* if (temp.z == 0)
+                            {
+                                //pawnProcalled
+                                //boardScript.PawnPromotion(gO);
+                            }*/
+                        }
                     }
-
                     else
                     {
                         temp = new Vector3((float)pieceScript.currentXPos, 0f, (float)pieceScript.currentZPos - 2);
                         bool isPieceOnPos = boardScript.isPieceOnTile(temp);
                         if (!isPieceOnPos)
+                        {
                             avaiableMoves.Add(temp);
+                            /*if (temp.z == 7)
+                            {
+                                //pawnProcalled
+                                //boardScript.PawnPromotion(gO);
+                                
+                            }*/
+                        }
 
                     }
                 }

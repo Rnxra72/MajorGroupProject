@@ -14,8 +14,13 @@ public class TextOutToUser : MonoBehaviour
     {
         //Debug.Log(message+" hello");
         txt.GetComponent<TMPro.TextMeshProUGUI>().text = message;
-        Invoke("ChangeTextToNothing", 3);
-        //ChangeTextToNothing();
+
+        if (message != "White king in check = " || message != "black king in check = ") 
+        {
+            Invoke("ChangeTextToNothing", 3);
+            //ChangeTextToNothing();
+        }
+
     }
 
     public void ChangeTextToNothing() 

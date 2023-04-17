@@ -26,45 +26,58 @@ public class PieceMovement : MonoBehaviour
         Pieces p = gameObject.GetComponent<Pieces>();
         boardScript.unHighlightAllTiles();
         boardScript.setCurrentMoveValid(false);
-        //boardScript.SetMovesAvailable(null);
 
+
+        //get king script reference
+        King wK = null; King bK = null;
+        GameObject[] piecesOnBoard = boardScript.GetPiecesOnBoard();
+        for (int i = 0; i < piecesOnBoard.Length; i++)
+        {
+            Pieces piece = piecesOnBoard[i].GetComponent<Pieces>();
+            if (piece.ptype == PieceType.King)
+            {
+                if (piece.team == 0)
+                {
+                    wK = piece.GetComponent<King>();
+                }
+                else
+                {
+                    bK = piece.GetComponent<King>();
+                }
+            }
+        }
+
+        //checks if object clicked is a piece or tile usinga tag
         if (gameObject.tag == "Piece")
         {
-
-            //checks for player turns
-            if (boardScript.getPlayerTurn() && p.team == 1)
+            if (boardScript.getPlayerTurn() && p.team == 1 || !boardScript.getPlayerTurn() && p.team == 0)
             {
-                boardScript.setCurrentPiece(gameObject);
+                //checks for game states
+                if (wK.GetInCheck() && p.team == 1)
+                {
+                    boardScript.KingInCheckGame(boardScript, gameObject, wK);
+                }
 
-                //piece highlighting
-                boardScript.unHighlightAllPieces();
-                boardScript.highlightSeletedPiece(gameObject);
-
-                //createMovesList
-                boardScript.CreateMovesList();
-            }
-            else if (!boardScript.getPlayerTurn() && p.team == 0)
-            {
-                boardScript.setCurrentPiece(gameObject);
-
-                //piece highlighting
-                boardScript.unHighlightAllPieces();
-                boardScript.highlightSeletedPiece(gameObject);
-                boardScript.CreateMovesList();
+                else if (bK.GetInCheck() && p.team == 0)
+                {
+                    boardScript.KingInCheckGame(boardScript, gameObject, bK);
+                }
+                else if(!wK.GetInCheck() || !bK.GetInCheck())
+                {
+                    PieceSelectedNormalGame(boardScript, p, gameObject);
+                }
             }
             else
             {
-                //Debug.Log("Other Players turn");
                 string message = "Other Players turn";
                 GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
                 TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
                 scriptToUser.ShowTextMessageToUser(message);
             }
         }
+        //checks if gameobject is a tile
         else if (gameObject.tag == "Tile")
         {
-            //Debug.Log("Hello tile");
-
             if (boardScript.getCurrentPiece() != null)
             {
                 //movePieceToTile(gameObject, boardScript);
@@ -79,38 +92,78 @@ public class PieceMovement : MonoBehaviour
                 GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
                 TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
                 scriptToUser.ShowTextMessageToUser(message);
-                //Debug.Log("Not a valid move");
             }
         }
     }
+
 
     public void MoveToTileSelected(GameObject gameObject, Board boardScript) 
     {
         Vector3 pos = gameObject.GetComponent<Transform>().position;//tile position
         Vector3 temp;
         Pieces[,] piecesArray = boardScript.getChessArray();
-        Debug.Log("checking here, move selected");
         PieceType pty = boardScript.getCurrentPiece().GetComponent<Pieces>().ptype;
 
-        //for checkmate
+        //get king script reference
+        King wK = null; King bK = null;
+        GameObject[] piecesOnBoard = boardScript.GetPiecesOnBoard();
+        for (int i = 0; i < piecesOnBoard.Length; i++)
+        {
+            Pieces piece = piecesOnBoard[i].GetComponent<Pieces>();
+            if (piece.ptype == PieceType.King)
+            {
+                if (piece.team == 1)
+                {
+                    wK = piece.GetComponent<King>();
+                }
+                else
+                {
+                    bK = piece.GetComponent<King>();
+                }
+            }
+        }
+
+
+        /*//for checkmate
         if (pty == PieceType.King)
         {
             King currentPiece = boardScript.getCurrentPiece().GetComponent<King>();
 
-            if (currentPiece.GetInCheck() && boardScript.GetMovesAvailable() == null) 
+            if (currentPiece.GetInCheck() && boardScript.GetMovesAvailable() == null || boardScript.GetMovesAvailable().Count < 1) 
             {
                 //reroute to checkmate screen
                 boardScript.winSceneRedirect();
             }
-        }
+        }*/
 
-        for (int i = 0; i < boardScript.GetMovesAvailable().Count; i++) 
+        if (wK.GetInCheck() || bK.GetInCheck()) 
         {
-            temp = boardScript.GetMovesAvailable()[i];
-            if (pos.x == temp.x && pos.z == temp.z) 
+            for (int i = 0; i < boardScript.GetMovesAvailable().Count; i++)
             {
-                //Debug.Log("valid move");
-                boardScript.setCurrentMoveValid(true);
+                temp = boardScript.GetMovesAvailable()[i];
+                if (pos.x == temp.x && pos.z == temp.z)
+                {
+                    boardScript.setCurrentMoveValid(true);
+                    if (wK.GetInCheck())
+                    {
+                        wK.SetInCheck(false);
+                    }
+                    else 
+                    {
+                        bK.SetInCheck(false);
+                    }
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < boardScript.GetMovesAvailable().Count; i++)
+            {
+                temp = boardScript.GetMovesAvailable()[i];
+                if (pos.x == temp.x && pos.z == temp.z)
+                {
+                    boardScript.setCurrentMoveValid(true);
+                }
             }
         }
 
@@ -130,7 +183,6 @@ public class PieceMovement : MonoBehaviour
 
             boardScript.getCurrentPiece().transform.position = pos;
             boardScript.updateChessArray(pos);
-            // boardSript.setCurrentPiece(null);
 
 
             //if it was a pawn need to say it has moved before
@@ -155,10 +207,59 @@ public class PieceMovement : MonoBehaviour
             //Debug.Log("After move: " + boardSript.getPlayerTurn());
             boardScript.unHighlightSinglePiece(boardScript.getCurrentPiece());
 
-            //boardScript.HasCheckOcurred();
+
+            //detecting if next move for current piece can take king, then king is in check
+            /*if (boardScript.CheckedKing(wK, bK, boardScript.getCurrentPiece()))
+            { 
+                Pieces piece = boardScript.getCurrentPiece().GetComponent<Pieces>();
+                boardScript.currentlyCheckingKing.Add(piece);
+
+                if (boardScript.getPlayerTurn())
+                {
+                    bK.SetInCheck(true);
+                }
+                else 
+                {
+                    wK.SetInCheck(true);
+                }
+
+                string invalid = "InCheck";
+                GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
+                TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
+                scriptToUser.ShowTextMessageToUser(invalid);
+                //Debug.Log("Not a valid move");
+            }*/
+
+            //reset all back to null
             boardScript.setCurrentPiece(null); //lose ref to currently selected piece
             boardScript.SetMovesAvailable(null);
+
+
+            //check if any piece on board puts either king in check
+            Vector3 whiteKPos = new Vector3((float)wK.currentXPos, 0f, (float)wK.currentZPos);
+            Vector3 blackPos = new Vector3((float)bK.currentXPos, 0f, (float)bK.currentZPos);
+            bool hasCheckOccurredWhite = boardScript.IsMoveACheckPos(whiteKPos, boardScript, wK, 1);
+            bool hasCheckOccurredBlack = boardScript.IsMoveACheckPos(blackPos, boardScript, bK, 1);
+            if (hasCheckOccurredWhite)
+            {
+                wK.SetInCheck(true);
+
+                string invalid = "InCheck White";
+                GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
+                TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
+                scriptToUser.ShowTextMessageToUser(invalid);
+            }
+            if (hasCheckOccurredBlack) 
+            {
+                bK.SetInCheck(true);
+
+                string invalid = "InCheck Black";
+                GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
+                TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
+                scriptToUser.ShowTextMessageToUser(invalid);
+            }
         }
+        
 
 
         else 
@@ -169,7 +270,18 @@ public class PieceMovement : MonoBehaviour
             scriptToUser.ShowTextMessageToUser(invalid);
             //Debug.Log("Not a valid move");
         }
+    }
 
+
+
+    public void PieceSelectedNormalGame(Board boardScript, Pieces p, GameObject gO) 
+    {
+        boardScript.setCurrentPiece(gO);
+        boardScript.unHighlightAllPieces();
+        boardScript.highlightSeletedPiece(gO);
+
+        //createMovesList
+        boardScript.CreateMovesList(gO);
     }
 
 }
