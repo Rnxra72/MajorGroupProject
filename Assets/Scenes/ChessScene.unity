@@ -2323,7 +2323,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 10a34bbc1eae35d49b0d1312ec46448b, type: 2}
   - {fileID: 2100000, guid: f2de6175ec36a8341aa33c528cd61d7b, type: 2}
   pieceSelectedMaterial: {fileID: 2100000, guid: dc0d66b414b428445be9cdceb60edf15, type: 2}
-  hasCheckedKing: []
+  currentlyCheckingKing: []
   prefabs:
   - {fileID: 4783304565382695939, guid: fd6866b85a732b742be88a4f1ed3175e, type: 3}
   - {fileID: 8635304528212239440, guid: 4e1f309f26f7b0647907dfc10350c086, type: 3}
