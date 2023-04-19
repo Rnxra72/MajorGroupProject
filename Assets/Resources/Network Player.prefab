@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3064844452077935875}
   - component: {fileID: 3866923163844734326}
   m_Layer: 0
-  m_Name: lefthand
+  m_Name: Left hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -157,7 +157,7 @@ GameObject:
   - component: {fileID: 1382239129458556417}
   - component: {fileID: 6973678448863288069}
   m_Layer: 0
-  m_Name: righthand
+  m_Name: Right Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -268,6 +268,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 760ce6c90610e2041a573cf156d5e20d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  head: {fileID: 464744792886905327}
+  lefthand: {fileID: 3064844452077935875}
+  righthand: {fileID: 1382239129458556417}
 --- !u!1 &3235658912498703072
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,7 +282,7 @@ GameObject:
   - component: {fileID: 464744792886905327}
   - component: {fileID: 1244903399846577908}
   m_Layer: 0
-  m_Name: head
+  m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
