@@ -25,7 +25,12 @@ public class Board : MonoBehaviour
     private bool playerTurn;
     public Material[] tileMaterials;
 
+    private Pieces wK;
+    private Pieces bK;
+
     private bool currentMoveValid;
+
+    private Vector3 pieceOldPos;
 
     public Material pieceSelectedMaterial;
 
@@ -166,18 +171,55 @@ public class Board : MonoBehaviour
         return this.playerTurn;
     }
 
-    public void updateChessArray(Vector3 position)
+    //white King refecernce
+    public void SetWKingScript(Pieces kScript)
     {
+        this.wK = kScript;
+    }
+    public Pieces GetWKingScript()
+    {
+        return this.wK;
+    }
+    //black King refecernce
+    public void SetBKingScript(Pieces kScript)
+    {
+        this.bK = kScript;
+    }
+    public Pieces GetBKingScript()
+    {
+        return this.bK;
+    }
 
+    public void SetPieceOldPos(Vector3 pieceOldPos)
+    {
+        this.pieceOldPos = pieceOldPos;
+    }
+    public Vector3 GetPieceOldPos()
+    {
+        return this.pieceOldPos;
+    }
+
+    public void updateChessArray(Vector3 position, int counter)
+    {
         Pieces tempScript = getCurrentPiece().GetComponent<Pieces>();
         int oldZPos = tempScript.currentZPos;
         int oldXPos = tempScript.currentXPos;
         chessPieces[oldXPos, oldZPos] = null;//removing piece at old position
 
-        tempScript.currentXPos = (int)position.x;
-        tempScript.currentZPos = (int)position.z;//changing script pos
+        if (counter == 1)
+        {
+            Pawn ppp = tempScript.GetComponent<Pawn>();
+            Pieces SC = ppp.GetPromotion();
 
-        chessPieces[(int)position.x, (int)position.z] = getCurrentPiece().GetComponent<Pieces>();//setting piece at new position
+            chessPieces[(int)position.x, (int)position.z] = SC;
+        }
+        else
+        {
+            tempScript.currentXPos = (int)position.x;
+            tempScript.currentZPos = (int)position.z;//changing script pos
+
+            chessPieces[(int)position.x, (int)position.z] = getCurrentPiece().GetComponent<Pieces>();//setting piece at new position
+        }
     }
 
     public Pieces[,] getChessArray() {
@@ -207,7 +249,7 @@ public class Board : MonoBehaviour
 
     public void removePiece(Pieces tempPiece)
     {
-       GameObject gO = tempPiece.gameObject;
+        GameObject gO = tempPiece.gameObject;
         int t = tempPiece.team;
         //update player score
         if (t == 0)
@@ -215,7 +257,7 @@ public class Board : MonoBehaviour
             bPlayerScore += tempPiece.pieceWorth;
             Debug.Log(bPlayerScore);
         }
-        else 
+        else
         {
             wPlayerScore += tempPiece.pieceWorth;
             Debug.Log(wPlayerScore);
@@ -331,13 +373,14 @@ public class Board : MonoBehaviour
             gO = piecesOnBoard[i];
             piece = gO.GetComponent<Pieces>();
 
+            //if(counter == 2){}//do version with updated chess Pieces array here/made up one
 
             if (kScript.team != piece.team && piece.ptype != PieceType.King)
             {
                 if (piece.ptype == PieceType.Pawn)
                 {
                     Pawn pawn = gO.GetComponent<Pawn>();
-                    movesToBeChecked = pawn.pawnMoveRules(boardScript, gO, 1);
+                    movesToBeChecked = pawn.pawnMoveRules(boardScript, gO, 1);//value 1 here allow to simulate a piece at this position
 
                     for (int j = 0; j < movesToBeChecked.Count; j++)
                     {
@@ -346,7 +389,7 @@ public class Board : MonoBehaviour
                         {
                             //return true;
                             holdResultTemp = true;
-                            if (counter == 1) 
+                            if (counter == 1)
                             {
                                 currentlyCheckingKing.Add(piece);
                             }
@@ -368,7 +411,6 @@ public class Board : MonoBehaviour
                         }
                     }
                 }
-
             }
         }
         //return false;
@@ -425,18 +467,19 @@ public class Board : MonoBehaviour
     {
 
         Pieces p = pieceOB.GetComponent<Pieces>();
-        
+
         setCurrentPiece(pieceOB);
         unHighlightAllPieces();
         highlightSeletedPiece(pieceOB);
         List<Vector3> pieceMoves = new List<Vector3>();
         List<Vector3> tempMoves = new List<Vector3>();
 
-        bool checkMate = false;
+        //bool checkMate = false;
         //calculate and look to see if checkmate has ocurred
-        //bool checkMate = HasCheckMateOccured(boardScript, p, kScript);
-        if (checkMate) 
+        bool checkMate = HasCheckMateOccured(boardScript, kScript);
+        if (checkMate)
         {
+            Debug.Log("Checkmate");
             winSceneRedirect();
         }
 
@@ -445,15 +488,15 @@ public class Board : MonoBehaviour
         {
             pieceMoves = kScript.kingRules(boardScript, pieceOB);
         }
-        else 
+        else
         {
             tempMoves = p.Rules(pieceOB);
-            for (int i = 0; i < tempMoves.Count; i++) 
+            for (int i = 0; i < tempMoves.Count; i++)
             {
                 //if()//any positions match the attacking pieces position
                 for (int j = 0; j < currentlyCheckingKing.Count; j++)
                 {
-                    Vector3 checkPiecePos = new Vector3((float)currentlyCheckingKing[i].currentXPos, 0f, (float)currentlyCheckingKing[i].currentZPos);
+                    Vector3 checkPiecePos = new Vector3((float)currentlyCheckingKing[j].currentXPos, 0f, (float)currentlyCheckingKing[j].currentZPos);
                     if (checkPiecePos == tempMoves[i])
                     {
                         pieceMoves.Add(checkPiecePos);
@@ -466,60 +509,84 @@ public class Board : MonoBehaviour
     }
 
 
-    public bool HasCheckMateOccured(Board boardScript, Pieces p, King kScript) 
+    public bool HasCheckMateOccured(Board boardScript, King kScript)
     {
-        List<Vector3> allMoveOptionsStuff = CanGetOutOfCheck(boardScript, p, kScript);
-
-        if (allMoveOptionsStuff.Count < 1 || allMoveOptionsStuff == null)
-        {
-            //Debug.Log("Game Over, CheckMate");
-            return true;
-        }
-        else 
-        {
-            //SetGetOutOfCheckOptions(allMoveOptionsStuff);
-            return false;
-        }
-    }
-
-    public List<Vector3> CanGetOutOfCheck(Board boardScript, Pieces p, King kScript) 
-    {
-        List<Vector3> allMoveOptionsStuff = new List<Vector3>();
-
-        //get all moves king can make that dont put it in another check
+        GameObject gO; Pieces piece; Vector3 movePos;
+        List<Vector3> tempMoves;
+        bool tempToReturn = true;
+        //seeing if there are any king moves
         GameObject gameOb = kScript.gameObject;
         List<Vector3> kingMoves = kScript.kingRules(boardScript, gameOb);
-
-        //position of king as vector3
         Vector3 kPos = new Vector3((float)kScript.currentXPos, 0f, (float)kScript.currentZPos);
 
-        GameObject gO; Pieces piece;
-        Vector3 movePos;
+        //all other pieces checks
         List<Vector3> movesToBeChecked = new List<Vector3>();
         GameObject[] piecesOnBoard = boardScript.GetPiecesOnBoard();
-        allMoveOptionsStuff.AddRange(kingMoves);//add kings valid moves to all possible moves
-
         for (int i = 0; i < piecesOnBoard.Length; i++)
         {
-            //Debug.Log("Num Here: " + i);
             gO = piecesOnBoard[i];
             piece = gO.GetComponent<Pieces>();
-
+            tempMoves = piece.Rules(gO);
             movePos = new Vector3((float)piece.currentXPos, 0f, (float)piece.currentZPos);
             if (kScript.team == piece.team && piece.ptype != PieceType.King)
             {
                 //if()//any positions match the attacking pieces position
-                for (int j =0; j < currentlyCheckingKing.Count;  j++) 
+                for (int j = 0; j < currentlyCheckingKing.Count; j++)
                 {
-                    Vector3 newTeap = new Vector3((float)currentlyCheckingKing[i].currentXPos, 0f, (float)currentlyCheckingKing[i].currentZPos);
-                    if (newTeap == movePos) 
+                    for (int k = 0; i < tempMoves.Count; k++)
                     {
-                        
+                        Vector3 checkPiecePos = new Vector3((float)currentlyCheckingKing[0].currentXPos, 0f, (float)currentlyCheckingKing[0].currentZPos);
+                        if (checkPiecePos == tempMoves[k])
+                        {
+                            Debug.Log("This is false");
+                            return false;
+                        }
                     }
                 }
             }
         }
-        Debug.Log("Message here");
-        return allMoveOptionsStuff;
+        if (kingMoves.Count > 1)
+        {
+            Debug.Log("Another: This is false");
+            return false;
+        }
+        Debug.Log("This is true");
+        return true;
+    }
+
+    //pawn pormotion
+    public Pieces spawnPawnPromotion(PieceType ptype, int team, Vector3 positionOfPawn)
+    {
+        //Pieces p = Instantiate(prefabs[(int)ptype-1], temp, Quaternion.identity).GetComponent<Pieces>();
+
+        Pieces p = Instantiate(prefabs[(int)ptype - 1], positionOfPawn, Quaternion.identity).GetComponent<Pieces>();
+
+        p.ptype = ptype;
+        p.team = team;
+
+        if (p.team == 0)
+        {
+            p.transform.Rotate(0, 180, 0);
+        }
+        p.currentXPos = (int)positionOfPawn.x;
+        p.currentZPos = (int)positionOfPawn.z;
+        p.GetComponent<MeshRenderer>().material = teamMaterials[team];
+
+        return p;
+    }
+
+    public void IllegalMoveReset()
+    {
+        //player turn already reset
+        GameObject gO = getCurrentPiece();
+
+        //move gameObject back to old position
+
+        //get the piece that was deleted and put it back on board
+
+        //
+
+        //update the chess array with old position again
+        //updateChessArray();
     }
 }

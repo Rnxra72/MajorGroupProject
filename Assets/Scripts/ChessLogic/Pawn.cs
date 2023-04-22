@@ -5,8 +5,9 @@ using UnityEngine;
 public class Pawn : Pieces
 {
     private bool movedFromStartPos;
-    [SerializeField] private GameObject[] pawnProOptions;
+    //[SerializeField] private GameObject[] pawnProOptions;
     public bool currentlyBlocking;
+    private Pieces promotionSC;
 
     // Start is called before the first frame update
     void Start()
@@ -192,5 +193,38 @@ public class Pawn : Pieces
         }
         //return movesList;
         return false;
+    }
+
+    //handels pawn promotion after piece reached other side
+    public void PawnPromotion(Board boardScript, Pieces pieceCS, Vector3 pos)
+    {
+        Debug.Log("Pawn promotion");
+        //boardScript.getChessArray();
+        int x = (int)pos.x; int z = (int)pos.z;
+        GameObject game = pieceCS.gameObject;
+        //remove
+        boardScript.removePiece(pieceCS);
+        //SpawnOnePiece
+        Pieces temp;
+
+        Vector3 positionOfPawn = new Vector3((float)pos.x, 0f, (float)pos.z);
+        //Pieces piece = Instantiate(prefabs[(int)ptype-1], gameObject.transform).GetComponent<Pieces>();
+        if (pieceCS.team == 1)
+        {
+            temp = boardScript.spawnPawnPromotion(PieceType.Queen, 1, positionOfPawn);
+        }
+        else
+        {
+            temp = boardScript.spawnPawnPromotion(PieceType.Queen, 0, positionOfPawn);
+        }
+        //Pieces[,] p = boardScript.getChessArray();
+
+        promotionSC = temp;
+        boardScript.updateChessArray(positionOfPawn, 1);
+    }
+
+    public Pieces GetPromotion()
+    {
+        return this.promotionSC;
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.SceneManagement;
 
 public class PieceMovement : MonoBehaviour
 {
@@ -17,13 +18,12 @@ public class PieceMovement : MonoBehaviour
     {
         XRSimpleInteractable interactable = GetComponent<XRSimpleInteractable>();
 
-        //instance of board needed
+        GameObject gO = interactable.gameObject;
+
         GameObject board = GameObject.FindWithTag("BoardLayout");
+
         Board boardScript = board.GetComponent<Board>();
 
-        //get gameobject from interactable, and script on gameobject
-        GameObject gameObject = interactable.gameObject;
-        Pieces p = gameObject.GetComponent<Pieces>();
         boardScript.unHighlightAllTiles();
         boardScript.setCurrentMoveValid(false);
 
@@ -38,33 +38,39 @@ public class PieceMovement : MonoBehaviour
             {
                 if (piece.team == 0)
                 {
-                    wK = piece.GetComponent<King>();
+                    bK = piece.GetComponent<King>();
+                    boardScript.SetBKingScript(piece);
                 }
                 else
                 {
-                    bK = piece.GetComponent<King>();
+                    wK = piece.GetComponent<King>();
+                    boardScript.SetWKingScript(piece);
                 }
             }
         }
 
         //checks if object clicked is a piece or tile usinga tag
-        if (gameObject.tag == "Piece")
+        if (gO.tag == "Piece")
         {
+            Pieces p = gO.GetComponent<Pieces>();
+
             if (boardScript.getPlayerTurn() && p.team == 1 || !boardScript.getPlayerTurn() && p.team == 0)
             {
                 //checks for game states
                 if (wK.GetInCheck() && p.team == 1)
                 {
-                    boardScript.KingInCheckGame(boardScript, gameObject, wK);
+                    Debug.Log(boardScript.currentlyCheckingKing);
+                    boardScript.KingInCheckGame(boardScript, gO, wK);
                 }
 
                 else if (bK.GetInCheck() && p.team == 0)
                 {
-                    boardScript.KingInCheckGame(boardScript, gameObject, bK);
+                    Debug.Log(boardScript.currentlyCheckingKing);
+                    boardScript.KingInCheckGame(boardScript, gO, bK);
                 }
-                else if(!wK.GetInCheck() || !bK.GetInCheck())
+                else if (!wK.GetInCheck() || !bK.GetInCheck())
                 {
-                    PieceSelectedNormalGame(boardScript, p, gameObject);
+                    PieceSelectedNormalGame(boardScript, p, gO);
                 }
             }
             else
@@ -76,14 +82,13 @@ public class PieceMovement : MonoBehaviour
             }
         }
         //checks if gameobject is a tile
-        else if (gameObject.tag == "Tile")
+        else if (gO.tag == "Tile")
         {
             if (boardScript.getCurrentPiece() != null)
             {
                 //movePieceToTile(gameObject, boardScript);
 
-                MoveToTileSelected(gameObject, boardScript);
-
+                MoveToTileSelected(gO, boardScript);
             }
             else
             {
@@ -96,13 +101,13 @@ public class PieceMovement : MonoBehaviour
         }
     }
 
-
-    public void MoveToTileSelected(GameObject gameObject, Board boardScript) 
+    public void MoveToTileSelected(GameObject gameObject, Board boardScript)
     {
         Vector3 pos = gameObject.GetComponent<Transform>().position;//tile position
         Vector3 temp;
         Pieces[,] piecesArray = boardScript.getChessArray();
         PieceType pty = boardScript.getCurrentPiece().GetComponent<Pieces>().ptype;
+        boardScript.SetPieceOldPos(boardScript.getCurrentPiece().GetComponent<Transform>().position);//setting the piece being moveds old position stored in board
 
         //get king script reference
         King wK = null; King bK = null;
@@ -115,10 +120,12 @@ public class PieceMovement : MonoBehaviour
                 if (piece.team == 1)
                 {
                     wK = piece.GetComponent<King>();
+                    boardScript.SetWKingScript(piece.GetComponent<King>());
                 }
                 else
                 {
                     bK = piece.GetComponent<King>();
+                    boardScript.SetBKingScript(piece.GetComponent<King>());
                 }
             }
         }
@@ -136,7 +143,9 @@ public class PieceMovement : MonoBehaviour
             }
         }*/
 
-        if (wK.GetInCheck() || bK.GetInCheck()) 
+
+        //when in check if move is valid set player king not in check
+        if (wK.GetInCheck() || bK.GetInCheck())
         {
             for (int i = 0; i < boardScript.GetMovesAvailable().Count; i++)
             {
@@ -148,13 +157,14 @@ public class PieceMovement : MonoBehaviour
                     {
                         wK.SetInCheck(false);
                     }
-                    else 
+                    else
                     {
                         bK.SetInCheck(false);
                     }
                 }
             }
         }
+        //reguar move nothing is in check
         else
         {
             for (int i = 0; i < boardScript.GetMovesAvailable().Count; i++)
@@ -182,7 +192,7 @@ public class PieceMovement : MonoBehaviour
             //audioSource.PlayOneShot(AudioClip audioClip, Float volumeScale);
 
             boardScript.getCurrentPiece().transform.position = pos;
-            boardScript.updateChessArray(pos);
+            boardScript.updateChessArray(pos, 0);
 
 
             //if it was a pawn need to say it has moved before
@@ -190,7 +200,35 @@ public class PieceMovement : MonoBehaviour
             {
                 Pawn currentPiece = boardScript.getCurrentPiece().GetComponent<Pawn>();
                 currentPiece.SetMovedFromStartPos(true);
+                if (currentPiece.team == 1 && (int)pos.z == 7)
+                {
+                    currentPiece.PawnPromotion(boardScript, currentPiece, pos);
+                }
+                else if (currentPiece.team == 0 && (int)pos.z == 0)
+                {
+                    currentPiece.PawnPromotion(boardScript, currentPiece, pos);
+                }
             }
+
+            /*//checkmate checks
+            if(boardScript.getPlayerTurn() && wK.GetInCheck())
+            {
+                bool checkMate = boardScript.HasCheckMateOccured(boardScript, wK);
+                if (checkMate) 
+                {
+                    Debug.Log("Checkmate");
+                    boardScript.winSceneRedirect();
+                }
+            }
+            else if(!boardScript.getPlayerTurn() && bK.GetInCheck())
+            {
+                bool checkMate = boardScript.HasCheckMateOccured(boardScript, bK);
+                if (checkMate) 
+                {
+                    Debug.Log("Checkmate");
+                    boardScript.winSceneRedirect();
+                }
+            }*/
 
             //Debug.Log("Before move: " + boardSript.getPlayerTurn());
 
@@ -231,8 +269,8 @@ public class PieceMovement : MonoBehaviour
             }*/
 
             //reset all back to null
-            boardScript.setCurrentPiece(null); //lose ref to currently selected piece
-            boardScript.SetMovesAvailable(null);
+            //boardScript.setCurrentPiece(null); //lose ref to currently selected piece
+            //boardScript.SetMovesAvailable(null);
 
 
             //check if any piece on board puts either king in check
@@ -248,8 +286,13 @@ public class PieceMovement : MonoBehaviour
                 GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
                 TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
                 scriptToUser.ShowTextMessageToUser(invalid);
+
+                if (boardScript.HasCheckMateOccured(boardScript, wK))
+                {
+                    boardScript.winSceneRedirect();
+                }
             }
-            if (hasCheckOccurredBlack) 
+            if (hasCheckOccurredBlack)
             {
                 bK.SetInCheck(true);
 
@@ -257,12 +300,15 @@ public class PieceMovement : MonoBehaviour
                 GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
                 TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
                 scriptToUser.ShowTextMessageToUser(invalid);
+
+                if (boardScript.HasCheckMateOccured(boardScript, bK))
+                {
+                    boardScript.winSceneRedirect();
+                }
             }
         }
-        
 
-
-        else 
+        else
         {
             string invalid = "Not a valid move";
             GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
@@ -270,11 +316,63 @@ public class PieceMovement : MonoBehaviour
             scriptToUser.ShowTextMessageToUser(invalid);
             //Debug.Log("Not a valid move");
         }
+
+        //handels illegal move, moving own piece into a check position
+        Debug.Log(bK.GetInCheck());
+        Debug.Log(wK.GetInCheck());
+        /*if(boardScript.getPlayerTurn() && bK.GetInCheck())
+        {
+            string message = "Illegal move, piece Own Put King in check";
+            GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
+            TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
+            scriptToUser.ShowTextMessageToUser(message);
+
+            boardScript.setPlayerTurn(false);
+
+            boardScript.IllegalMoveReset();
+        }
+        else if(!boardScript.getPlayerTurn() && !wK.GetInCheck()) 
+        {
+            string message = "Illegal move, piece Own Put King in check";
+            GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
+            TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
+            scriptToUser.ShowTextMessageToUser(message);
+
+            boardScript.setPlayerTurn(true);
+            boardScript.IllegalMoveReset();
+        }*/
+
+
+        //illegal move put own king in Check
+        /* Debug.Log(bK.GetInCheck());
+         Debug.Log(wK.GetInCheck());
+         if(boardScript.getPlayerTurn() && bK.GetInCheck())
+         {
+             string message = "Illegal move, piece Own Put King in check";
+             GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
+             TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
+             scriptToUser.ShowTextMessageToUser(message);
+             RerouteToEnd(1);
+         }
+         else if(!boardScript.getPlayerTurn() && wK.GetInCheck())
+         {
+             string message = "Illegal move, piece Own Put King in check";
+             GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
+             TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
+             scriptToUser.ShowTextMessageToUser(message);
+             RerouteToEnd(0);
+         }`*/
+
+
+        if (!wK.GetInCheck() && !bK.GetInCheck())
+        {
+            //see if white has any moves left and black has any moves left, reroute to stalemate screen
+        }
     }
 
 
 
-    public void PieceSelectedNormalGame(Board boardScript, Pieces p, GameObject gO) 
+    public void PieceSelectedNormalGame(Board boardScript, Pieces p, GameObject gO)
     {
         boardScript.setCurrentPiece(gO);
         boardScript.unHighlightAllPieces();
@@ -283,5 +381,25 @@ public class PieceMovement : MonoBehaviour
         //createMovesList
         boardScript.CreateMovesList(gO);
     }
+    public void RerouteToEnd(int winner)
+    {
+        SceneManager.LoadScene("Win Scene");
+        /* if(winner == 1)
+         {
+             static string message = "White Wins";
+             static GameObject GO = GameObject.FindWithTag("GameOver");
+             static GameOverScript GameOver = GO.GetComponent<GameOverScript>();
+             static GameOver.GameOverMessage(message);
+             SceneManager.LoadScene("Win Scene");
+         }
+         else
+         {
+             static string message = "Black Wins"; 
+             static GameObject GO = GameObject.FindWithTag("GameOver");
+             static GameOverScript GameOver = GO.GetComponent<GameOverScript>();
+             static GameOver.GameOverMessage(message);
+             SceneManager.LoadScene("Win Scene");
+         }*/
 
+    }
 }

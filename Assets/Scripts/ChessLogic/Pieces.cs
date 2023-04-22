@@ -73,14 +73,12 @@ public class Pieces : MonoBehaviour
         {
             if (piece.team != p.team)
             {
-                //avaiableMoves.Add(temp);
                 return true;
             }
             return false;
         }
         else
         {
-            //avaiableMoves.Add(temp);
             return true;
         }
     }
@@ -276,24 +274,6 @@ public class Pieces : MonoBehaviour
             }
 
         }
-        return avaiableMoves;
-    }
-
-    public List<Vector3> decideIfMoveAdded(Vector3 temp, Board boardScript, Pieces pieceScript, int counter, List<Vector3> avaiableMoves) 
-    {
-        bool pieceAtPos = boardScript.isPieceOnTile(temp);
-        bool   sameTeam = pieceScript.positionsChecks(temp, boardScript, pieceScript);
-
-            if (!pieceAtPos)
-            {
-                avaiableMoves.Add(temp);
-            }
-
-            else if (pieceAtPos && counter < 1 && sameTeam)
-            {
-                avaiableMoves.Add(temp);
-                counter++;
-            }
         return avaiableMoves;
     }
 }
