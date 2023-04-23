@@ -17,6 +17,7 @@ public class Board : MonoBehaviour
     public GameObject boardTiles;
 
     private List<Vector3> avaiableMoves = new List<Vector3>();
+    private GameObject[] oldBoardGO;
 
     GameObject[,] tilesArray = new GameObject[8, 8];
 
@@ -30,11 +31,12 @@ public class Board : MonoBehaviour
 
     private bool currentMoveValid;
 
-    private Vector3 pieceOldPos;
-
     public Material pieceSelectedMaterial;
 
     public List<Pieces> currentlyCheckingKing;
+
+    private Pieces[,] piecesOldPos;
+    private Vector3 oldPos;
 
     GameObject[] PieceObjects;
 
@@ -188,15 +190,6 @@ public class Board : MonoBehaviour
     public Pieces GetBKingScript()
     {
         return this.bK;
-    }
-
-    public void SetPieceOldPos(Vector3 pieceOldPos)
-    {
-        this.pieceOldPos = pieceOldPos;
-    }
-    public Vector3 GetPieceOldPos()
-    {
-        return this.pieceOldPos;
     }
 
     public void updateChessArray(Vector3 position, int counter)
@@ -538,7 +531,6 @@ public class Board : MonoBehaviour
                         Vector3 checkPiecePos = new Vector3((float)currentlyCheckingKing[0].currentXPos, 0f, (float)currentlyCheckingKing[0].currentZPos);
                         if (checkPiecePos == tempMoves[k])
                         {
-                            Debug.Log("This is false");
                             return false;
                         }
                     }
@@ -547,10 +539,8 @@ public class Board : MonoBehaviour
         }
         if (kingMoves.Count > 1)
         {
-            Debug.Log("Another: This is false");
             return false;
         }
-        Debug.Log("This is true");
         return true;
     }
 
@@ -575,18 +565,53 @@ public class Board : MonoBehaviour
         return p;
     }
 
+    public void SetOldPos(Vector3 oldPos) 
+    {
+        this.oldPos = oldPos;
+    }
+
+    public Vector3 GetOldPos() 
+    {
+        return this.oldPos;
+    }
+
+    public void SetPiecesOldPos(Pieces[,] piecesOldPos) 
+    {
+        this.piecesOldPos = piecesOldPos;
+    }
+    public Pieces[,] GetPiecesOldPos()
+    {
+        return this.piecesOldPos;
+    }
+
+    public void SetOldBoardGO(GameObject[] oldBoardGO) 
+    {
+        this.oldBoardGO = oldBoardGO;
+    }
+    public GameObject[] GetOldBoardGO()
+    {
+        return this.oldBoardGO;
+    }
+
     public void IllegalMoveReset()
     {
         //player turn already reset
         GameObject gO = getCurrentPiece();
+        GameObject[] gOPieces = GetOldBoardGO();
+        Pieces[,] pieces = GetPiecesOldPos();
+        Vector3 oldPos = GetOldPos();
 
-        //move gameObject back to old position
+        Pieces p = gO.GetComponent<Pieces>();
 
-        //get the piece that was deleted and put it back on board
+        /*if (pieces[p.currentXPos, p.currentZPos] != null) //check moved to position if there was  piece taken 
+        {
+            Pieces removedPiece = pieces[p.currentXPos, p.currentZPos];
+            Vector3 vec = new Vector3((float)p.currentXPos, 0f, (float)p.currentZPos);
+            Pieces temp = Instantiate(prefabs[(int)removedPiece.ptype - 1], vec, Quaternion.identity).GetComponent<Pieces>();
+        }*/
+        p.currentXPos = (int)oldPos.x; p.currentZPos = (int)oldPos.z;
+        gO.transform.position = oldPos; //move gO to previous position
 
-        //
-
-        //update the chess array with old position again
-        //updateChessArray();
+        chessPieces = pieces;//update new array back to old array
     }
 }

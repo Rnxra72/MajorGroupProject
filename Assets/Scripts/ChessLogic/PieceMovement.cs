@@ -107,7 +107,13 @@ public class PieceMovement : MonoBehaviour
         Vector3 temp;
         Pieces[,] piecesArray = boardScript.getChessArray();
         PieceType pty = boardScript.getCurrentPiece().GetComponent<Pieces>().ptype;
-        boardScript.SetPieceOldPos(boardScript.getCurrentPiece().GetComponent<Transform>().position);//setting the piece being moveds old position stored in board
+        
+        boardScript.SetOldPos(boardScript.getCurrentPiece().GetComponent<Transform>().position);//setting the piece being moveds old position stored in board
+        Pieces[,] p = boardScript.getChessArray();
+        boardScript.SetPiecesOldPos(p);
+        GameObject[] objects = boardScript.GetPiecesOnBoard();
+        boardScript.SetOldBoardGO(objects);
+
 
         //get king script reference
         King wK = null; King bK = null;
@@ -179,7 +185,7 @@ public class PieceMovement : MonoBehaviour
 
         if (boardScript.getCurrentMoveValid())
         {
-            Pieces[,] p = boardScript.getChessArray();
+            p = boardScript.getChessArray();
 
             bool pieceHere = boardScript.isPieceOnTile(pos);
 
@@ -209,26 +215,6 @@ public class PieceMovement : MonoBehaviour
                     currentPiece.PawnPromotion(boardScript, currentPiece, pos);
                 }
             }
-
-            /*//checkmate checks
-            if(boardScript.getPlayerTurn() && wK.GetInCheck())
-            {
-                bool checkMate = boardScript.HasCheckMateOccured(boardScript, wK);
-                if (checkMate) 
-                {
-                    Debug.Log("Checkmate");
-                    boardScript.winSceneRedirect();
-                }
-            }
-            else if(!boardScript.getPlayerTurn() && bK.GetInCheck())
-            {
-                bool checkMate = boardScript.HasCheckMateOccured(boardScript, bK);
-                if (checkMate) 
-                {
-                    Debug.Log("Checkmate");
-                    boardScript.winSceneRedirect();
-                }
-            }*/
 
             //Debug.Log("Before move: " + boardSript.getPlayerTurn());
 
@@ -272,6 +258,36 @@ public class PieceMovement : MonoBehaviour
             //boardScript.setCurrentPiece(null); //lose ref to currently selected piece
             //boardScript.SetMovesAvailable(null);
 
+
+            //handels illegal move, moving own piece into a check position
+            Debug.Log(bK.GetInCheck());
+            Debug.Log(wK.GetInCheck());
+            if (boardScript.getPlayerTurn() && bK.GetInCheck() == true)
+            {
+
+                wK.SetInCheck(false);
+                string message = "Illegal move, piece Own Put King in check";
+                GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
+                TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
+                scriptToUser.ShowTextMessageToUser(message);
+
+                boardScript.setPlayerTurn(false);
+                boardScript.IllegalMoveReset();
+
+                bK.SetInCheck(false);
+            }
+            else if (!boardScript.getPlayerTurn() && wK.GetInCheck() == true)
+            {
+
+                wK.SetInCheck(false);
+                string message = "Illegal move, piece Own Put King in check";
+                GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
+                TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
+                scriptToUser.ShowTextMessageToUser(message);
+
+                boardScript.setPlayerTurn(true);
+                boardScript.IllegalMoveReset();
+            }
 
             //check if any piece on board puts either king in check
             Vector3 whiteKPos = new Vector3((float)wK.currentXPos, 0f, (float)wK.currentZPos);
@@ -317,31 +333,6 @@ public class PieceMovement : MonoBehaviour
             //Debug.Log("Not a valid move");
         }
 
-        //handels illegal move, moving own piece into a check position
-        Debug.Log(bK.GetInCheck());
-        Debug.Log(wK.GetInCheck());
-        /*if(boardScript.getPlayerTurn() && bK.GetInCheck())
-        {
-            string message = "Illegal move, piece Own Put King in check";
-            GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
-            TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
-            scriptToUser.ShowTextMessageToUser(message);
-
-            boardScript.setPlayerTurn(false);
-
-            boardScript.IllegalMoveReset();
-        }
-        else if(!boardScript.getPlayerTurn() && !wK.GetInCheck()) 
-        {
-            string message = "Illegal move, piece Own Put King in check";
-            GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
-            TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
-            scriptToUser.ShowTextMessageToUser(message);
-
-            boardScript.setPlayerTurn(true);
-            boardScript.IllegalMoveReset();
-        }*/
-
 
         //illegal move put own king in Check
         /* Debug.Log(bK.GetInCheck());
@@ -361,7 +352,8 @@ public class PieceMovement : MonoBehaviour
              TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
              scriptToUser.ShowTextMessageToUser(message);
              RerouteToEnd(0);
-         }`*/
+         }
+        */
 
 
         if (!wK.GetInCheck() && !bK.GetInCheck())
