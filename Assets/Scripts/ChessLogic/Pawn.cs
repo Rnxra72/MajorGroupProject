@@ -161,7 +161,7 @@ public class Pawn : Pieces
             }
             else
             {
-                Pieces bk = boardScript.GetWKingScript();
+                Pieces bk = boardScript.GetBKingScript();
                 Vector3 bkPos = new Vector3((float)bk.currentXPos, 0f, (float)bk.currentZPos);
                 return avaiableMoves = pieceScript.RemoveCheckCausingPos(boardScript, pieceScript, bk, bkPos, avaiableMoves);
             }

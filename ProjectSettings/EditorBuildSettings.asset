@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/SceneOne.unity
     guid: ac8b096bce0ee214596d07d14e857097
   - enabled: 1
-    path: Assets/Scenes/WinScene.unity
+    path: Assets/Scenes/WTeamWin.unity
     guid: b4713a80dedfae54a994bd36dd6b353b
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 4e5a63486647fe04a872e8a57c1cda01, type: 2}

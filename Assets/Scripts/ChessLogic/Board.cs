@@ -354,7 +354,7 @@ public class Board : MonoBehaviour
     }
 
     //this simulates all pieces of oposite tesma moves and returns if a check is possibleS,
-    //prevent player putting self in check
+    // prevent player putting self in check
     public bool IsMoveACheckPos(Vector3 position, Board boardScript, Pieces kScript, int counter, Pieces[,] p)
     {
         GameObject gO; Pieces piece;
