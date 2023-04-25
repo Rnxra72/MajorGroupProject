@@ -98,7 +98,6 @@ public class Knight : Pieces
                     avaiableMoves.Add(temp);
             }
         }
-        //boardScript.SetMovesAvailable(avaiableMoves);
         return avaiableMoves;
     }
 }

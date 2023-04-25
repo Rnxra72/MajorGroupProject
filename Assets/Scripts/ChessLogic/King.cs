@@ -43,7 +43,7 @@ public class King : Pieces
         {
             temp = new Vector3(x, 0f, z + 1);
             check = positionsChecks(temp, boardScript, pieceScript);
-            doesPosCauseCheck = boardScript.IsMoveACheckPos(temp, boardScript, pieceScript, 0);
+            doesPosCauseCheck = boardScript.IsMoveACheckPos(temp, boardScript, pieceScript, 0, boardScript.getChessArray());
             if (check && !doesPosCauseCheck)
                 avaiableMoves.Add(temp);
 
@@ -52,7 +52,7 @@ public class King : Pieces
             {
                 temp = new Vector3(x + 1, 0f, z + 1);
                 check = positionsChecks(temp, boardScript, pieceScript);
-                doesPosCauseCheck = boardScript.IsMoveACheckPos(temp, boardScript, pieceScript, 0);
+                doesPosCauseCheck = boardScript.IsMoveACheckPos(temp, boardScript, pieceScript, 0, boardScript.getChessArray());
                 if (check && !doesPosCauseCheck)
                     avaiableMoves.Add(temp);
 
@@ -61,7 +61,7 @@ public class King : Pieces
             {
                 temp = new Vector3(x - 1, 0f, z + 1);
                 check = positionsChecks(temp, boardScript, pieceScript);
-                doesPosCauseCheck = boardScript.IsMoveACheckPos(temp, boardScript, pieceScript, 0);
+                doesPosCauseCheck = boardScript.IsMoveACheckPos(temp, boardScript, pieceScript, 0, boardScript.getChessArray());
                 if (check && !doesPosCauseCheck)
                     avaiableMoves.Add(temp);
             }
@@ -70,7 +70,7 @@ public class King : Pieces
         {
             temp = new Vector3(x, 0f, z - 1);
             check = positionsChecks(temp, boardScript, pieceScript);
-            doesPosCauseCheck = boardScript.IsMoveACheckPos(temp, boardScript, pieceScript, 0);
+            doesPosCauseCheck = boardScript.IsMoveACheckPos(temp, boardScript, pieceScript, 0, boardScript.getChessArray());
             if (check && !doesPosCauseCheck)
                 avaiableMoves.Add(temp);
 
@@ -78,7 +78,7 @@ public class King : Pieces
             {
                 temp = new Vector3(x + 1, 0f, z - 1);
                 check = positionsChecks(temp, boardScript, pieceScript);
-                doesPosCauseCheck = boardScript.IsMoveACheckPos(temp, boardScript, pieceScript, 0);
+                doesPosCauseCheck = boardScript.IsMoveACheckPos(temp, boardScript, pieceScript, 0, boardScript.getChessArray());
                 if (check && !doesPosCauseCheck)
                     avaiableMoves.Add(temp);
             }
@@ -86,7 +86,7 @@ public class King : Pieces
             {
                 temp = new Vector3(x - 1, 0f, z - 1);
                 check = positionsChecks(temp, boardScript, pieceScript);
-                doesPosCauseCheck = boardScript.IsMoveACheckPos(temp, boardScript, pieceScript, 0);
+                doesPosCauseCheck = boardScript.IsMoveACheckPos(temp, boardScript, pieceScript, 0, boardScript.getChessArray());
                 if (check && !doesPosCauseCheck)
                     avaiableMoves.Add(temp);
             }
@@ -95,7 +95,7 @@ public class King : Pieces
         {
             temp = new Vector3(x + 1, 0f, z);
             check = positionsChecks(temp, boardScript, pieceScript);
-            doesPosCauseCheck = boardScript.IsMoveACheckPos(temp, boardScript, pieceScript, 0);
+            doesPosCauseCheck = boardScript.IsMoveACheckPos(temp, boardScript, pieceScript, 0, boardScript.getChessArray());
             if (check && !doesPosCauseCheck)
                 avaiableMoves.Add(temp);
         }
@@ -103,7 +103,7 @@ public class King : Pieces
         {
             temp = new Vector3(x - 1, 0f, z);
             check = positionsChecks(temp, boardScript, pieceScript);
-            doesPosCauseCheck = boardScript.IsMoveACheckPos(temp, boardScript, pieceScript, 0);
+            doesPosCauseCheck = boardScript.IsMoveACheckPos(temp, boardScript, pieceScript, 0, boardScript.getChessArray());
             if (check && !doesPosCauseCheck)
                 avaiableMoves.Add(temp);
         }

@@ -134,11 +134,6 @@ public class Pawn : Pieces
                         if (!isPieceOnPos)
                         {
                             avaiableMoves.Add(temp);
-                           /* if (temp.z == 0)
-                            {
-                                //pawnProcalled
-                                //boardScript.PawnPromotion(gO);
-                            }*/
                         }
                     }
                     else
@@ -148,20 +143,29 @@ public class Pawn : Pieces
                         if (!isPieceOnPos)
                         {
                             avaiableMoves.Add(temp);
-                            /*if (temp.z == 7)
-                            {
-                                //pawnProcalled
-                                //boardScript.PawnPromotion(gO);
-                                
-                            }*/
                         }
 
                     }
                 }
             }
         }
-        counter = 0;
-        //boardScript.SetMovesAvailable(avaiableMoves);
+
+        //remove any positions that would cause check, stop infinte loop with counter
+        if (counter == 0) 
+        {
+            if (pieceScript.team == 1)
+            {
+                Pieces wk = boardScript.GetWKingScript();
+                Vector3 wkPos = new Vector3((float)wk.currentXPos, 0f, (float)wk.currentZPos);
+                return avaiableMoves = pieceScript.RemoveCheckCausingPos(boardScript, pieceScript, wk, wkPos, avaiableMoves);
+            }
+            else
+            {
+                Pieces bk = boardScript.GetWKingScript();
+                Vector3 bkPos = new Vector3((float)bk.currentXPos, 0f, (float)bk.currentZPos);
+                return avaiableMoves = pieceScript.RemoveCheckCausingPos(boardScript, pieceScript, bk, bkPos, avaiableMoves);
+            }
+        }
         return avaiableMoves;
     }
     public bool TakeChecksMinus(List<Vector3> movesList, Pieces pieceScript, int zPos, Board boardScript) 

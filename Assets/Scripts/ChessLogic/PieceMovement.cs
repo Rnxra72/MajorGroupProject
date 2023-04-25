@@ -260,9 +260,10 @@ public class PieceMovement : MonoBehaviour
 
 
             //handels illegal move, moving own piece into a check position
-            Debug.Log(bK.GetInCheck());
-            Debug.Log(wK.GetInCheck());
-            if (boardScript.getPlayerTurn() && bK.GetInCheck() == true)
+            //..........Debug.Log(bK.GetInCheck());
+            //.........Debug.Log(wK.GetInCheck());
+            ///////////////////////////////////////////////////////////////////////////////
+           /* if (boardScript.getPlayerTurn() && bK.GetInCheck() == true)
             {
 
                 wK.SetInCheck(false);
@@ -287,13 +288,13 @@ public class PieceMovement : MonoBehaviour
 
                 boardScript.setPlayerTurn(true);
                 boardScript.IllegalMoveReset();
-            }
+            }*///////////////////////////////////////////////////////////////
 
             //check if any piece on board puts either king in check
             Vector3 whiteKPos = new Vector3((float)wK.currentXPos, 0f, (float)wK.currentZPos);
             Vector3 blackPos = new Vector3((float)bK.currentXPos, 0f, (float)bK.currentZPos);
-            bool hasCheckOccurredWhite = boardScript.IsMoveACheckPos(whiteKPos, boardScript, wK, 1);
-            bool hasCheckOccurredBlack = boardScript.IsMoveACheckPos(blackPos, boardScript, bK, 1);
+            bool hasCheckOccurredWhite = boardScript.IsMoveACheckPos(whiteKPos, boardScript, wK, 1, boardScript.getChessArray());
+            bool hasCheckOccurredBlack = boardScript.IsMoveACheckPos(blackPos, boardScript, bK, 1, boardScript.getChessArray());
             if (hasCheckOccurredWhite)
             {
                 wK.SetInCheck(true);
@@ -360,8 +361,9 @@ public class PieceMovement : MonoBehaviour
         {
             //see if white has any moves left and black has any moves left, reroute to stalemate screen
         }
+        boardScript.setCurrentPiece(null);
+        
     }
-
 
 
     public void PieceSelectedNormalGame(Board boardScript, Pieces p, GameObject gO)
@@ -373,6 +375,7 @@ public class PieceMovement : MonoBehaviour
         //createMovesList
         boardScript.CreateMovesList(gO);
     }
+
     public void RerouteToEnd(int winner)
     {
         SceneManager.LoadScene("Win Scene");

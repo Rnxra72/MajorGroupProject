@@ -276,4 +276,57 @@ public class Pieces : MonoBehaviour
         }
         return avaiableMoves;
     }
+
+    public List<Vector3> RemoveCheckCausingPos(Board boardScript, Pieces pieceScript, Pieces kScript, Vector3 kPos, List<Vector3> availabeMoves) 
+    {
+        Pieces tempStorage= null;
+        int x = pieceScript.currentXPos, z = pieceScript.currentZPos; //old positions
+        List<Vector3> moves = new List<Vector3>();
+        Pieces[,] p = boardScript.getChessArray();//local copy to reset real array
+        for (int i=0; i < availabeMoves.Count;  i++) 
+        {
+            Pieces pScript = pieceScript;//cerate local copy to fix details
+
+           // Debug.Log("Whhhhhyy");
+            p[x, z] = null;//make old pos null
+            Vector3 temp = availabeMoves[i];//the array
+            pScript.currentXPos = (int)temp.x; pScript.currentZPos =(int)temp.z;
+
+            if (p[(int)temp.x, (int)temp.z] != null) 
+            {
+                tempStorage = p[(int)temp.x, (int)temp.z];
+            }
+
+            p[(int)temp.x, (int)temp.z] = pScript;//update at checking position
+
+            //bool causesCheck = boardScript.MoveCausesCheck(boardScript, kScript, kPos, p);
+            int counter = 0;
+            bool causesCheck = boardScript.IsMoveACheckPos(kPos, boardScript, kScript, counter, p);
+            Debug.Log(causesCheck);
+
+            p = boardScript.getChessArray();
+
+            //reseting details
+            pScript.currentZPos=z; pScript.currentXPos = x;
+            p[x, z] = pieceScript;
+
+            if (tempStorage != null)
+                p[x, z] = tempStorage;
+
+            else
+                p[(int)temp.x, (int)temp.z] = null;
+
+            if (causesCheck) 
+            {
+                //moves.Add(availabeMoves[i]);
+                availabeMoves.RemoveAt(i);
+            }
+        }
+
+        /*if (moves.Count < 1) 
+        {
+            moves = availabeMoves;
+        }*/
+        return availabeMoves;
+    }
 }

@@ -353,54 +353,64 @@ public class Board : MonoBehaviour
         gameObject.GetComponent<MeshRenderer>().material = tileMaterials[1];
     }
 
-    public bool IsMoveACheckPos(Vector3 position, Board boardScript, Pieces kScript, int counter)
+    //this simulates all pieces of oposite tesma moves and returns if a check is possibleS,
+    //prevent player putting self in check
+    public bool IsMoveACheckPos(Vector3 position, Board boardScript, Pieces kScript, int counter, Pieces[,] p)
     {
         GameObject gO; Pieces piece;
         Vector3 movePos;
         List<Vector3> movesToBeChecked = new List<Vector3>();
-        GameObject[] piecesOnBoard = boardScript.GetPiecesOnBoard();
+        //GameObject[] piecesOnBoard = boardScript.GetPiecesOnBoard();
         bool holdResultTemp = false;
-        for (int i = 0; i < piecesOnBoard.Length; i++)
+        for (int i = 0; i < 8; i++)
         {
-            //Debug.Log("Num Here: " + i);
-            gO = piecesOnBoard[i];
-            piece = gO.GetComponent<Pieces>();
-
-            //if(counter == 2){}//do version with updated chess Pieces array here/made up one
-
-            if (kScript.team != piece.team && piece.ptype != PieceType.King)
+            for (int l = 0; l < 8; l++)
             {
-                if (piece.ptype == PieceType.Pawn)
-                {
-                    Pawn pawn = gO.GetComponent<Pawn>();
-                    movesToBeChecked = pawn.pawnMoveRules(boardScript, gO, 1);//value 1 here allow to simulate a piece at this position
+                //Debug.Log("Num Here: " + i);
+                piece = p[i, l];
 
-                    for (int j = 0; j < movesToBeChecked.Count; j++)
+
+                if (piece != null)
+                {
+                    gO = piece.gameObject;
+                    if (kScript.team != piece.team && piece.ptype != PieceType.King)
                     {
-                        movePos = movesToBeChecked[j];
-                        if (movePos == position)
+                        if (piece.ptype == PieceType.Pawn)
                         {
-                            //return true;
-                            holdResultTemp = true;
-                            if (counter == 1)
+                            Pawn pawn = piece.GetComponent<Pawn>();
+                            movesToBeChecked = pawn.pawnMoveRules(boardScript, gO, 1);//value 1 here allow to simulate a piece at this position
+
+                            for (int j = 0; j < movesToBeChecked.Count; j++)
                             {
-                                currentlyCheckingKing.Add(piece);
+                                movePos = movesToBeChecked[j];
+                                if (movePos == position)
+                                {
+                                    //return true;
+                                    holdResultTemp = true;
+                                    if (counter == 1)
+                                    {
+                                        currentlyCheckingKing.Add(piece);
+                                    }
+                                }
                             }
                         }
-                    }
-                }
-                else
-                {
-                    movesToBeChecked = piece.Rules(gO);
-
-                    for (int j = 0; j < movesToBeChecked.Count; j++)
-                    {
-                        movePos = movesToBeChecked[j];
-                        if (movePos == position)
+                        else
                         {
-                            //return true;
-                            holdResultTemp = true;
-                            currentlyCheckingKing.Add(piece);
+                            movesToBeChecked = piece.Rules(gO);
+
+                            for (int j = 0; j < movesToBeChecked.Count; j++)
+                            {
+                                movePos = movesToBeChecked[j];
+                                if (movePos == position)
+                                {
+                                    //return true;
+                                    holdResultTemp = true;
+                                    if (counter == 1)
+                                    {
+                                        currentlyCheckingKing.Add(piece);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -593,7 +603,7 @@ public class Board : MonoBehaviour
         return this.oldBoardGO;
     }
 
-    public void IllegalMoveReset()
+    /*public void IllegalMoveReset()
     {
         //player turn already reset
         GameObject gO = getCurrentPiece();
@@ -603,15 +613,130 @@ public class Board : MonoBehaviour
 
         Pieces p = gO.GetComponent<Pieces>();
 
-        /*if (pieces[p.currentXPos, p.currentZPos] != null) //check moved to position if there was  piece taken 
+        if (pieces[p.currentXPos, p.currentZPos] != null) //check moved to position if there was  piece taken 
         {
             Pieces removedPiece = pieces[p.currentXPos, p.currentZPos];
             Vector3 vec = new Vector3((float)p.currentXPos, 0f, (float)p.currentZPos);
             Pieces temp = Instantiate(prefabs[(int)removedPiece.ptype - 1], vec, Quaternion.identity).GetComponent<Pieces>();
-        }*/
+        }
         p.currentXPos = (int)oldPos.x; p.currentZPos = (int)oldPos.z;
         gO.transform.position = oldPos; //move gO to previous position
 
         chessPieces = pieces;//update new array back to old array
+    }*/
+
+    /*public bool MoveCausesCheck(Board boardScript, Pieces pieceScript, Pieces kScript, Vector3 kPos, Pieces[,] p) 
+    {
+        bool resultOfFunction = false;
+        Pieces piece;
+        List<Vector3> movesToBeChecked = new List<Vector3>();
+        Vector3 movePos;
+
+        for (int i = 0; i < 8; i++)
+        {
+            for (int j = 0; j < 8; j++)
+            {
+                //Debug.Log("WTF-1");
+                piece = p[i, j];
+                if (piece != null) 
+                {
+                    //Debug.Log("WTF-2");
+                    if (pieceScript.team != piece.team && piece.ptype != PieceType.King)
+                    {
+                        //Debug.Log("WTF-3");
+                        if (piece.ptype == PieceType.Pawn)
+                        {
+                            //Debug.Log("WTF-5");
+                            GameObject gO = piece.gameObject;
+                            Pawn pawn = gO.GetComponent<Pawn>();
+                            movesToBeChecked = pawn.pawnMoveRules(boardScript, gO, 1);//value 1 here allow to simulate a piece at this position, and stop loop
+
+                            for (int k = 0; k < movesToBeChecked.Count; k++)
+                            {
+                                movePos = movesToBeChecked[k];
+                                if (movePos == kPos)
+                                {
+                                    //Debug.Log("WTF-5");
+                                    resultOfFunction = true;
+                                }
+                            }
+                        }
+                        else if(piece.ptype != PieceType.Pawn)
+                        {
+                            //Debug.Log("WTF-6");
+                            GameObject gO = piece.gameObject;
+                            movesToBeChecked = piece.Rules(gO);
+
+                            for (int k = 0; k < movesToBeChecked.Count; k++)
+                            {
+                                movePos = movesToBeChecked[k];
+                                if (movePos == kPos)
+                                {
+                                    resultOfFunction = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return resultOfFunction;
+    }*/
+
+    public bool MoveCausesCheck(Board boardScript, Pieces kScript, Vector3 kPos, Pieces[,] p)
+    {
+        bool resultOfFunction = false;
+        Pieces piece;
+        List<Vector3> movesToBeChecked = new List<Vector3>();
+        Vector3 movePos;
+        GameObject gO;
+
+        for (int i = 0; i < 8; i++)
+        {
+            for (int j = 0; j < 8; j++)
+            {
+                piece = p[i, j];
+                if (piece != null)
+                {
+                    gO = piece.gameObject;
+                    if (kScript.team != piece.team && piece.ptype != PieceType.King)
+                    {
+                        //Debug.Log("..");
+                        if (piece.ptype == PieceType.Pawn)
+                        {
+                            Pawn pawn = gO.GetComponent<Pawn>();
+                            movesToBeChecked = pawn.pawnMoveRules(boardScript, gO, 1);//value 1 here allow to simulate a piece at this position
+
+                            for (int k = 0; k < movesToBeChecked.Count; k++)
+                            {
+                                movePos = movesToBeChecked[k];
+                                if (movePos == kPos)
+                                {
+                                    resultOfFunction = true;
+                                    Debug.Log(piece.ptype);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            movesToBeChecked = piece.Rules(gO);
+
+                            for (int k = 0; k < movesToBeChecked.Count; k++)
+                            {
+                                movePos = movesToBeChecked[k];
+                                if (movePos == kPos)
+                                {
+                                    resultOfFunction = true;
+                                    Debug.Log(piece.ptype);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        Debug.Log(resultOfFunction);
+        return resultOfFunction;
+        //return false;
     }
 }
