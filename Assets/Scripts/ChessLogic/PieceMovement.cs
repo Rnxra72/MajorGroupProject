@@ -306,7 +306,7 @@ public class PieceMovement : MonoBehaviour
 
                 if (boardScript.HasCheckMateOccured(boardScript, wK))
                 {
-                    boardScript.winSceneRedirect();
+                    boardScript.BTeamWinRedirect();
                 }
             }
             if (hasCheckOccurredBlack)
@@ -320,7 +320,7 @@ public class PieceMovement : MonoBehaviour
 
                 if (boardScript.HasCheckMateOccured(boardScript, bK))
                 {
-                    boardScript.winSceneRedirect();
+                    boardScript.WTeamWinRedirect();
                 }
             }
         }

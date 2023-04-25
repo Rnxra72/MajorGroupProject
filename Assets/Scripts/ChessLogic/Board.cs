@@ -290,13 +290,21 @@ public class Board : MonoBehaviour
         SceneManager.LoadScene("WinScene");
     }
 
-    public void loseSceneRedirect()
+    /*public void loseSceneRedirect()
     {
         SceneManager.LoadScene("LoseScene");
     }
     public void drawSceneRedirect()
     {
         SceneManager.LoadScene("DrawScene");
+    }*/
+    public void WTeamWinRedirect()
+    {
+        SceneManager.LoadScene("WTeamWin");
+    }
+    public void BTeamWinRedirect()
+    {
+        SceneManager.LoadScene("BTeamWin");
     }
 
     public void highlightSeletedPiece(GameObject selected)
@@ -483,7 +491,11 @@ public class Board : MonoBehaviour
         if (checkMate)
         {
             Debug.Log("Checkmate");
-            winSceneRedirect();
+            if (kScript.team == 1)
+                WTeamWinRedirect();
+
+            else
+                BTeamWinRedirect();
         }
 
         //build a movesList
