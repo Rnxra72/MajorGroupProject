@@ -17,20 +17,20 @@ public class Pieces : MonoBehaviour
     public int pieceWorth = 0;
 
 
-    public List<Vector3> Rules(GameObject piece)
+    public List<Vector3> Rules(GameObject piece, int counter)
     {
         List<Vector3> avaiableMoves = new List<Vector3>();
         GameObject board = GameObject.FindWithTag("BoardLayout");
         Board boardScript = board.GetComponent<Board>();
         //GameObject piece = boardScript.getCurrentPiece();
-        
+
         PieceType type = piece.GetComponent<Pieces>().ptype;
 
         //if statments for all piece types
         if (type == PieceType.Pawn)
         {
             Pawn pawnScript = piece.GetComponent<Pawn>(); //insatance of pawn script
-            avaiableMoves = pawnScript.pawnMoveRules(boardScript, piece, 0);
+            avaiableMoves = pawnScript.pawnMoveRules(boardScript, piece, counter);
         }
         else if (type == PieceType.King)
         {
@@ -41,22 +41,22 @@ public class Pieces : MonoBehaviour
         else if (type == PieceType.Queen)
         {
             Queen queenScript = piece.GetComponent<Queen>();
-            avaiableMoves = queenScript.queenRules(boardScript, piece);
+            avaiableMoves = queenScript.queenRules(boardScript, piece, counter);
         }
         else if (type == PieceType.Knight)
         {
             Knight knightScript = piece.GetComponent<Knight>();
-            avaiableMoves = knightScript.knightRules(boardScript, piece);
+            avaiableMoves = knightScript.knightRules(boardScript, piece, counter);
         }
         else if (type == PieceType.Rook)
         {
             Rook rookScript = piece.GetComponent<Rook>();
-            avaiableMoves = rookScript.rookRules(boardScript, piece);
+            avaiableMoves = rookScript.rookRules(boardScript, piece, counter);
         }
         else if (type == PieceType.Bishop)
         {
             Bishop bishopScript = piece.GetComponent<Bishop>();
-            avaiableMoves = bishopScript.bishopRules(boardScript, piece);
+            avaiableMoves = bishopScript.bishopRules(boardScript, piece, counter);
         }
         //boardScript.SetMovesAvailable(avaiableMoves); //the moves available to the piece selected set here
         return avaiableMoves;
@@ -83,7 +83,7 @@ public class Pieces : MonoBehaviour
         }
     }
 
-    public List<Vector3> BishopMoves(Board boardScript, GameObject gO) 
+    public List<Vector3> BishopMoves(Board boardScript, GameObject gO)
     {
         Pieces pieceScript = gO.GetComponent<Pieces>();
 
@@ -188,7 +188,7 @@ public class Pieces : MonoBehaviour
 
         int x = (pieceScript.currentXPos);
         int z = (pieceScript.currentZPos);
-        
+
         Vector3 temp; List<Vector3> avaiableMoves = new List<Vector3>();
         int counter = 0;
         int i = x, j = z;
@@ -277,22 +277,24 @@ public class Pieces : MonoBehaviour
         return avaiableMoves;
     }
 
-    public List<Vector3> RemoveCheckCausingPos(Board boardScript, Pieces pieceScript, Pieces kScript, Vector3 kPos, List<Vector3> availabeMoves) 
+    
+    public List<Vector3> RemoveCheckCausingPos(Board boardScript, Pieces pieceScript, Pieces kScript, Vector3 kPos, List<Vector3> availabeMoves)
     {
-        Pieces tempStorage= null;
+        Pieces tempStorage = null;
         int x = pieceScript.currentXPos, z = pieceScript.currentZPos; //old positions
         List<Vector3> moves = new List<Vector3>();
+        //int counter = 0;
         Pieces[,] p = boardScript.getChessArray();//local copy to reset real array
-        for (int i=0; i < availabeMoves.Count;  i++) 
+        for (int i = availabeMoves.Count-1; i >-1 ; i--)
         {
             Pieces pScript = pieceScript;//cerate local copy to fix details
-
-           // Debug.Log("Whhhhhyy");
+            p = boardScript.getChessArray();
+            tempStorage = null;
             p[x, z] = null;//make old pos null
             Vector3 temp = availabeMoves[i];//the array
-            pScript.currentXPos = (int)temp.x; pScript.currentZPos =(int)temp.z;
+            pScript.currentXPos = (int)temp.x; pScript.currentZPos = (int)temp.z;
 
-            if (p[(int)temp.x, (int)temp.z] != null) 
+            if (p[(int)temp.x, (int)temp.z] != null)
             {
                 tempStorage = p[(int)temp.x, (int)temp.z];
             }
@@ -302,31 +304,21 @@ public class Pieces : MonoBehaviour
             //bool causesCheck = boardScript.MoveCausesCheck(boardScript, kScript, kPos, p);
             int counter = 0;
             bool causesCheck = boardScript.IsMoveACheckPos(kPos, boardScript, kScript, counter, p);
-            Debug.Log(causesCheck);
 
-            p = boardScript.getChessArray();
 
             //reseting details
-            pScript.currentZPos=z; pScript.currentXPos = x;
+            pScript.currentZPos = z; pScript.currentXPos = x;
             p[x, z] = pieceScript;
 
-            if (tempStorage != null)
-                p[x, z] = tempStorage;
 
-            else
-                p[(int)temp.x, (int)temp.z] = null;
+            p[(int)temp.x, (int)temp.z] = tempStorage;
 
-            if (causesCheck) 
+            if (causesCheck)
             {
-                //moves.Add(availabeMoves[i]);
                 availabeMoves.RemoveAt(i);
             }
         }
 
-        /*if (moves.Count < 1) 
-        {
-            moves = availabeMoves;
-        }*/
         return availabeMoves;
     }
 }

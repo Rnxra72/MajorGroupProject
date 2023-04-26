@@ -59,7 +59,7 @@ public class PieceMovement : MonoBehaviour
                 //checks for game states
                 if (wK.GetInCheck() && p.team == 1)
                 {
-                    Debug.Log(boardScript.currentlyCheckingKing);
+                    //Debug.Log(boardScript.currentlyCheckingKing);
                     boardScript.KingInCheckGame(boardScript, gO, wK);
                 }
 
@@ -357,10 +357,7 @@ public class PieceMovement : MonoBehaviour
         */
 
 
-        if (!wK.GetInCheck() && !bK.GetInCheck())
-        {
-            //see if white has any moves left and black has any moves left, reroute to stalemate screen
-        }
+        boardScript.Stalemate(boardScript); //checks for a stalemate and redirects
         boardScript.setCurrentPiece(null);
         
     }
@@ -374,27 +371,5 @@ public class PieceMovement : MonoBehaviour
 
         //createMovesList
         boardScript.CreateMovesList(gO);
-    }
-
-    public void RerouteToEnd(int winner)
-    {
-        SceneManager.LoadScene("Win Scene");
-        /* if(winner == 1)
-         {
-             static string message = "White Wins";
-             static GameObject GO = GameObject.FindWithTag("GameOver");
-             static GameOverScript GameOver = GO.GetComponent<GameOverScript>();
-             static GameOver.GameOverMessage(message);
-             SceneManager.LoadScene("Win Scene");
-         }
-         else
-         {
-             static string message = "Black Wins"; 
-             static GameObject GO = GameObject.FindWithTag("GameOver");
-             static GameOverScript GameOver = GO.GetComponent<GameOverScript>();
-             static GameOver.GameOverMessage(message);
-             SceneManager.LoadScene("Win Scene");
-         }*/
-
     }
 }

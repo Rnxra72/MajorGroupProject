@@ -908,7 +908,6 @@ GameObject:
   m_Component:
   - component: {fileID: 227669764}
   - component: {fileID: 227669767}
-  - component: {fileID: 227669766}
   - component: {fileID: 227669765}
   m_Layer: 0
   m_Name: Main Camera
@@ -1005,14 +1004,6 @@ MonoBehaviour:
     m_SingletonActionBindings: []
     m_Flags: 0
   m_HasMigratedActions: 1
---- !u!81 &227669766
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 227669763}
-  m_Enabled: 1
 --- !u!20 &227669767
 Camera:
   m_ObjectHideFlags: 0

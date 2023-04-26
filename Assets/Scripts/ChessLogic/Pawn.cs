@@ -149,7 +149,7 @@ public class Pawn : Pieces
                 }
             }
         }
-
+        
         //remove any positions that would cause check, stop infinte loop with counter
         if (counter == 0) 
         {

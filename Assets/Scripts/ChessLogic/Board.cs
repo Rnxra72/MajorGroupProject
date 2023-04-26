@@ -224,7 +224,7 @@ public class Board : MonoBehaviour
     {
         Pieces pieceScript = getCurrentPiece().GetComponent<Pieces>();
 
-        SetMovesAvailable(pieceScript.Rules(getCurrentPiece())); 
+        SetMovesAvailable(pieceScript.Rules(getCurrentPiece(),0)); 
         //SetMovesAvailable(movesToBeChecked);
         HighlightAllTiles();
         //Debug.Log("checking here, CreateMoveList");
@@ -293,11 +293,11 @@ public class Board : MonoBehaviour
     /*public void loseSceneRedirect()
     {
         SceneManager.LoadScene("LoseScene");
-    }
+    }*/
     public void drawSceneRedirect()
     {
         SceneManager.LoadScene("DrawScene");
-    }*/
+    }
     public void WTeamWinRedirect()
     {
         SceneManager.LoadScene("WTeamWin");
@@ -393,8 +393,8 @@ public class Board : MonoBehaviour
                                 movePos = movesToBeChecked[j];
                                 if (movePos == position)
                                 {
-                                    //return true;
-                                    holdResultTemp = true;
+                                    return true;
+                                    //holdResultTemp = true;
                                     if (counter == 1)
                                     {
                                         currentlyCheckingKing.Add(piece);
@@ -404,15 +404,15 @@ public class Board : MonoBehaviour
                         }
                         else
                         {
-                            movesToBeChecked = piece.Rules(gO);
+                            movesToBeChecked = piece.Rules(gO,1);
 
                             for (int j = 0; j < movesToBeChecked.Count; j++)
                             {
                                 movePos = movesToBeChecked[j];
                                 if (movePos == position)
                                 {
-                                    //return true;
-                                    holdResultTemp = true;
+                                    return true;
+                                    //holdResultTemp = true;
                                     if (counter == 1)
                                     {
                                         currentlyCheckingKing.Add(piece);
@@ -424,7 +424,7 @@ public class Board : MonoBehaviour
                 }
             }
         }
-        //return false;
+        return false;
         return holdResultTemp;
     }
 
@@ -437,7 +437,7 @@ public class Board : MonoBehaviour
         if (pScript.team == 1)
         {
             kingPos = new Vector3((float)wK.currentXPos, 0f, (float)wK.currentZPos);
-            movesList = pScript.Rules(gO);
+            movesList = pScript.Rules(gO, 0);
             for (int i = 0; i < movesList.Count; i++) 
             {
                 if (movesList[i] == kingPos)
@@ -451,7 +451,7 @@ public class Board : MonoBehaviour
         else 
         {
             kingPos = new Vector3((float)bK.currentXPos, 0f, (float)bK.currentZPos);
-            movesList = pScript.Rules(gO);
+            movesList = pScript.Rules(gO,0);
             for (int i = 0; i < movesList.Count; i++) 
             {
                 if (movesList[i] == kingPos) 
@@ -465,14 +465,41 @@ public class Board : MonoBehaviour
         return false;
     }
 
-    public void Stalemate() 
+    public void Stalemate(Board boardScript)
     {
-       //if white king not in check && black king not in check
-       //whiteKings move list == null
-       //blackKings move list == null
+        //if white king not in check && black king not in check
+        bool wKCheck = wK.GetComponent<King>().GetInCheck();
+        bool bKCheck = bK.GetComponent<King>().GetInCheck();
 
-       //reroute to draw scene
+        if (!wKCheck && !bKCheck) 
+        {
+            if (IsStalemate(boardScript)) 
+            {
+                drawSceneRedirect();
+            }
+        }
     }
+
+    public bool IsStalemate(Board boardScript) 
+    {
+        GameObject gO; Pieces piece; Vector3 movePos;
+        List<Vector3> tempMoves;
+        List<Vector3> movesToBeChecked = new List<Vector3>();
+        GameObject[] piecesOnBoard = boardScript.GetPiecesOnBoard();
+
+        for (int i = 0; i < piecesOnBoard.Length; i++)
+        {
+            gO = piecesOnBoard[i];
+            piece = gO.GetComponent<Pieces>();
+               tempMoves = piece.Rules(gO, 0);
+               if (tempMoves.Count > 0)
+                   return false;
+
+        }
+        return true;
+    }
+
+
     //in check game controller
     public void KingInCheckGame(Board boardScript, GameObject pieceOB, King kScript)
     {
@@ -498,27 +525,8 @@ public class Board : MonoBehaviour
                 BTeamWinRedirect();
         }
 
-        //build a movesList
-        if (p.ptype == PieceType.King)
-        {
-            pieceMoves = kScript.kingRules(boardScript, pieceOB);
-        }
-        else
-        {
-            tempMoves = p.Rules(pieceOB);
-            for (int i = 0; i < tempMoves.Count; i++)
-            {
-                //if()//any positions match the attacking pieces position
-                for (int j = 0; j < currentlyCheckingKing.Count; j++)
-                {
-                    Vector3 checkPiecePos = new Vector3((float)currentlyCheckingKing[j].currentXPos, 0f, (float)currentlyCheckingKing[j].currentZPos);
-                    if (checkPiecePos == tempMoves[i])
-                    {
-                        pieceMoves.Add(checkPiecePos);
-                    }
-                }
-            }
-        }
+        pieceMoves = p.Rules(pieceOB, 0);
+
         SetMovesAvailable(pieceMoves);
         HighlightAllTiles();
     }
@@ -530,25 +538,27 @@ public class Board : MonoBehaviour
         List<Vector3> tempMoves;
         bool tempToReturn = true;
         //seeing if there are any king moves
-        GameObject gameOb = kScript.gameObject;
-        List<Vector3> kingMoves = kScript.kingRules(boardScript, gameOb);
-        Vector3 kPos = new Vector3((float)kScript.currentXPos, 0f, (float)kScript.currentZPos);
+        //GameObject gameOb = kScript.gameObject;
+        //List<Vector3> kingMoves = kScript.kingRules(boardScript, gameOb);
+        //Vector3 kPos = new Vector3((float)kScript.currentXPos, 0f, (float)kScript.currentZPos);
 
         //all other pieces checks
         List<Vector3> movesToBeChecked = new List<Vector3>();
         GameObject[] piecesOnBoard = boardScript.GetPiecesOnBoard();
-        for (int i = 0; i < piecesOnBoard.Length; i++)
+        /*for (int i = 0; i < piecesOnBoard.Length; i++)
         {
             gO = piecesOnBoard[i];
             piece = gO.GetComponent<Pieces>();
-            tempMoves = piece.Rules(gO);
+            tempMoves = piece.Rules(gO,0);
             movePos = new Vector3((float)piece.currentXPos, 0f, (float)piece.currentZPos);
             if (kScript.team == piece.team && piece.ptype != PieceType.King)
             {
-                //if()//any positions match the attacking pieces position
                 for (int j = 0; j < currentlyCheckingKing.Count; j++)
                 {
-                    for (int k = 0; i < tempMoves.Count; k++)
+                    if (tempMoves.Count > 0)
+                        return false;
+
+                    for (int k = 0; k < tempMoves.Count; k++)
                     {
                         Vector3 checkPiecePos = new Vector3((float)currentlyCheckingKing[0].currentXPos, 0f, (float)currentlyCheckingKing[0].currentZPos);
                         if (checkPiecePos == tempMoves[k])
@@ -559,9 +569,23 @@ public class Board : MonoBehaviour
                 }
             }
         }
-        if (kingMoves.Count > 1)
+        if (kingMoves.Count > 0)
         {
             return false;
+        }*/
+
+        for (int i = 0; i < piecesOnBoard.Length; i++)
+        {
+            gO = piecesOnBoard[i];
+            piece = gO.GetComponent<Pieces>();
+            if (piece.team == kScript.team) 
+            {
+                tempMoves = piece.Rules(gO, 0);
+
+                if (tempMoves.Count > 0)
+                    return false;
+            }
+
         }
         return true;
     }
@@ -731,7 +755,7 @@ public class Board : MonoBehaviour
                         }
                         else
                         {
-                            movesToBeChecked = piece.Rules(gO);
+                            movesToBeChecked = piece.Rules(gO,0);
 
                             for (int k = 0; k < movesToBeChecked.Count; k++)
                             {

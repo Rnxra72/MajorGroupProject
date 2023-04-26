@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BTeamWin.unity
     guid: 497a1900d89679741ae632327e6b6379
+  - enabled: 1
+    path: Assets/Scenes/DrawScene.unity
+    guid: d035adc887855a6409a1ac1993d9319c
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 4e5a63486647fe04a872e8a57c1cda01, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: fec284ba7c7dc27449b72d6f92391fa6, type: 2}

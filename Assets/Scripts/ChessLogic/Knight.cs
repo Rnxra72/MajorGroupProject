@@ -16,7 +16,7 @@ public class Knight : Pieces
         
     }
 
-    public List<Vector3> knightRules(Board boardScript, GameObject gO)
+    public List<Vector3> knightRules(Board boardScript, GameObject gO, int itteractionCount)
     {
         List<Vector3> avaiableMoves = new List<Vector3>();
         Pieces pieceScript = gO.GetComponent<Pieces>();
@@ -96,6 +96,22 @@ public class Knight : Pieces
                 check = positionsChecks(temp, boardScript, pieceScript);
                 if (check)
                     avaiableMoves.Add(temp);
+            }
+        }
+        //remove any positions that would cause check, stop infinte loop with counter
+        if (itteractionCount == 0)
+        {
+            if (pieceScript.team == 1)
+            {
+                Pieces wk = boardScript.GetWKingScript();
+                Vector3 wkPos = new Vector3((float)wk.currentXPos, 0f, (float)wk.currentZPos);
+                return avaiableMoves = pieceScript.RemoveCheckCausingPos(boardScript, pieceScript, wk, wkPos, avaiableMoves);
+            }
+            else
+            {
+                Pieces bk = boardScript.GetBKingScript();
+                Vector3 bkPos = new Vector3((float)bk.currentXPos, 0f, (float)bk.currentZPos);
+                return avaiableMoves = pieceScript.RemoveCheckCausingPos(boardScript, pieceScript, bk, bkPos, avaiableMoves);
             }
         }
         return avaiableMoves;
