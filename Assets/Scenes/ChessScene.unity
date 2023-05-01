@@ -5067,6 +5067,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 3842285770430832704, guid: b85f6a410e5084c46acaf1687cd0a409, type: 3}
+      propertyPath: m_text
+      value: resign
+      objectReference: {fileID: 0}
     - target: {fileID: 3842285770430832766, guid: b85f6a410e5084c46acaf1687cd0a409, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
@@ -5096,8 +5100,36 @@ PrefabInstance:
       value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 3842285771165873945, guid: b85f6a410e5084c46acaf1687cd0a409, type: 3}
+      propertyPath: m_Name
+      value: ResignButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 3842285771165873945, guid: b85f6a410e5084c46acaf1687cd0a409, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 3842285771165873947, guid: b85f6a410e5084c46acaf1687cd0a409, type: 3}
+      propertyPath: m_Colors.m_NormalColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3842285771165873947, guid: b85f6a410e5084c46acaf1687cd0a409, type: 3}
+      propertyPath: m_Colors.m_NormalColor.g
+      value: 0.57317543
+      objectReference: {fileID: 0}
+    - target: {fileID: 3842285771165873947, guid: b85f6a410e5084c46acaf1687cd0a409, type: 3}
+      propertyPath: m_Colors.m_NormalColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3842285771165873947, guid: b85f6a410e5084c46acaf1687cd0a409, type: 3}
+      propertyPath: m_Colors.m_PressedColor.b
+      value: 0.3254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 3842285771165873947, guid: b85f6a410e5084c46acaf1687cd0a409, type: 3}
+      propertyPath: m_Colors.m_PressedColor.g
+      value: 0.3254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 3842285771165873947, guid: b85f6a410e5084c46acaf1687cd0a409, type: 3}
+      propertyPath: m_Colors.m_PressedColor.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3842285771723198974, guid: b85f6a410e5084c46acaf1687cd0a409, type: 3}
       propertyPath: m_IsActive
@@ -5256,8 +5288,32 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3842285772416447471, guid: b85f6a410e5084c46acaf1687cd0a409, type: 3}
+      propertyPath: m_Name
+      value: PauseButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 3842285772416447471, guid: b85f6a410e5084c46acaf1687cd0a409, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 3842285772416447473, guid: b85f6a410e5084c46acaf1687cd0a409, type: 3}
+      propertyPath: m_Colors.m_NormalColor.g
+      value: 0.5764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 3842285772416447473, guid: b85f6a410e5084c46acaf1687cd0a409, type: 3}
+      propertyPath: m_Colors.m_NormalColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3842285772416447473, guid: b85f6a410e5084c46acaf1687cd0a409, type: 3}
+      propertyPath: m_Colors.m_PressedColor.b
+      value: 0.32452828
+      objectReference: {fileID: 0}
+    - target: {fileID: 3842285772416447473, guid: b85f6a410e5084c46acaf1687cd0a409, type: 3}
+      propertyPath: m_Colors.m_PressedColor.g
+      value: 0.32452828
+      objectReference: {fileID: 0}
+    - target: {fileID: 3842285772416447473, guid: b85f6a410e5084c46acaf1687cd0a409, type: 3}
+      propertyPath: m_Colors.m_PressedColor.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b85f6a410e5084c46acaf1687cd0a409, type: 3}
