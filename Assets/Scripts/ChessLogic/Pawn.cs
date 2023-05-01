@@ -51,10 +51,6 @@ public class Pawn : Pieces
                 {
                     avaiableMoves.Add(temp);
 
-                    //if (temp.z == 0)
-                        //pawnProcalled
-                        //boardScript.PawnPromotion();
-
                     currentlyBlocking = false;
                 }
                     
@@ -90,12 +86,6 @@ public class Pawn : Pieces
                 if (!isPieceOnPos)
                 {
                     avaiableMoves.Add(temp);
-
-                    /*if (temp.z == 7)
-                    {
-                        //pawnProcalled
-                        //boardScript.PawnPromotion(gO);
-                    }*/
 
                         currentlyBlocking = false;
                 }
