@@ -833,6 +833,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a25cff517260cd94f9ab8334e85b125a, type: 3}
+--- !u!1 &141245800 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3842285771982588932, guid: b85f6a410e5084c46acaf1687cd0a409, type: 3}
+  m_PrefabInstance: {fileID: 1583437699}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &226359691
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6551,6 +6556,25 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3842285771982588936, guid: b85f6a410e5084c46acaf1687cd0a409, type: 3}
   m_PrefabInstance: {fileID: 1583437699}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1854644696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141245800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7951c64acb0fa62458bf30a60089fe2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 0
+  m_CheckFor2DOcclusion: 0
+  m_CheckFor3DOcclusion: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RaycastTriggerInteraction: 1
 --- !u!1 &1866966424
 GameObject:
   m_ObjectHideFlags: 0
