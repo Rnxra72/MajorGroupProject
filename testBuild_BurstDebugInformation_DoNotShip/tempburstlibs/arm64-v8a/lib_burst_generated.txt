@@ -121,6 +121,10 @@ Library: lib_burst_generated
 --compilation-defines=ENABLE_TIMELINE
 --compilation-defines=ENABLE_INPUT_SYSTEM
 --compilation-defines=ENABLE_LEGACY_INPUT_MANAGER
+--compilation-defines=PHOTON_UNITY_NETWORKING
+--compilation-defines=PUN_2_0_OR_NEWER
+--compilation-defines=PUN_2_OR_NEWER
+--compilation-defines=PUN_2_19_OR_NEWER
 --compilation-defines=INPUT_SYSTEM_1_1_OR_NEWER
 --compilation-defines=LIH_PRESENT_V2API
 --compilation-defines=LIH_PRESENT
@@ -176,9 +180,13 @@ Library: lib_burst_generated
 --root-assembly=C:\Users\Sarah\Documents\GitHub\MajorGroupProject\Temp\StagingArea\Data\Managed\Unity.Services.Core.Environments.Internal.dll
 --root-assembly=C:\Users\Sarah\Documents\GitHub\MajorGroupProject\Temp\StagingArea\Data\Managed\Unity.TextMeshPro.dll
 --root-assembly=C:\Users\Sarah\Documents\GitHub\MajorGroupProject\Temp\StagingArea\Data\Managed\Unity.Burst.dll
+--root-assembly=C:\Users\Sarah\Documents\GitHub\MajorGroupProject\Temp\StagingArea\Data\Managed\PhotonUnityNetworking.Demos.dll
 --root-assembly=C:\Users\Sarah\Documents\GitHub\MajorGroupProject\Temp\StagingArea\Data\Managed\Unity.RenderPipeline.Universal.ShaderLibrary.dll
 --root-assembly=C:\Users\Sarah\Documents\GitHub\MajorGroupProject\Temp\StagingArea\Data\Managed\Assembly-CSharp.dll
 --root-assembly=C:\Users\Sarah\Documents\GitHub\MajorGroupProject\Temp\StagingArea\Data\Managed\Unity.Services.Core.Environments.dll
+--root-assembly=C:\Users\Sarah\Documents\GitHub\MajorGroupProject\Temp\StagingArea\Data\Managed\PhotonRealtime.dll
+--root-assembly=C:\Users\Sarah\Documents\GitHub\MajorGroupProject\Temp\StagingArea\Data\Managed\PhotonUnityNetworking.dll
+--root-assembly=C:\Users\Sarah\Documents\GitHub\MajorGroupProject\Temp\StagingArea\Data\Managed\PhotonUnityNetworking.Utilities.dll
 --root-assembly=C:\Users\Sarah\Documents\GitHub\MajorGroupProject\Temp\StagingArea\Data\Managed\Unity.Services.Core.Internal.dll
 --root-assembly=C:\Users\Sarah\Documents\GitHub\MajorGroupProject\Temp\StagingArea\Data\Managed\Unity.XR.CoreUtils.dll
 --root-assembly=C:\Users\Sarah\Documents\GitHub\MajorGroupProject\Temp\StagingArea\Data\Managed\Unity.XR.OpenXR.dll
@@ -186,6 +194,7 @@ Library: lib_burst_generated
 --root-assembly=C:\Users\Sarah\Documents\GitHub\MajorGroupProject\Temp\StagingArea\Data\Managed\Unity.Mathematics.dll
 --root-assembly=C:\Users\Sarah\Documents\GitHub\MajorGroupProject\Temp\StagingArea\Data\Managed\Unity.Services.Core.Scheduler.dll
 --root-assembly=C:\Users\Sarah\Documents\GitHub\MajorGroupProject\Temp\StagingArea\Data\Managed\Unity.Services.Core.Device.dll
+--root-assembly=C:\Users\Sarah\Documents\GitHub\MajorGroupProject\Temp\StagingArea\Data\Managed\PhotonChat.dll
 --root-assembly=C:\Users\Sarah\Documents\GitHub\MajorGroupProject\Temp\StagingArea\Data\Managed\Unity.Services.Core.Analytics.dll
 --root-assembly=C:\Users\Sarah\Documents\GitHub\MajorGroupProject\Temp\StagingArea\Data\Managed\Unity.XR.Management.dll
 --root-assembly=C:\Users\Sarah\Documents\GitHub\MajorGroupProject\Temp\StagingArea\Data\Managed\Unity.Services.Core.Configuration.dll

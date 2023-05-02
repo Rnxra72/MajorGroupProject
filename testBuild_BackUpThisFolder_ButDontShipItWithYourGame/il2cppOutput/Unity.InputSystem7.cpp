@@ -28344,7 +28344,7 @@ IL_01ea_1:
 				int64_t L_76 = V_18;
 				NullCheck(L_74);
 				String_t* L_77;
-				L_77 = VirtualFuncInvoker3< String_t*, ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031*, int32_t, int32_t >::Invoke(34 /* System.String System.Text.Encoding::GetString(System.Byte[],System.Int32,System.Int32) */, L_74, L_75, 0, ((int32_t)L_76));
+				L_77 = VirtualFuncInvoker3< String_t*, ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031*, int32_t, int32_t >::Invoke(35 /* System.String System.Text.Encoding::GetString(System.Byte[],System.Int32,System.Int32) */, L_74, L_75, 0, ((int32_t)L_76));
 				V_20 = L_77;
 			}
 			try

@@ -235,6 +235,17 @@ public class Board : MonoBehaviour
     {
         GameObject gO = tempPiece.gameObject;
         int t = tempPiece.team;
+
+        //to catch issue with game
+        if (tempPiece.ptype == PieceType.King) 
+        {
+            string message = "Game Bug Has Occurred, you will be exited to main menu";
+            GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
+            TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
+            scriptToUser.ShowTextMessageToUser(message);
+            Invoke("error", 5);
+        }
+
         //update player score
         if (t == 0)
         {
@@ -276,11 +287,6 @@ public class Board : MonoBehaviour
         return this.currentMoveValid;
     }
 
-    public void winSceneRedirect()
-    {
-        SceneManager.LoadScene("WinScene");
-    }
-
     /*public void loseSceneRedirect()
     {
         SceneManager.LoadScene("LoseScene");
@@ -288,6 +294,10 @@ public class Board : MonoBehaviour
     public void drawSceneRedirect()
     {
         SceneManager.LoadScene("DrawScene");
+    }
+    public void error()
+    {
+        SceneManager.LoadScene("SceneOne");
     }
     public void WTeamWinRedirect()
     {
@@ -360,7 +370,6 @@ public class Board : MonoBehaviour
         Vector3 movePos;
         List<Vector3> movesToBeChecked = new List<Vector3>();
         //GameObject[] piecesOnBoard = boardScript.GetPiecesOnBoard();
-        bool holdResultTemp = false;
         for (int i = 0; i < 8; i++)
         {
             for (int l = 0; l < 8; l++)
@@ -372,7 +381,7 @@ public class Board : MonoBehaviour
                 if (piece != null)
                 {
                     gO = piece.gameObject;
-                    if (kScript.team != piece.team && piece.ptype != PieceType.King)
+                    if (kScript.team != piece.team)
                     {
                         if (piece.ptype == PieceType.Pawn)
                         {
@@ -384,12 +393,12 @@ public class Board : MonoBehaviour
                                 movePos = movesToBeChecked[j];
                                 if (movePos == position)
                                 {
-                                    return true;
                                     //holdResultTemp = true;
                                     if (counter == 1)
                                     {
                                         currentlyCheckingKing.Add(piece);
                                     }
+                                    return true;
                                 }
                             }
                         }
@@ -402,12 +411,13 @@ public class Board : MonoBehaviour
                                 movePos = movesToBeChecked[j];
                                 if (movePos == position)
                                 {
-                                    return true;
+                                    
                                     //holdResultTemp = true;
                                     if (counter == 1)
                                     {
                                         currentlyCheckingKing.Add(piece);
                                     }
+                                    return true;
                                 }
                             }
                         }
@@ -416,7 +426,6 @@ public class Board : MonoBehaviour
             }
         }
         return false;
-        return holdResultTemp;
     }
 
     //when a piece moves will their next move be able to take king(king cant actually be taken by any piece), IE is king in check currently

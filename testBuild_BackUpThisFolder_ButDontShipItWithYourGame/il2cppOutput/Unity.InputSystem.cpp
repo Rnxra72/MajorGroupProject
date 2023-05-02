@@ -10991,7 +10991,7 @@ IL_006b:
 		DisplayNameAttribute_tECBA9AC4CCBE61186E2B3C397C93AAFA5A2631E8* L_21 = V_0;
 		NullCheck(L_21);
 		String_t* L_22;
-		L_22 = VirtualFuncInvoker0< String_t* >::Invoke(4 /* System.String System.ComponentModel.DisplayNameAttribute::get_DisplayName() */, L_21);
+		L_22 = VirtualFuncInvoker0< String_t* >::Invoke(7 /* System.String System.ComponentModel.DisplayNameAttribute::get_DisplayName() */, L_21);
 		V_4 = L_22;
 		goto IL_0075;
 	}
@@ -33489,7 +33489,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool ParameterEnumerator_FindParameter_mB2688
 		RuntimeObject* L_3 = ___instance0;
 		NullCheck(L_2);
 		bool L_4;
-		L_4 = VirtualFuncInvoker1< bool, RuntimeObject* >::Invoke(110 /* System.Boolean System.Type::IsInstanceOfType(System.Object) */, L_2, L_3);
+		L_4 = VirtualFuncInvoker1< bool, RuntimeObject* >::Invoke(112 /* System.Boolean System.Type::IsInstanceOfType(System.Object) */, L_2, L_3);
 		G_B3_0 = ((((int32_t)L_4) == ((int32_t)0))? 1 : 0);
 		goto IL_0021;
 	}
@@ -33525,7 +33525,7 @@ IL_0029:
 		String_t* L_8 = __this->___m_ParameterName_10;
 		NullCheck(L_7);
 		FieldInfo_t* L_9;
-		L_9 = VirtualFuncInvoker2< FieldInfo_t*, String_t*, int32_t >::Invoke(83 /* System.Reflection.FieldInfo System.Type::GetField(System.String,System.Reflection.BindingFlags) */, L_7, L_8, ((int32_t)21));
+		L_9 = VirtualFuncInvoker2< FieldInfo_t*, String_t*, int32_t >::Invoke(85 /* System.Reflection.FieldInfo System.Type::GetField(System.String,System.Reflection.BindingFlags) */, L_7, L_8, ((int32_t)21));
 		V_0 = L_9;
 		// if (field == null)
 		FieldInfo_t* L_10 = V_0;
@@ -37464,7 +37464,7 @@ IL_0131_1:
 				InputControl_t74F06B623518F992BF8E38656A5E0857169E3E2E* L_46 = V_8;
 				NullCheck(L_45);
 				bool L_47;
-				L_47 = VirtualFuncInvoker1< bool, RuntimeObject* >::Invoke(110 /* System.Boolean System.Type::IsInstanceOfType(System.Object) */, L_45, L_46);
+				L_47 = VirtualFuncInvoker1< bool, RuntimeObject* >::Invoke(112 /* System.Boolean System.Type::IsInstanceOfType(System.Object) */, L_45, L_46);
 				G_B28_0 = ((((int32_t)L_47) == ((int32_t)0))? 1 : 0);
 				goto IL_0152_1;
 			}

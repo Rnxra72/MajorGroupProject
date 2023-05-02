@@ -36,7 +36,7 @@ public class Pieces : MonoBehaviour
         {
             //call pawn method specific rules
             King kingScript = piece.GetComponent<King>();
-            avaiableMoves = kingScript.kingRules(boardScript, piece);
+            avaiableMoves = kingScript.kingRules(boardScript, piece, counter);
         }
         else if (type == PieceType.Queen)
         {
@@ -313,7 +313,7 @@ public class Pieces : MonoBehaviour
 
             p[(int)temp.x, (int)temp.z] = tempStorage;
 
-            if (causesCheck)
+            if (causesCheck && pieceScript.ptype != PieceType.King)
             {
                 availabeMoves.RemoveAt(i);
             }

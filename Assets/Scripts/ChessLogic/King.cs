@@ -25,10 +25,9 @@ public class King : Pieces
         return this.inCheck;
     }
 
-    public List<Vector3> kingRules( Board boardScript, GameObject gO)
+    public List<Vector3> kingRules( Board boardScript, GameObject gO, int counter)
     {
         List<Vector3> avaiableMoves = new List<Vector3>();
-       // King kingScipt = boardScript.getCurrentPiece().GetComponent<King>();
         Pieces pieceScript= gO.GetComponent<Pieces>();
 
 
@@ -36,10 +35,9 @@ public class King : Pieces
         float z = (float)(pieceScript.currentZPos);
         Vector3 temp;
 
-        //Pieces[,] chessArray = boardScript.getChessArray();
         bool check = false, doesPosCauseCheck = false;
 
-        if (z != 7)
+        if (z != 7 && counter == 0)
         {
             temp = new Vector3(x, 0f, z + 1);
             check = positionsChecks(temp, boardScript, pieceScript);
@@ -48,7 +46,7 @@ public class King : Pieces
                 avaiableMoves.Add(temp);
 
 
-            if (x != 7)
+            if (x != 7 && counter == 0)
             {
                 temp = new Vector3(x + 1, 0f, z + 1);
                 check = positionsChecks(temp, boardScript, pieceScript);
@@ -57,7 +55,7 @@ public class King : Pieces
                     avaiableMoves.Add(temp);
 
             }
-            if (x != 0)
+            if (x != 0 && counter == 0)
             {
                 temp = new Vector3(x - 1, 0f, z + 1);
                 check = positionsChecks(temp, boardScript, pieceScript);
@@ -66,7 +64,7 @@ public class King : Pieces
                     avaiableMoves.Add(temp);
             }
         }
-        if (z != 0)
+        if (z != 0 && counter == 0)
         {
             temp = new Vector3(x, 0f, z - 1);
             check = positionsChecks(temp, boardScript, pieceScript);
@@ -74,7 +72,7 @@ public class King : Pieces
             if (check && !doesPosCauseCheck)
                 avaiableMoves.Add(temp);
 
-            if (x != 7)
+            if (x != 7 && counter == 0)
             {
                 temp = new Vector3(x + 1, 0f, z - 1);
                 check = positionsChecks(temp, boardScript, pieceScript);
@@ -82,7 +80,7 @@ public class King : Pieces
                 if (check && !doesPosCauseCheck)
                     avaiableMoves.Add(temp);
             }
-            if (x != 0)
+            if (x != 0 && counter == 0)
             {
                 temp = new Vector3(x - 1, 0f, z - 1);
                 check = positionsChecks(temp, boardScript, pieceScript);
@@ -91,7 +89,7 @@ public class King : Pieces
                     avaiableMoves.Add(temp);
             }
         }
-        if (x != 7)
+        if (x != 7 && counter == 0)
         {
             temp = new Vector3(x + 1, 0f, z);
             check = positionsChecks(temp, boardScript, pieceScript);
@@ -99,7 +97,7 @@ public class King : Pieces
             if (check && !doesPosCauseCheck)
                 avaiableMoves.Add(temp);
         }
-        if (x != 0)
+        if (x != 0 && counter == 0)
         {
             temp = new Vector3(x - 1, 0f, z);
             check = positionsChecks(temp, boardScript, pieceScript);
@@ -107,8 +105,30 @@ public class King : Pieces
             if (check && !doesPosCauseCheck)
                 avaiableMoves.Add(temp);
         }
-        //boardScript.SetMovesAvailable(avaiableMoves);
-
+        //remove any positions that would cause check, stop infinte loop with counter
+        if (counter == 0)
+        {
+            if (pieceScript.team == 1)
+            {
+                Pieces wk = boardScript.GetWKingScript();
+                if (boardScript.getCurrentPiece().GetComponent<Pieces>().ptype == PieceType.King) 
+                {
+                    wk = pieceScript;
+                }
+                Vector3 wkPos = new Vector3((float)wk.currentXPos, 0f, (float)wk.currentZPos);
+                return avaiableMoves = pieceScript.RemoveCheckCausingPos(boardScript, pieceScript, wk, wkPos, avaiableMoves);
+            }
+            else
+            {
+                Pieces bk = boardScript.GetBKingScript();
+                if (boardScript.getCurrentPiece().GetComponent<Pieces>().ptype == PieceType.King)
+                {
+                    bk = pieceScript;
+                }
+                Vector3 bkPos = new Vector3((float)bk.currentXPos, 0f, (float)bk.currentZPos);
+                return avaiableMoves = pieceScript.RemoveCheckCausingPos(boardScript, pieceScript, bk, bkPos, avaiableMoves);
+            }
+        }
         return avaiableMoves;
     }
 }

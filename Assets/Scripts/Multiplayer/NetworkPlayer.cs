@@ -24,7 +24,7 @@ public class NetworkPlayer : MonoBehaviour
     {
         photonView = GetComponent<PhotonView>();
 
-        XRRig rig = FindObjectOfType<XRRig>();
+        /*XRRig rig = FindObjectOfType<XRRig>();
         headRig = rig.transform.Find("Camera Offset/Main Camera");
         leftHandRig = rig.transform.Find("Camera Offset/LeftHand Controller");
         rightHandRig = rig.transform.Find("Camera Offset/RightHand Controller");
@@ -35,19 +35,19 @@ public class NetworkPlayer : MonoBehaviour
             {
                 item.enabled = false;
             }
-        }
+        }*/
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (photonView.IsMine)
+        /*if (photonView.IsMine)
         {
             MapPosition(head, headRig);
             MapPosition(leftHand, leftHandRig);
             MapPosition(rightHand, rightHandRig);
 
-        }
+        }*/
 
     }
 

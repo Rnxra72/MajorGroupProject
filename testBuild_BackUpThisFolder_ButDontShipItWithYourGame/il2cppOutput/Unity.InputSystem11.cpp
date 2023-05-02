@@ -19763,7 +19763,7 @@ IL_0014:
 		L_6 = NamedValue_get_name_m45E9C3490890CE9E140EFCF1A33781E0939A884F_inline(__this, NULL);
 		NullCheck(L_5);
 		FieldInfo_t* L_7;
-		L_7 = VirtualFuncInvoker2< FieldInfo_t*, String_t*, int32_t >::Invoke(83 /* System.Reflection.FieldInfo System.Type::GetField(System.String,System.Reflection.BindingFlags) */, L_5, L_6, ((int32_t)53));
+		L_7 = VirtualFuncInvoker2< FieldInfo_t*, String_t*, int32_t >::Invoke(85 /* System.Reflection.FieldInfo System.Type::GetField(System.String,System.Reflection.BindingFlags) */, L_5, L_6, ((int32_t)53));
 		V_1 = L_7;
 		// if (field == null)
 		FieldInfo_t* L_8 = V_1;
@@ -20479,7 +20479,7 @@ IL_0029:
 		InputDevice_t8BCF67533E872A75779C24C93D1D7085B72D364B* L_8 = V_1;
 		NullCheck(L_7);
 		bool L_9;
-		L_9 = VirtualFuncInvoker1< bool, RuntimeObject* >::Invoke(110 /* System.Boolean System.Type::IsInstanceOfType(System.Object) */, L_7, L_8);
+		L_9 = VirtualFuncInvoker1< bool, RuntimeObject* >::Invoke(112 /* System.Boolean System.Type::IsInstanceOfType(System.Object) */, L_7, L_8);
 		V_3 = (bool)((((int32_t)L_9) == ((int32_t)0))? 1 : 0);
 		bool L_10 = V_3;
 		if (!L_10)
@@ -25105,7 +25105,7 @@ IL_0214:
 		L_71 = Object_GetType_mE10A8FC1E57F3DF29972CCBC026C2DC3942263B3(L_70, NULL);
 		NullCheck(L_71);
 		Type_t* L_72;
-		L_72 = VirtualFuncInvoker0< Type_t* >::Invoke(112 /* System.Type System.Type::GetEnumUnderlyingType() */, L_71);
+		L_72 = VirtualFuncInvoker0< Type_t* >::Invoke(114 /* System.Type System.Type::GetEnumUnderlyingType() */, L_71);
 		V_30 = L_72;
 		// var underlyingTypeCode = Type.GetTypeCode(underlyingType);
 		Type_t* L_73 = V_30;
@@ -31002,7 +31002,7 @@ IL_0053:
 		Type_t* L_14 = ___type0;
 		NullCheck(L_14);
 		TypeU5BU5D_t97234E1129B564EB38B8D85CAC2AD8B5B9522FFB* L_15;
-		L_15 = VirtualFuncInvoker0< TypeU5BU5D_t97234E1129B564EB38B8D85CAC2AD8B5B9522FFB* >::Invoke(109 /* System.Type[] System.Type::GetInterfaces() */, L_14);
+		L_15 = VirtualFuncInvoker0< TypeU5BU5D_t97234E1129B564EB38B8D85CAC2AD8B5B9522FFB* >::Invoke(111 /* System.Type[] System.Type::GetInterfaces() */, L_14);
 		V_4 = L_15;
 		// var haveFoundInterface = false;
 		V_5 = (bool)0;
@@ -31139,7 +31139,7 @@ IL_00d5:
 		Type_t* L_42 = ___type0;
 		NullCheck(L_42);
 		Type_t* L_43;
-		L_43 = VirtualFuncInvoker0< Type_t* >::Invoke(107 /* System.Type System.Type::get_BaseType() */, L_42);
+		L_43 = VirtualFuncInvoker0< Type_t* >::Invoke(109 /* System.Type System.Type::get_BaseType() */, L_42);
 		___type0 = L_43;
 		// if (type == null || type == typeof(object))
 		Type_t* L_44 = ___type0;
@@ -31210,7 +31210,7 @@ IL_0113:
 		Type_t* L_51 = ___type0;
 		NullCheck(L_51);
 		Type_t* L_52;
-		L_52 = VirtualFuncInvoker0< Type_t* >::Invoke(107 /* System.Type System.Type::get_BaseType() */, L_51);
+		L_52 = VirtualFuncInvoker0< Type_t* >::Invoke(109 /* System.Type System.Type::get_BaseType() */, L_51);
 		___type0 = L_52;
 		// if (type == typeof(object))
 		Type_t* L_53 = ___type0;
