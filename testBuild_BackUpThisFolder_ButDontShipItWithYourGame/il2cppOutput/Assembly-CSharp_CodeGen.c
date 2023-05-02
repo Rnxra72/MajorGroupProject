@@ -74,10 +74,10 @@ extern void Board_GetPiecesOnBoard_mFF436EBF1A8394B725B8F0604DDC51A4FA67BF43 (vo
 extern void Board_setCurrentMoveValid_mB2C9696DA51E86C13D03F8A9B47C82F1F7A62C48 (void);
 // 0x0000001F System.Boolean Board::getCurrentMoveValid()
 extern void Board_getCurrentMoveValid_mABAA3F6F0BF1AD8FFE1CE1DA457846D14392C5EE (void);
-// 0x00000020 System.Void Board::winSceneRedirect()
-extern void Board_winSceneRedirect_mA7F626FF1F8D60366B0C38D3996B2BB5489C2769 (void);
-// 0x00000021 System.Void Board::drawSceneRedirect()
+// 0x00000020 System.Void Board::drawSceneRedirect()
 extern void Board_drawSceneRedirect_mE7706D1B4DFFC3F55813C3F36206419FEC046938 (void);
+// 0x00000021 System.Void Board::error()
+extern void Board_error_m5BF328484981E62D3FE04615333B98174E4D1A55 (void);
 // 0x00000022 System.Void Board::WTeamWinRedirect()
 extern void Board_WTeamWinRedirect_mC9AA9BFD6F8F6B1BB5533AC33B3CEC0124C5E84C (void);
 // 0x00000023 System.Void Board::BTeamWinRedirect()
@@ -118,8 +118,8 @@ extern void King_Start_m8F37B228B3FB10DD602CBD9A2993CEEEB0FAE89D (void);
 extern void King_SetInCheck_m42F5E4745D7B2F58537BD41ABA27D7EBD44E01CD (void);
 // 0x00000035 System.Boolean King::GetInCheck()
 extern void King_GetInCheck_m98D9E8551F8EAE6FC36BA1A9B6B11524C27E5768 (void);
-// 0x00000036 System.Collections.Generic.List`1<UnityEngine.Vector3> King::kingRules(Board,UnityEngine.GameObject)
-extern void King_kingRules_m00D40527A3B5E6E601CBE6F9A146AF2D618E634C (void);
+// 0x00000036 System.Collections.Generic.List`1<UnityEngine.Vector3> King::kingRules(Board,UnityEngine.GameObject,System.Int32)
+extern void King_kingRules_mE3BC4B90DA6876F793E9E7E3B83244449C400981 (void);
 // 0x00000037 System.Void King::.ctor()
 extern void King__ctor_m0D1E4FA0B41F926F658413FEA06B6E75A5E4D06D (void);
 // 0x00000038 System.Void Knight::Start()
@@ -469,8 +469,8 @@ static Il2CppMethodPointer s_methodPointers[212] =
 	Board_GetPiecesOnBoard_mFF436EBF1A8394B725B8F0604DDC51A4FA67BF43,
 	Board_setCurrentMoveValid_mB2C9696DA51E86C13D03F8A9B47C82F1F7A62C48,
 	Board_getCurrentMoveValid_mABAA3F6F0BF1AD8FFE1CE1DA457846D14392C5EE,
-	Board_winSceneRedirect_mA7F626FF1F8D60366B0C38D3996B2BB5489C2769,
 	Board_drawSceneRedirect_mE7706D1B4DFFC3F55813C3F36206419FEC046938,
+	Board_error_m5BF328484981E62D3FE04615333B98174E4D1A55,
 	Board_WTeamWinRedirect_mC9AA9BFD6F8F6B1BB5533AC33B3CEC0124C5E84C,
 	Board_BTeamWinRedirect_m5D34612A7BE958130F421C54A2F5F7DE7BD72962,
 	Board_highlightSeletedPiece_m7055C7A54C723E925A74A1111771F426D2DE3A4E,
@@ -491,7 +491,7 @@ static Il2CppMethodPointer s_methodPointers[212] =
 	King_Start_m8F37B228B3FB10DD602CBD9A2993CEEEB0FAE89D,
 	King_SetInCheck_m42F5E4745D7B2F58537BD41ABA27D7EBD44E01CD,
 	King_GetInCheck_m98D9E8551F8EAE6FC36BA1A9B6B11524C27E5768,
-	King_kingRules_m00D40527A3B5E6E601CBE6F9A146AF2D618E634C,
+	King_kingRules_mE3BC4B90DA6876F793E9E7E3B83244449C400981,
 	King__ctor_m0D1E4FA0B41F926F658413FEA06B6E75A5E4D06D,
 	Knight_Start_m3E23CAA460821E31462796072A58259B743F6026,
 	Knight_Update_mE5B2F316BADAE5AC5B1CD9C707B0EE47B9FF9B1E,
@@ -706,7 +706,7 @@ static const int32_t s_InvokerIndices[212] =
 	7368,
 	5706,
 	7125,
-	2540,
+	1469,
 	7368,
 	7368,
 	7368,
